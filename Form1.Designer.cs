@@ -28,26 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadMIDIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdMidi = new System.Windows.Forms.OpenFileDialog();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnPlay = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.88479F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.11521F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 30);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.93947F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.06053F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(868, 413);
-            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -70,7 +58,7 @@
             // loadMIDIToolStripMenuItem
             // 
             this.loadMIDIToolStripMenuItem.Name = "loadMIDIToolStripMenuItem";
-            this.loadMIDIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadMIDIToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.loadMIDIToolStripMenuItem.Text = "Load MIDI";
             this.loadMIDIToolStripMenuItem.Click += new System.EventHandler(this.loadMIDIToolStripMenuItem_Click);
             // 
@@ -79,12 +67,29 @@
             this.ofdMidi.FileName = "Select a MIDI file";
             this.ofdMidi.Filter = "MIDI files|*.mid";
             // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(12, 66);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(868, 237);
+            this.panel1.TabIndex = 2;
+            // 
+            // btnPlay
+            // 
+            this.btnPlay.Location = new System.Drawing.Point(12, 37);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(75, 23);
+            this.btnPlay.TabIndex = 3;
+            this.btnPlay.Text = "Play";
+            this.btnPlay.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 455);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.btnPlay);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
@@ -98,11 +103,12 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadMIDIToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog ofdMidi;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnPlay;
     }
 }
 
