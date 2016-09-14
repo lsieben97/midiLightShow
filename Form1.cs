@@ -17,18 +17,29 @@ namespace midiLightShow
         Dmx512UsbRs485Driver d = new Dmx512UsbRs485Driver();
         List<List<midiEvent>> midiTracks = new List<List<midiEvent>>();
         Timer showtimer = new Timer();
+        int currentTime = 0;
+        public int showTime = 10;
+        public double pixelsPerMiliSecond = 0;
         List<midiEvent> notesToPlay = new List<midiEvent>();
         int midiClock = 0;
         public Form1()
         {
             InitializeComponent();
             //Console.WriteLine(d.PortNameAt(1));
-            showtimer.Interval = 100;
+            showtimer.Interval = 125;
             //d.DmxToDefault("COM3");
-            showtimer.Tick += t_Tick;
+            showtimer.Tick += showtimer_Tick;
             //d.DmxLoadBuffer(1, 255, 1);
             //d.DmxSendCommand(1);
             mr.init();
+        }
+
+        void showtimer_Tick(object sender, EventArgs e)
+        {
+
+            this.currentTime++;
+            this.pixelsPerMiliSecond = (double) this.pTimeLine.Width / this.showTime;
+            this.pTimeLine.Invalidate();
         }
 
         void t_Tick(object sender, EventArgs e)
@@ -117,6 +128,37 @@ namespace midiLightShow
                 this.showtimer.Start();
 
             }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            if(this.currentTime == this.showTime * 8)
+            {
+                this.currentTime = 0;
+            }
+            e.Graphics.FillRectangle(new Pen(Color.Black).Brush, Convert.ToInt32(this.currentTime * (this.pixelsPerMiliSecond / 8)), 0, 3, pTimeLine.Height);
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            if(this.btnPlay.Text == "Play")
+            {
+                this.showtimer.Start();
+                this.btnPlay.Text = "Pause";
+            }
+            else
+            {
+                this.showtimer.Stop();
+                this.btnPlay.Text = "Play";
+            }
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            this.currentTime = 0;
+            this.showtimer.Stop();
+            this.pTimeLine.Invalidate();
+            this.btnPlay.Text = "Play";
         }
     }
 }

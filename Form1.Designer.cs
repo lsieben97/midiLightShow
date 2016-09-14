@@ -32,8 +32,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadMIDIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdMidi = new System.Windows.Forms.OpenFileDialog();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pTimeLine = new System.Windows.Forms.Panel();
             this.btnPlay = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,12 +68,14 @@
             this.ofdMidi.FileName = "Select a MIDI file";
             this.ofdMidi.Filter = "MIDI files|*.mid";
             // 
-            // panel1
+            // pTimeLine
             // 
-            this.panel1.Location = new System.Drawing.Point(12, 66);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(868, 237);
-            this.panel1.TabIndex = 2;
+            this.pTimeLine.BackColor = System.Drawing.SystemColors.Highlight;
+            this.pTimeLine.Location = new System.Drawing.Point(12, 66);
+            this.pTimeLine.Name = "pTimeLine";
+            this.pTimeLine.Size = new System.Drawing.Size(868, 237);
+            this.pTimeLine.TabIndex = 2;
+            this.pTimeLine.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // btnPlay
             // 
@@ -82,14 +85,26 @@
             this.btnPlay.TabIndex = 3;
             this.btnPlay.Text = "Play";
             this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(93, 37);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStop.TabIndex = 4;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 455);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnPlay);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pTimeLine);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
@@ -107,8 +122,9 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadMIDIToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog ofdMidi;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pTimeLine;
         private System.Windows.Forms.Button btnPlay;
+        private System.Windows.Forms.Button btnStop;
     }
 }
 
