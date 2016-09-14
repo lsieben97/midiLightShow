@@ -24,7 +24,7 @@ namespace midiLightShow
             InitializeComponent();
             //Console.WriteLine(d.PortNameAt(1));
             showtimer.Interval = 100;
-            d.DmxToDefault("COM3");
+            //d.DmxToDefault("COM3");
             showtimer.Tick += t_Tick;
             //d.DmxLoadBuffer(1, 255, 1);
             //d.DmxSendCommand(1);
