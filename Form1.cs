@@ -216,7 +216,7 @@ namespace midiLightShow
 
         private void btnAddTrack_Click(object sender, EventArgs e)
         {
-            this.tracks.Add(new track("Track " + (this.tracks.Count + 1).ToString(), this.tracks.Count * this.trackHeight, ((this.tracks.Count + 1) * this.trackHeight) + this.trackHeight, this.pTimeLine));
+            this.tracks.Add(new track("Track " + (this.tracks.Count + 1).ToString(), this.tracks.Count * this.trackHeight, ((this.tracks.Count + 1) * this.trackHeight), this.pTimeLine));
             this.tracks[this.tracks.Count - 1].drawControls();
             this.pTimeLine.Invalidate();
         }
@@ -229,18 +229,20 @@ namespace midiLightShow
             {
                 if(pos.Y > t.yPos && pos.Y < t.yEnd)
                 {
-                    this.pTimeLine.Controls.Remove(this.locIndicator);
-                    this.locIndicator.Location = new Point(120, t.yPos);
-                    this.locIndicator.Bounds = new Rectangle(this.locIndicator.Location, new Size(50, 50));
-                    this.locIndicator.Visible = true;
-                    this.pTimeLine.Controls.Add(this.locIndicator);
+                    Graphics g = this.pTimeLine.CreateGraphics();
+                    g.DrawRectangle(new Pen(Color.Red), 120, t.yPos + 3, 50, 46);
+                }
+                else
+                {
+                    Graphics g = this.pTimeLine.CreateGraphics();
+                    g.DrawRectangle(new Pen(this.pTimeLine.BackColor), 120, t.yPos + 3, 50, 46);
                 }
             }
         }
 
         private void pTimeLine_DragDrop(object sender, DragEventArgs e)
         {
-            this.pTimeLine.Controls.Remove(this.locIndicator);
+            this.pTimeLine.Invalidate();
         }
 
     }
