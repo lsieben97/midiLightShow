@@ -20,7 +20,7 @@ namespace midiLightShow
         }
 
         //Functions below for this light
-        public void rgb (Byte r, Byte g, Byte b)
+        public void rgb (byte r, byte g, byte b)
         {
             this.driver.DmxLoadBuffer(1, r, 8);
             this.driver.DmxLoadBuffer(2, g, 8);

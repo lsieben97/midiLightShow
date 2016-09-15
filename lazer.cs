@@ -20,5 +20,19 @@ namespace midiLightShow
         }
 
         //Fire up your lazor
+        public void autoRun(uint programNr)
+        {
+            if(programNr < 5)
+            {
+                this.driver.DmxLoadBuffer(1,Convert.ToByte(programNr),8);
+                this.driver.DmxSendCommand(1);
+            }
+            else
+            {
+                Console.WriteLine("Error: Program number \"" + programNr + "\" in autoRun doesn't exist");
+            }
+
+        }
+
     }
 }

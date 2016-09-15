@@ -20,7 +20,7 @@ namespace midiLightShow
         }
 
         //Effect functions
-        public void controls(String function)
+        public void controls(string function)
         {
             byte b = 0;
 
@@ -51,7 +51,7 @@ namespace midiLightShow
             
         }
 
-        public void motor (String function, Int32 speed)
+        public void motor (string function, int speed)
         {
             byte b = 0;
 
