@@ -7,7 +7,7 @@ using Dmx512UsbRs485;
 
 namespace midiLightShow
 {
-    class rgbSpotLight
+    public class rgbSpotLight : dmxLigh
     {
         Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
 

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FEDDF23D-8A9D-484F-B206-D15FF5AEF60E}</ProjectGuid>
+    <ProjectGuid>{21ACA74F-5300-4B94-8C75-5240EEC5D798}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>midiLightShow</RootNamespace>
@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dmxLight.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
