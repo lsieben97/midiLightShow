@@ -17,35 +17,42 @@ namespace midiLightShow
         Dmx512UsbRs485Driver d = new Dmx512UsbRs485Driver();
         List<List<midiEvent>> midiTracks = new List<List<midiEvent>>();
         List<track> tracks = new List<track>();
+        List<showEventButton> showEvents = new List<showEventButton>();
         Timer showtimer = new Timer();
+        Timer testTimer = new Timer();
         int currentTime = 0;
         public int showTime = 20;
         public int trackHeight = 50;
-        private showEventButton locIndicator = new showEventButton();
         public double pixelsPerMiliSecond = 0;
         List<midiEvent> notesToPlay = new List<midiEvent>();
         int midiClock = 0;
         public frmEditor()
         {
             InitializeComponent();
-            showEventButton seb = new showEventButton();
-            seb.Location = new Point(5, 5);
-            seb.Size = new System.Drawing.Size(100, 100);
-            seb.AllowDrop = true;
-            this.AllowDrop = true;
+            this.testTimer.Interval = 100;
+            this.testTimer.Tick += testTimer_Tick;
             this.pTimeLine.AllowDrop = true;
-            this.gbEventTray.AllowDrop = true;
-            this.panel1.AllowDrop = true;
-            gbEventTray.Controls.Add(seb);
-            this.locIndicator.Size = new System.Drawing.Size(50, 50);
-            this.locIndicator.Visible = false;
-            //Console.WriteLine(d.PortNameAt(1));
             showtimer.Interval = 125;
-            //d.DmxToDefault("COM3");
             showtimer.Tick += showtimer_Tick;
-            //d.DmxLoadBuffer(1, 255, 1);
-            //d.DmxSendCommand(1);
             mr.init();
+            this.loadShowEvents();
+        }
+        private void loadShowEvents()
+        {
+            // load object list
+            this.showEvents.Add(new showEventButton("TEST"));
+
+            //load controls
+            foreach(showEventButton s in this.showEvents)
+            {
+                s.Location = new Point(50, 50);
+                this.gbEventTray.Controls.Add(s);
+            }
+        }
+
+        void testTimer_Tick(object sender, EventArgs e)
+        {
+
         }
 
         void showtimer_Tick(object sender, EventArgs e)
@@ -173,6 +180,7 @@ namespace midiLightShow
                 if(this.tracks.Count(t => t.solo == true) == 1)
                 {
                     int index = this.tracks.FindIndex(t => t.solo == true);
+                    this.tracks[index].cbMute.Checked = false;
                     for(int i = 0; i < this.tracks.Count; i++)
                     {
                         if(i != index)
@@ -242,6 +250,8 @@ namespace midiLightShow
 
         private void pTimeLine_DragDrop(object sender, DragEventArgs e)
         {
+            MessageBox.Show((string) e.Data.GetData(DataFormats.Text));
+            this.showEvents.Single(s => s.name == e.Data.GetData(DataFormats.Text).ToString()).dragging = false;
             this.pTimeLine.Invalidate();
         }
 

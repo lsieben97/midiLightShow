@@ -9,10 +9,13 @@ namespace midiLightShow
 {
     public class showEventButton : Button
     {
-        private bool dragging = false;
-        public string name = "";
-        public showEventButton()
+        public bool dragging = false;
+        public string name = "hoi";
+        public showEventButton(string name)
         {
+            this.name = name;
+            this.Width = 50;
+            this.Height = 50;
             this.MouseDown += showEventButton_MouseDown;
         }
         public void showEventButton_MouseDown(object sender, MouseEventArgs e)
