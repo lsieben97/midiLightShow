@@ -7,11 +7,9 @@ using Dmx512UsbRs485;
 
 namespace midiLightShow
 {
-    class discLight
+    class discLight : dmxLight
     {
         Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
-
-        public string comPort = "";
 
         public discLight(string comPort)
         {

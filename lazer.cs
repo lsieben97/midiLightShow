@@ -7,11 +7,9 @@ using Dmx512UsbRs485;
 
 namespace midiLightShow
 {
-    class lazer
+    class lazer : dmxLight
     {
         Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
-
-        
 
         public lazer(string comPort)
         {
@@ -33,6 +31,8 @@ namespace midiLightShow
             }
 
         }
+
+
 
     }
 }
