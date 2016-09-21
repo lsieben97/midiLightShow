@@ -11,16 +11,19 @@ namespace midiLightShow
     {
         Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
 
-        public string comPort = "";
-
         public rgbSpotLight(string comPort)
         {
             this.comPort = comPort;
             this.driver.DmxToDefault(this.comPort);
         }
+        public rgbSpotLight()
+        {
+
+        }
 
         //Functions below for this light
-        public void rgb (byte r, byte g, byte b)
+        [ParameterDataAtribute(parameterDescription = new string[] {"Red","Green","Blue"})]
+        public void func_rgb (byte r, byte g, byte b)
         {
             this.driver.DmxLoadBuffer(1, r, 8);
             this.driver.DmxLoadBuffer(2, g, 8);
@@ -28,7 +31,8 @@ namespace midiLightShow
             this.driver.DmxSendCommand(3);
         }
 
-        public void fade ()
+        [ParameterDataAtribute(parameterDescription = new string[] { "No parameters needed."})]
+        public void func_fade ()
         {
             this.driver.DmxLoadBuffer(6, 64, 8);
             this.driver.DmxSendCommand(1);

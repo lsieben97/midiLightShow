@@ -25,16 +25,18 @@ namespace midiLightShow
         public Button bAddEvent = new Button();
         public dmxLight light = new dmxLight();
         public TrackOptionsForm frmOptions = new TrackOptionsForm();
+        public AddShowEvent frmAddShowEvent = new AddShowEvent();
         public int lastBlockXPos = 110;
         public Dictionary<int, showEvent> events = new Dictionary<int, showEvent>();
+
         public static Dictionary<string, string> typeMap = new Dictionary<string, string>();
 
         public static void makeTypeMap()
         {
-            track.typeMap.Add("RGB Spotlight", "rgbSpotLight");
-            track.typeMap.Add("360 Spotlight", "360Light");
-            track.typeMap.Add("Lazer", "lazer");
-            track.typeMap.Add("Disc Light", "discLight");
+            track.typeMap.Add("RGB Spotlight", "midiLightShow.rgbSpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            track.typeMap.Add("360 Spotlight", "midiLightShow.360SpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            track.typeMap.Add("Lazer", "midiLightShow.lazer, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            track.typeMap.Add("Disc Light", "midiLightShow.discLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
         }
         public track(string name, int yPos, int yEnd, Panel p)
         {
@@ -45,7 +47,8 @@ namespace midiLightShow
             this.frmOptions.tbName.Text = this.name;
             this.frmOptions.Text = "Options for '" + this.name + "'";
             this.frmOptions.cbLights.SelectedIndex = 0;
-            this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
+            Type targetType = Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()],true);
+            this.light = Activator.CreateInstance(targetType) as dmxLight;
         }
 
         public void drawControls()
@@ -86,7 +89,8 @@ namespace midiLightShow
 
         void bAddEvent_Click(object sender, EventArgs e)
         {
-            
+            this.frmAddShowEvent.light = this.light;
+            this.frmAddShowEvent.Show();
         }
 
         void bOptions_Click(object sender, EventArgs e)

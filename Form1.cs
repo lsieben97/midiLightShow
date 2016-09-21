@@ -33,9 +33,13 @@ namespace midiLightShow
             this.testTimer.Tick += testTimer_Tick;
             this.pTimeLine.AllowDrop = true;
             showtimer.Interval = 125;
+            track.makeTypeMap();
             //rgbSpotLight s = new rgbSpotLight("COM3");
             //s.fade();
             //s.rgb(255, 0, 0);
+            rgbSpotLight s = new rgbSpotLight();
+            string t = s.GetType().AssemblyQualifiedName;
+            Console.WriteLine(s.GetType().AssemblyQualifiedName);
             showtimer.Tick += showtimer_Tick;
             mr.init();
             this.loadShowEvents();
