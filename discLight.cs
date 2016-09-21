@@ -18,7 +18,8 @@ namespace midiLightShow
         }
 
         //Effect functions
-        public void controls(string function)
+        [ParameterDataAtribute(parameterDescription = new string[] { "Function" })]
+        public void func_controls(string function)
         {
             byte b = 0;
 
