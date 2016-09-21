@@ -15,6 +15,7 @@ namespace midiLightShow
     {
         public dmxLight light;
         public List<MethodInfo> functions = new List<MethodInfo>();
+        public int duration = 100;
         public AddShowEvent()
         {
             InitializeComponent();
@@ -37,13 +38,62 @@ namespace midiLightShow
         private string getParameterDescription(MethodInfo m)
         {
             ParameterDataAtribute a = m.GetCustomAttribute(new ParameterDataAtribute().GetType(), false) as ParameterDataAtribute;
-            return string.Join(",",a.parameterDescription);
+            return string.Join(", ",a.parameterDescription);
+        }
+
+        private string getMethodDiscription(MethodInfo m)
+        {
+            MethodDescriptionAtribute a = m.GetCustomAttribute(new MethodDescriptionAtribute().GetType(), false) as MethodDescriptionAtribute;
+            return a.methodDescription;
         }
 
         private void cbFunctions_SelectedIndexChanged(object sender, EventArgs e)
         {
             lbParaDescription.Text = this.getParameterDescription(this.functions[cbFunctions.SelectedIndex]);
             lbParaDescription.Visible = true;
+            lbMethodDescription.Text = this.getMethodDiscription(this.functions[cbFunctions.SelectedIndex]);
+            lbMethodDescription.Visible = true;
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            if(int.TryParse(tbDuration.Text,out this.duration))
+            {
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid duration!");
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.Close();
+        }
+        public void reset()
+        {
+            this.duration = 0;
+            tbDuration.Text = "";
+            cbFunctions.SelectedIndex = 0;
+            cbFunctions.Items.Clear();
+            tbParameters.Clear();
+            this.functions.Clear();
+        }
+
+        private void btnEmpty_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(tbDuration.Text, out this.duration))
+            {
+                this.DialogResult = System.Windows.Forms.DialogResult.Ignore;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid duration!");
+            }
         }
     }
 }

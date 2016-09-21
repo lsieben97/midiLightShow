@@ -17,6 +17,8 @@ namespace midiLightShow
         public bool mute = false;
         public int yPos = 0;
         public int yEnd = 0;
+        public int currentMaxTime = 0;
+        public int eventCount = 1;
         private Panel pTimeLine;
         public Label lbName = new Label();
         public CheckBox cbMute = new CheckBox();
@@ -34,7 +36,7 @@ namespace midiLightShow
         public static void makeTypeMap()
         {
             track.typeMap.Add("RGB Spotlight", "midiLightShow.rgbSpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-            track.typeMap.Add("360 Spotlight", "midiLightShow.360SpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            track.typeMap.Add("360 Spotlight", "midiLightShow._360SpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             track.typeMap.Add("Lazer", "midiLightShow.lazer, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             track.typeMap.Add("Disc Light", "midiLightShow.discLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
         }
@@ -90,7 +92,20 @@ namespace midiLightShow
         void bAddEvent_Click(object sender, EventArgs e)
         {
             this.frmAddShowEvent.light = this.light;
-            this.frmAddShowEvent.Show();
+            DialogResult dr = this.frmAddShowEvent.ShowDialog();
+            if(dr == DialogResult.OK)
+            {
+                this.events.Add(this.currentMaxTime, new showEvent(this.currentMaxTime, this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.SelectedItem.ToString(), this.frmAddShowEvent.tbParameters.Text,this.eventCount));
+                this.currentMaxTime += this.frmAddShowEvent.duration;
+                this.frmAddShowEvent.reset();
+                this.eventCount++;
+                this.pTimeLine.Invalidate();
+            }
+            else if(dr == DialogResult.Ignore)
+            {
+                this.currentMaxTime += this.frmAddShowEvent.duration;
+                this.frmAddShowEvent.reset();
+            }
         }
 
         void bOptions_Click(object sender, EventArgs e)

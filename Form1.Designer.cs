@@ -79,6 +79,7 @@
             this.pTimeLine.Name = "pTimeLine";
             this.pTimeLine.Size = new System.Drawing.Size(1344, 621);
             this.pTimeLine.TabIndex = 2;
+            this.pTimeLine.Click += new System.EventHandler(this.pTimeLine_Click);
             this.pTimeLine.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // btnPlay

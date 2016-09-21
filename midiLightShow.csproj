@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddShowEvent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddShowEvent.Designer.cs">
+      <DependentUpon>AddShowEvent.cs</DependentUpon>
+    </Compile>
     <Compile Include="discLight.cs" />
     <Compile Include="dmxLight.cs" />
     <Compile Include="Form1.cs">
@@ -61,8 +67,10 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="lazer.cs" />
+    <Compile Include="MethodDescriptionAttribute.cs" />
     <Compile Include="midiPlayer.cs" />
     <Compile Include="midiReader.cs" />
+    <Compile Include="ParameterDataAtribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="rgbSpotLight.cs" />
@@ -71,6 +79,15 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="track.cs" />
+    <Compile Include="TrackOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrackOptionsForm.Designer.cs">
+      <DependentUpon>TrackOptionsForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AddShowEvent.resx">
+      <DependentUpon>AddShowEvent.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -83,6 +100,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TrackOptionsForm.resx">
+      <DependentUpon>TrackOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
