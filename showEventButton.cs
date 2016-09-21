@@ -16,15 +16,12 @@ namespace midiLightShow
             this.name = name;
             this.Width = 50;
             this.Height = 50;
-            this.MouseDown += showEventButton_MouseDown;
+            this.Click += showEventButton_Click;
         }
-        public void showEventButton_MouseDown(object sender, MouseEventArgs e)
+
+        public void showEventButton_Click(object sender, EventArgs e)
         {
-            if(e.Button == System.Windows.Forms.MouseButtons.Left && this.dragging == false)
-            {
-                this.DoDragDrop(this.name, DragDropEffects.All);
-                this.dragging = true;
-            }
+            // dummy method for click animation
         }
     }
 }

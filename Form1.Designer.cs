@@ -37,7 +37,6 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.btnAddTrack = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.gbEventTray = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +47,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1358, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1354, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -78,10 +77,8 @@
             this.pTimeLine.BackColor = System.Drawing.SystemColors.Highlight;
             this.pTimeLine.Location = new System.Drawing.Point(3, 3);
             this.pTimeLine.Name = "pTimeLine";
-            this.pTimeLine.Size = new System.Drawing.Size(1344, 405);
+            this.pTimeLine.Size = new System.Drawing.Size(1344, 621);
             this.pTimeLine.TabIndex = 2;
-            this.pTimeLine.DragDrop += new System.Windows.Forms.DragEventHandler(this.pTimeLine_DragDrop);
-            this.pTimeLine.DragOver += new System.Windows.Forms.DragEventHandler(this.pTimeLine_DragOver);
             this.pTimeLine.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // btnPlay
@@ -120,25 +117,15 @@
             this.panel1.Controls.Add(this.pTimeLine);
             this.panel1.Location = new System.Drawing.Point(12, 66);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1350, 411);
+            this.panel1.Size = new System.Drawing.Size(1350, 627);
             this.panel1.TabIndex = 6;
-            // 
-            // gbEventTray
-            // 
-            this.gbEventTray.Location = new System.Drawing.Point(15, 483);
-            this.gbEventTray.Name = "gbEventTray";
-            this.gbEventTray.Size = new System.Drawing.Size(1331, 210);
-            this.gbEventTray.TabIndex = 7;
-            this.gbEventTray.TabStop = false;
-            this.gbEventTray.Text = "Event tray";
             // 
             // frmEditor
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1358, 705);
-            this.Controls.Add(this.gbEventTray);
+            this.ClientSize = new System.Drawing.Size(1354, 705);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAddTrack);
             this.Controls.Add(this.btnStop);
@@ -168,7 +155,6 @@
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnAddTrack;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.GroupBox gbEventTray;
     }
 }
 

@@ -33,6 +33,9 @@ namespace midiLightShow
             this.testTimer.Tick += testTimer_Tick;
             this.pTimeLine.AllowDrop = true;
             showtimer.Interval = 125;
+            //rgbSpotLight s = new rgbSpotLight("COM3");
+            //s.fade();
+            //s.rgb(255, 0, 0);
             showtimer.Tick += showtimer_Tick;
             mr.init();
             this.loadShowEvents();
@@ -46,7 +49,6 @@ namespace midiLightShow
             foreach(showEventButton s in this.showEvents)
             {
                 s.Location = new Point(50, 50);
-                this.gbEventTray.Controls.Add(s);
             }
         }
 
@@ -224,36 +226,16 @@ namespace midiLightShow
 
         private void btnAddTrack_Click(object sender, EventArgs e)
         {
+            if(this.tracks.Count == 12)
+            {
+                MessageBox.Show("Cannot add more tracks!");
+                return;
+            }
             this.tracks.Add(new track("Track " + (this.tracks.Count + 1).ToString(), this.tracks.Count * this.trackHeight, ((this.tracks.Count + 1) * this.trackHeight), this.pTimeLine));
             this.tracks[this.tracks.Count - 1].drawControls();
             this.pTimeLine.Invalidate();
         }
 
-        private void pTimeLine_DragOver(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Copy;
-            Point pos = this.pTimeLine.PointToClient(new Point(e.X, e.Y));
-            foreach(track t in this.tracks)
-            {
-                if(pos.Y > t.yPos && pos.Y < t.yEnd)
-                {
-                    Graphics g = this.pTimeLine.CreateGraphics();
-                    g.DrawRectangle(new Pen(Color.Red), 120, t.yPos + 3, 50, 46);
-                }
-                else
-                {
-                    Graphics g = this.pTimeLine.CreateGraphics();
-                    g.DrawRectangle(new Pen(this.pTimeLine.BackColor), 120, t.yPos + 3, 50, 46);
-                }
-            }
-        }
-
-        private void pTimeLine_DragDrop(object sender, DragEventArgs e)
-        {
-            MessageBox.Show((string) e.Data.GetData(DataFormats.Text));
-            this.showEvents.Single(s => s.name == e.Data.GetData(DataFormats.Text).ToString()).dragging = false;
-            this.pTimeLine.Invalidate();
-        }
 
     }
 }

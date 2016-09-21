@@ -20,6 +20,7 @@ namespace midiLightShow
         public Label lbName = new Label();
         public CheckBox cbMute = new CheckBox();
         public CheckBox cbSolo = new CheckBox();
+        public int lastBlockXPos = 110;
         public Dictionary<int, showEvent> events = new Dictionary<int, showEvent>();
 
         public track(string name, int yPos, int yEnd, Panel p)
