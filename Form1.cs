@@ -20,9 +20,12 @@ namespace midiLightShow
         List<showEventButton> showEvents = new List<showEventButton>();
         Timer showtimer = new Timer();
         Timer testTimer = new Timer();
+        Timer aniTimer = new Timer();
+        ToolStripMenuItem aniTarget;
         int currentTime = 0;
         public int showTime = 20000;
         public int trackHeight = 50;
+        int currentHeight = 0;
         public AddShowEvent frmEditShowEvent = new AddShowEvent();
         public double pixelsPerMiliSecond = 0;
         List<midiEvent> notesToPlay = new List<midiEvent>();
@@ -38,6 +41,7 @@ namespace midiLightShow
             //rgbSpotLight s = new rgbSpotLight("COM3");
             //s.fade();
             //s.rgb(255, 0, 0);
+            
             rgbSpotLight s = new rgbSpotLight();
             string t = s.GetType().AssemblyQualifiedName;
             Console.WriteLine(s.GetType().AssemblyQualifiedName);
@@ -304,7 +308,5 @@ namespace midiLightShow
                 }
             }
         }
-
-
     }
 }

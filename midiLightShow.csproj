@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21ACA74F-5300-4B94-8C75-5240EEC5D798}</ProjectGuid>
+    <ProjectGuid>{FEDDF23D-8A9D-484F-B206-D15FF5AEF60E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>midiLightShow</RootNamespace>
@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="360SpotLight.cs" />
     <Compile Include="AddShowEvent.cs">
       <SubType>Form</SubType>
     </Compile>
