@@ -93,7 +93,5 @@ namespace midiLightShow
             this.driver.DmxLoadBuffer(c, (byte)(value / 100 * 105), 8);
             this.driver.DmxSendCommand(1);
         }
-
-        public void
     }
 }
