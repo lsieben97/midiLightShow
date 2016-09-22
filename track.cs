@@ -81,7 +81,7 @@ namespace midiLightShow
             this.pTimeLine.Controls.Add(bOptions);
 
             this.bAddEvent.Text = "Add event";
-            this.bAddEvent.Location = new Point(this.lastBlockXPos + 3, this.yPos + 3);
+            this.bAddEvent.Location = new Point(110, this.yPos + 3);
             this.bAddEvent.Size = new Size(50, 47);
             this.bAddEvent.BackColor = SystemColors.Control;
             this.bAddEvent.Bounds = new Rectangle(this.bAddEvent.Location, new Size(50, 47));
@@ -95,16 +95,31 @@ namespace midiLightShow
             DialogResult dr = this.frmAddShowEvent.ShowDialog();
             if(dr == DialogResult.OK)
             {
-                this.events.Add(this.currentMaxTime, new showEvent(this.currentMaxTime, this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.SelectedItem.ToString(), this.frmAddShowEvent.tbParameters.Text,this.eventCount));
+                int duration = Convert.ToInt32(this.frmAddShowEvent.tbDuration.Text);
+                int start = Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text);
+                bool valid = true;
+                foreach(showEvent ev in this.events.Values)
+                {
+                    if(start > ev.startTime && start < ev.startTime + ev.duration)
+                    {
+                        valid = false;
+                    }
+                    if(start + duration > ev.startTime && start + duration < ev.startTime + ev.duration)
+                    {
+                        valid = false;
+                    }
+                }
+                if(!valid)
+                {
+                    MessageBox.Show("event cannot overlap!");
+                    return;
+                }
+
+                this.events.Add(this.eventCount, new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.tbParameters.Text, this.eventCount));
                 this.currentMaxTime += this.frmAddShowEvent.duration;
                 this.frmAddShowEvent.reset();
                 this.eventCount++;
                 this.pTimeLine.Invalidate();
-            }
-            else if(dr == DialogResult.Ignore)
-            {
-                this.currentMaxTime += this.frmAddShowEvent.duration;
-                this.frmAddShowEvent.reset();
             }
         }
 

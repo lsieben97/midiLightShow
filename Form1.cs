@@ -41,12 +41,12 @@ namespace midiLightShow
             //rgbSpotLight s = new rgbSpotLight("COM3");
             //s.fade();
             //s.rgb(255, 0, 0);
-            
+            this.frmEditShowEvent.isEditForm = true;
             rgbSpotLight s = new rgbSpotLight();
             string t = s.GetType().AssemblyQualifiedName;
             Console.WriteLine(s.GetType().AssemblyQualifiedName);
             showtimer.Tick += showtimer_Tick;
-            this.pixelsPerMiliSecond = (double)(this.pTimeLine.Width - 110) / this.showTime;
+            this.pixelsPerMiliSecond = 0.2;
             mr.init();
             this.frmEditShowEvent.Text = "Edit event";
             this.loadShowEvents();
@@ -169,25 +169,39 @@ namespace midiLightShow
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
+            // recalculate panel width.
+            if (this.tracks.Count > 0)
+            {
+                int max = 160 + Convert.ToInt32(this.tracks.Max(t => t.currentMaxTime) * this.pixelsPerMiliSecond + 5);
+                if (max > 1344)
+                {
+                    this.pTimeLine.Size = new Size(max + 5, this.pTimeLine.Size.Height);
+                }
+                else
+                {
+                    this.pTimeLine.Size = new Size(1344, this.pTimeLine.Size.Height);
+                }
+            }
             foreach (track t in this.tracks)
             {
                 foreach (KeyValuePair<int, showEvent> se in t.events)
                 {
-                    Rectangle r = new Rectangle(114 + (int)(se.Key * this.pixelsPerMiliSecond), t.yPos + 4, (int)(se.Value.duration * this.pixelsPerMiliSecond), 44);
+                    Rectangle r = new Rectangle(164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 4, (int)(se.Value.duration * this.pixelsPerMiliSecond), 44);
                     e.Graphics.FillRectangle(new Pen(Color.Red).Brush, r);
                     se.Value.bounds = r;
                     e.Graphics.DrawRectangle(new Pen(Color.Black), r);
-                    e.Graphics.DrawString(se.Value.function, btnPlay.Font, new Pen(Color.Black).Brush, 114 + (int)(se.Key * this.pixelsPerMiliSecond), t.yPos + 4);
+                    e.Graphics.DrawString(se.Value.function, btnPlay.Font, new Pen(Color.Black).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 4);
                 }
-                t.bAddEvent.Location = new Point(114 + (int)(t.currentMaxTime * this.pixelsPerMiliSecond), t.bAddEvent.Location.Y);
+                //t.bAddEvent.Location = new Point(164 + (int)(t.currentMaxTime * this.pixelsPerMiliSecond), t.bAddEvent.Location.Y);
             }
             e.Graphics.FillRectangle(new Pen(Color.Black).Brush,0, 0, this.pTimeLine.Width, 3);
             //e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 0, this.pTimeLine.Height - 3, this.pTimeLine.Width, 3);
-            if(this.currentTime == this.showTime * 8)
+            if (160 + Convert.ToInt32(this.currentTime * (this.pixelsPerMiliSecond)) > this.pTimeLine.Size.Width)
             {
                 this.currentTime = 0;
             }
-            e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 110 + Convert.ToInt32(this.currentTime * (this.pixelsPerMiliSecond)), 0, 3, pTimeLine.Height);
+            e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 160 + Convert.ToInt32(this.currentTime * (this.pixelsPerMiliSecond)), 0, 3, pTimeLine.Height);
+            e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 160, 0, 3, pTimeLine.Height);
 
             if(this.tracks.Count > 0)
             {
@@ -263,6 +277,7 @@ namespace midiLightShow
         {
             foreach(track t in this.tracks)
             {
+                int remove = -1;
                 foreach (KeyValuePair<int, showEvent> se in t.events)
                 {
                     if(se.Value.bounds.Contains(this.pTimeLine.PointToClient(Cursor.Position)))
@@ -272,41 +287,42 @@ namespace midiLightShow
                         this.frmEditShowEvent.tbParameters.Text = se.Value.parameters;
                         this.frmEditShowEvent.cbFunctions.SelectedItem = se.Value.function;
                         int oldDuration = se.Value.duration;
-                        if(this.frmEditShowEvent.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        DialogResult dr = this.frmEditShowEvent.ShowDialog();
+                        if(dr == System.Windows.Forms.DialogResult.OK)
                         {
-                            if(oldDuration > Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text))
+                            if (t.events.Values.All(ev => (ev.startTime < Convert.ToInt32(this.frmEditShowEvent.tbStartTime.Text) + Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text) && ev.startTime + ev.duration < Convert.ToInt32(this.frmEditShowEvent.tbStartTime.Text)) || ev.startTime > Convert.ToInt32(this.frmEditShowEvent.tbStartTime.Text)) == false && t.events.Count > 1)
                             {
-                                t.currentMaxTime -= Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text) - oldDuration;
+                                MessageBox.Show("event cannot overlap!");
                             }
-                            else if(oldDuration < Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text))
+                            else
                             {
-                                int startIndex = se.Value.index++;
-                                int endIndex = t.eventCount;
-                                int currentIndex = startIndex;
-                                bool done = false;
-                                if(startIndex != endIndex)
-                                {
-                                    while(currentIndex != endIndex)
-                                    {
-                                        showEvent ev = t.events.Single(even => even.Value.index == currentIndex).Value;
-                                        ev.startTime += Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text) - oldDuration;
-                                        currentIndex++;
-                                    }
-                                }
-                                else
-                                {
-                                    t.currentMaxTime += Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text) - oldDuration;
-                                }
+                                se.Value.duration = this.frmEditShowEvent.duration;
+                                se.Value.startTime = this.frmEditShowEvent.startTime;
+                                se.Value.function = this.frmEditShowEvent.cbFunctions.Text;
+                                se.Value.parameters = this.frmEditShowEvent.tbParameters.Text;
+                                t.currentMaxTime = t.events.Values.Max(ev => ev.startTime + ev.duration);
+                                pTimeLine.Invalidate();
                             }
-                            se.Value.duration = this.frmEditShowEvent.duration;
-                            se.Value.function = this.frmEditShowEvent.cbFunctions.SelectedItem.ToString();
-                            se.Value.parameters = this.frmEditShowEvent.tbParameters.Text;
-                            pTimeLine.Invalidate();
+                            
+                        }
+                        else if(dr == System.Windows.Forms.DialogResult.Abort)
+                        {
+                            remove = se.Key;
                         }
                         this.frmEditShowEvent.reset();
                     }
                 }
+                if(remove != -1)
+                {
+                    t.events.Remove(remove);
+                    this.pTimeLine.Invalidate();
+                }
             }
+        }
+
+        private void pTimeLine_Scroll(object sender, ScrollEventArgs e)
+        {
+            this.pTimeLine.Invalidate();
         }
     }
 }

@@ -16,6 +16,8 @@ namespace midiLightShow
         public dmxLight light;
         public List<MethodInfo> functions = new List<MethodInfo>();
         public int duration = 100;
+        public int startTime = 0;
+        public bool isEditForm = false;
         public AddShowEvent()
         {
             InitializeComponent();
@@ -34,6 +36,10 @@ namespace midiLightShow
             {
                 cbFunctions.Items.Add(m.Name.Substring(5));
             }
+            cbFunctions.SelectedIndex = 0;
+            btnRemove.Visible = this.isEditForm;
+            tbDuration.Text = "0";
+            tbStartTime.Text = "0";
         }
         private string getParameterDescription(MethodInfo m)
         {
@@ -57,7 +63,7 @@ namespace midiLightShow
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if(int.TryParse(tbDuration.Text,out this.duration))
+            if (int.TryParse(tbDuration.Text, out this.duration) == true && int.TryParse(tbStartTime.Text, out this.startTime) == true)
             {
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
@@ -83,17 +89,10 @@ namespace midiLightShow
             this.functions.Clear();
         }
 
-        private void btnEmpty_Click(object sender, EventArgs e)
+        private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(tbDuration.Text, out this.duration))
-            {
-                this.DialogResult = System.Windows.Forms.DialogResult.Ignore;
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Invalid duration!");
-            }
+            this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+            this.Close();
         }
     }
 }

@@ -31,16 +31,16 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadMIDIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.test2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.test3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdMidi = new System.Windows.Forms.OpenFileDialog();
             this.pTimeLine = new System.Windows.Forms.Panel();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnAddTrack = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.test2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.test3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -70,9 +70,33 @@
             // loadMIDIToolStripMenuItem
             // 
             this.loadMIDIToolStripMenuItem.Name = "loadMIDIToolStripMenuItem";
-            this.loadMIDIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadMIDIToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.loadMIDIToolStripMenuItem.Text = "Load MIDI";
             this.loadMIDIToolStripMenuItem.Click += new System.EventHandler(this.loadMIDIToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.testToolStripMenuItem.Text = "test";
+            // 
+            // test2ToolStripMenuItem
+            // 
+            this.test2ToolStripMenuItem.Name = "test2ToolStripMenuItem";
+            this.test2ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.test2ToolStripMenuItem.Text = "test2";
+            // 
+            // test3ToolStripMenuItem
+            // 
+            this.test3ToolStripMenuItem.Name = "test3ToolStripMenuItem";
+            this.test3ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.test3ToolStripMenuItem.Text = "test3";
             // 
             // ofdMidi
             // 
@@ -81,12 +105,12 @@
             // 
             // pTimeLine
             // 
-            this.pTimeLine.AutoScroll = true;
             this.pTimeLine.BackColor = System.Drawing.SystemColors.Highlight;
             this.pTimeLine.Location = new System.Drawing.Point(3, 3);
             this.pTimeLine.Name = "pTimeLine";
             this.pTimeLine.Size = new System.Drawing.Size(1344, 621);
             this.pTimeLine.TabIndex = 2;
+            this.pTimeLine.Scroll += new System.Windows.Forms.ScrollEventHandler(this.pTimeLine_Scroll);
             this.pTimeLine.Click += new System.EventHandler(this.pTimeLine_Click);
             this.pTimeLine.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -126,32 +150,8 @@
             this.panel1.Controls.Add(this.pTimeLine);
             this.panel1.Location = new System.Drawing.Point(12, 66);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1350, 627);
+            this.panel1.Size = new System.Drawing.Size(1350, 641);
             this.panel1.TabIndex = 6;
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.testToolStripMenuItem.Text = "test";
-            // 
-            // test2ToolStripMenuItem
-            // 
-            this.test2ToolStripMenuItem.Name = "test2ToolStripMenuItem";
-            this.test2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.test2ToolStripMenuItem.Text = "test2";
-            // 
-            // test3ToolStripMenuItem
-            // 
-            this.test3ToolStripMenuItem.Name = "test3ToolStripMenuItem";
-            this.test3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.test3ToolStripMenuItem.Text = "test3";
             // 
             // frmEditor
             // 
