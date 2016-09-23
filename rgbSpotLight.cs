@@ -16,11 +16,13 @@ namespace midiLightShow
             this.comPort = comPort;
             this.driver.DmxToDefault(this.comPort);
         }
-        public rgbSpotLight()
+        public rgbSpotLight() { }
+
+        public void executeFunction(string name, string parameters)
         {
-
+            // parameters split
+            
         }
-
         //Functions below for this light
         [ParameterDataAtribute(parameterDescription = new string[] { "Red", "Green", "Blue" })]
         [MethodDescriptionAtribute(methodDescription = "Set Light color")]
