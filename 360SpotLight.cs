@@ -10,11 +10,21 @@ namespace midiLightShow
     class _360SpotLight : dmxLight
     {
         Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
+        private Dictionary<string, byte> goboMap = new Dictionary<string, byte>();
         
         public _360SpotLight(string comPort)
         {
             this.comPort = comPort;
             this.driver.DmxToDefault(this.comPort);
+            this.goboMap.Add("bananaSpiral", 13);
+            this.goboMap.Add("eclipseSun", 26);
+            this.goboMap.Add("flower", 39);
+            this.goboMap.Add("portal", 52);
+            this.goboMap.Add("heatWaves", 66);
+            this.goboMap.Add("virus", 78);
+            this.goboMap.Add("sun", 91);
+            this.goboMap.Add("tangledLines", 104);
+            this.goboMap.Add("bubbles", 117);
         }
 
         //Functions below
@@ -28,7 +38,7 @@ namespace midiLightShow
                 rotation = rotation - 360;
             }
 
-            this.driver.DmxLoadBuffer(1,(byte)(rotation / 540 * 255),8);
+            this.driver.DmxLoadBuffer(1,(byte)(rotation / 540 * 255),13);
             this.driver.DmxSendCommand(1);
         }
 
@@ -42,7 +52,7 @@ namespace midiLightShow
                 rotation = rotation - 180;
             }
 
-            this.driver.DmxLoadBuffer(3, (byte)(rotation / 180 * 255), 8);
+            this.driver.DmxLoadBuffer(3, (byte)(rotation / 180 * 255), 13);
             this.driver.DmxSendCommand(1);
         }
 
@@ -57,7 +67,7 @@ namespace midiLightShow
                 s = 0;
             }
 
-            this.driver.DmxLoadBuffer(6, s, 8);
+            this.driver.DmxLoadBuffer(6, s, 13);
             this.driver.DmxSendCommand(1);
         }
 
@@ -70,7 +80,7 @@ namespace midiLightShow
                 value = value - 100;
             }
 
-            this.driver.DmxLoadBuffer(6, (byte)(value / 100 * 127), 8);
+            this.driver.DmxLoadBuffer(6, (byte)(value / 100 * 127), 13);
             this.driver.DmxSendCommand(1);
         }
 
@@ -83,7 +93,7 @@ namespace midiLightShow
                 value = value - 100;
             }
 
-            this.driver.DmxLoadBuffer(6, (byte)(value / 100 * 105), 8);
+            this.driver.DmxLoadBuffer(6, (byte)(value / 100 * 105), 13);
             this.driver.DmxSendCommand(1);
         }
 
@@ -91,9 +101,9 @@ namespace midiLightShow
         [MethodDescriptionAtribute(methodDescription = "Set rgb values")]
         public void func_rgb(byte r = 0, byte g = 0, byte b = 0)
         {
-            this.driver.DmxLoadBuffer(7, r, 8);
-            this.driver.DmxLoadBuffer(8, g, 8);
-            this.driver.DmxLoadBuffer(9, b, 8);
+            this.driver.DmxLoadBuffer(7, r, 13);
+            this.driver.DmxLoadBuffer(8, g, 13);
+            this.driver.DmxLoadBuffer(9, b, 13);
             this.driver.DmxSendCommand(3);
         }
 
@@ -101,7 +111,7 @@ namespace midiLightShow
         [MethodDescriptionAtribute(methodDescription = "Set movement speed")]
         public void func_setSpeed(byte mSpeed)
         {
-            this.driver.DmxLoadBuffer(5, mSpeed, 8);
+            this.driver.DmxLoadBuffer(5, mSpeed, 13);
             this.driver.DmxSendCommand(1);
         }
 
@@ -116,8 +126,30 @@ namespace midiLightShow
                 d = 232;
             }
 
-            this.driver.DmxLoadBuffer(10, d, 8);
-            this.driver.DmxLoadBuffer(11, (byte)(255 / speed + 1), 8);
+            this.driver.DmxLoadBuffer(10, d, 13);
+            this.driver.DmxLoadBuffer(11, (byte)(255 / speed + 1), 13);
         }
+
+        [ParameterDataAtribute(parameterDescription = new string[] { "Gobo:\n- None\n- bananaSpiral\n- eclipseSun\n- flower\n- portal\n- heatWaves\n- virus\n- sun\n- tangledLines\n- bubbles" })]
+        [MethodDescriptionAtribute(methodDescription = "Set a gobo")]
+        public void func_gobo(string gobo)
+        {
+            byte val = 0;
+            if(this.goboMap.ContainsKey(gobo))
+            {
+                val = this.goboMap[gobo];
+            }
+
+            this.driver.DmxLoadBuffer(13, val, 13);
+            this.driver.DmxSendCommand(1);
+        }
+
+        [ParameterDataAtribute(parameterDescription = new string[] { "Direction of gobo order", "Speed of scrolling" })]
+        [MethodDescriptionAtribute(methodDescription = "Turn on a scrollthrough the gobos")]
+        public void func_goboScroll(bool clockWise, byte speed)
+        {
+
+        }
+
     }
 }
