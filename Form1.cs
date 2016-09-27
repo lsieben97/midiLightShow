@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dmx512UsbRs485;
+using System.Xml;
 
 namespace midiLightShow
 {
@@ -49,23 +50,34 @@ namespace midiLightShow
             this.pixelsPerMiliSecond = 0.2;
             mr.init();
             this.frmEditShowEvent.Text = "Edit event";
-            this.loadShowEvents();
-        }
-        private void loadShowEvents()
-        {
-            // load object list
-            this.showEvents.Add(new showEventButton("TEST"));
-
-            //load controls
-            foreach(showEventButton s in this.showEvents)
-            {
-                s.Location = new Point(50, 50);
-            }
         }
 
         void testTimer_Tick(object sender, EventArgs e)
         {
 
+        }
+
+        private void exportShow(string path)
+        {
+            XmlWriterSettings ws = new XmlWriterSettings();
+            ws.Indent = true;
+            XmlWriter w = XmlWriter.Create(path, ws);
+            w.WriteStartDocument();
+            w.WriteStartElement("LightShow");
+            w.WriteStartElement("Tracks");
+            foreach (track t in this.tracks)
+            {
+                w.WriteStartElement("Track");
+                w.WriteAttributeString("Name", t.name);
+                w.WriteAttributeString("Light", track.typeMap.FirstOrDefault(x => x.Value == t.LightName).Key);
+                w.WriteAttributeString("yPos", t.yPos.ToString());
+                w.WriteEndElement();
+
+            }
+            w.WriteEndDocument();
+            w.Flush();
+            w.Close();
+            w.Dispose();
         }
 
         void showtimer_Tick(object sender, EventArgs e)
@@ -77,9 +89,9 @@ namespace midiLightShow
 
         void t_Tick(object sender, EventArgs e)
         {
-            foreach(midiEvent ev in this.midiTracks[1])
+            foreach (midiEvent ev in this.midiTracks[1])
             {
-                if(ev.timeFrame <= this.midiClock && ev.isCompleted == false)
+                if (ev.timeFrame <= this.midiClock && ev.isCompleted == false)
                 {
                     ev.isCompleted = true;
                 }
@@ -93,15 +105,15 @@ namespace midiLightShow
                 }
             }
             int notesPlayed = 0;
-            if(this.notesToPlay.Count == 0)
+            if (this.notesToPlay.Count == 0)
             {
                 d.DmxLoadBuffer(1, 0, 8);
                 d.DmxLoadBuffer(2, 0, 8);
                 d.DmxLoadBuffer(3, 0, 8);
             }
-            foreach(midiEvent ev in this.notesToPlay)
+            foreach (midiEvent ev in this.notesToPlay)
             {
-                if(ev.name == "Note Off")
+                if (ev.name == "Note Off")
                 {
                     switch (notesPlayed)
                     {
@@ -122,9 +134,9 @@ namespace midiLightShow
                             break;
                     }
                 }
-                else if(ev.name == "Note On")
+                else if (ev.name == "Note On")
                 {
-                    switch(notesPlayed)
+                    switch (notesPlayed)
                     {
                         case 0:
                             d.DmxLoadBuffer(1, ev.note, 8);
@@ -143,7 +155,7 @@ namespace midiLightShow
                             break;
                     }
                 }
-                
+
             }
             this.notesToPlay.Clear();
             d.DmxSendCommand(8);
@@ -151,7 +163,7 @@ namespace midiLightShow
 
         private void loadMIDIToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(this.ofdMidi.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (this.ofdMidi.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 /*
                 mr.loadFile(this.ofdMidi.FileName);
@@ -190,11 +202,13 @@ namespace midiLightShow
                     e.Graphics.FillRectangle(new Pen(Color.Red).Brush, r);
                     se.Value.bounds = r;
                     e.Graphics.DrawRectangle(new Pen(Color.Black), r);
-                    e.Graphics.DrawString(se.Value.function, btnPlay.Font, new Pen(Color.Black).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 4);
+                    e.Graphics.DrawString(se.Value.function + "(" + se.Value.paraString + ")", btnPlay.Font, new Pen(Color.Black).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 4);
+                    e.Graphics.DrawString("S: "+ se.Value.startTime.ToString(), btnPlay.Font, new Pen(Color.Black).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 19);
+                    e.Graphics.DrawString("D: " + se.Value.duration.ToString(), btnPlay.Font, new Pen(Color.Black).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 34);
                 }
                 //t.bAddEvent.Location = new Point(164 + (int)(t.currentMaxTime * this.pixelsPerMiliSecond), t.bAddEvent.Location.Y);
             }
-            e.Graphics.FillRectangle(new Pen(Color.Black).Brush,0, 0, this.pTimeLine.Width, 3);
+            e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 0, 0, this.pTimeLine.Width, 3);
             //e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 0, this.pTimeLine.Height - 3, this.pTimeLine.Width, 3);
             if (160 + Convert.ToInt32(this.currentTime * (this.pixelsPerMiliSecond)) > this.pTimeLine.Size.Width)
             {
@@ -203,25 +217,25 @@ namespace midiLightShow
             e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 160 + Convert.ToInt32(this.currentTime * (this.pixelsPerMiliSecond)), 0, 3, pTimeLine.Height);
             e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 160, 0, 3, pTimeLine.Height);
 
-            if(this.tracks.Count > 0)
+            if (this.tracks.Count > 0)
             {
                 int currentHeight = 0;
-                foreach(track t in this.tracks)
+                foreach (track t in this.tracks)
                 {
-                    if(currentHeight + this.trackHeight >= this.pTimeLine.Height)
+                    if (currentHeight + this.trackHeight >= this.pTimeLine.Height)
                     {
                         this.pTimeLine.Height += this.trackHeight;
                     }
-                    e.Graphics.FillRectangle(new Pen(Color.Black).Brush,0, currentHeight + this.trackHeight, this.pTimeLine.Width, 3);
+                    e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 0, currentHeight + this.trackHeight, this.pTimeLine.Width, 3);
                     currentHeight += this.trackHeight;
                 }
-                if(this.tracks.Count(t => t.solo == true) == 1)
+                if (this.tracks.Count(t => t.solo == true) == 1)
                 {
                     int index = this.tracks.FindIndex(t => t.solo == true);
                     this.tracks[index].cbMute.Checked = false;
-                    for(int i = 0; i < this.tracks.Count; i++)
+                    for (int i = 0; i < this.tracks.Count; i++)
                     {
-                        if(i != index)
+                        if (i != index)
                         {
                             this.tracks[i].cbMute.Checked = true;
                         }
@@ -229,19 +243,19 @@ namespace midiLightShow
                 }
                 else if (this.tracks.Count(t => t.soloSwitch == true) == 1)
                 {
-                    foreach(track t in this.tracks)
+                    foreach (track t in this.tracks)
                     {
                         t.cbMute.Checked = false;
                         t.soloSwitch = false;
                     }
                 }
             }
-            
+
         }
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            if(this.btnPlay.Text == "Play")
+            if (this.btnPlay.Text == "Play")
             {
                 this.showtimer.Start();
                 this.btnPlay.Text = "Pause";
@@ -263,7 +277,7 @@ namespace midiLightShow
 
         private void btnAddTrack_Click(object sender, EventArgs e)
         {
-            if(this.tracks.Count == 12)
+            if (this.tracks.Count == 12)
             {
                 MessageBox.Show("Cannot add more tracks!");
                 return;
@@ -275,44 +289,57 @@ namespace midiLightShow
 
         private void pTimeLine_Click(object sender, EventArgs e)
         {
-            foreach(track t in this.tracks)
+            foreach (track t in this.tracks)
             {
                 int remove = -1;
                 foreach (KeyValuePair<int, showEvent> se in t.events)
                 {
-                    if(se.Value.bounds.Contains(this.pTimeLine.PointToClient(Cursor.Position)))
+                    if (se.Value.bounds.Contains(this.pTimeLine.PointToClient(Cursor.Position)))
                     {
                         this.frmEditShowEvent.light = t.light;
                         this.frmEditShowEvent.tbDuration.Text = se.Value.duration.ToString();
-                        this.frmEditShowEvent.tbParameters.Text = se.Value.parameters;
+                        this.frmEditShowEvent.tbStartTime.Text = se.Value.startTime.ToString();
+                        this.frmEditShowEvent.tbParameters.Text = se.Value.paraString;
                         this.frmEditShowEvent.cbFunctions.SelectedItem = se.Value.function;
                         int oldDuration = se.Value.duration;
                         DialogResult dr = this.frmEditShowEvent.ShowDialog();
-                        if(dr == System.Windows.Forms.DialogResult.OK)
+                        if (dr == System.Windows.Forms.DialogResult.OK)
                         {
-                            if (t.events.Values.All(ev => (ev.startTime < Convert.ToInt32(this.frmEditShowEvent.tbStartTime.Text) + Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text) && ev.startTime + ev.duration < Convert.ToInt32(this.frmEditShowEvent.tbStartTime.Text)) || ev.startTime > Convert.ToInt32(this.frmEditShowEvent.tbStartTime.Text)) == false && t.events.Count > 1)
+                            int duration = Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text);
+                            int start = Convert.ToInt32(this.frmEditShowEvent.tbStartTime.Text);
+                            bool valid = true;
+                            foreach (showEvent ev in t.events.Values)
+                            {
+                                if (start > ev.startTime && start < ev.startTime + ev.duration)
+                                {
+                                    valid = false;
+                                }
+                                if (start + duration > ev.startTime && start + duration < ev.startTime + ev.duration)
+                                {
+                                    valid = false;
+                                }
+                            }
+                            if (!valid)
                             {
                                 MessageBox.Show("event cannot overlap!");
+                                return;
                             }
-                            else
-                            {
-                                se.Value.duration = this.frmEditShowEvent.duration;
-                                se.Value.startTime = this.frmEditShowEvent.startTime;
-                                se.Value.function = this.frmEditShowEvent.cbFunctions.Text;
-                                se.Value.parameters = this.frmEditShowEvent.tbParameters.Text;
-                                t.currentMaxTime = t.events.Values.Max(ev => ev.startTime + ev.duration);
-                                pTimeLine.Invalidate();
-                            }
-                            
+                            se.Value.duration = this.frmEditShowEvent.duration;
+                            se.Value.startTime = this.frmEditShowEvent.startTime;
+                            se.Value.function = this.frmEditShowEvent.cbFunctions.Text;
+                            se.Value.paraString = this.frmEditShowEvent.tbParameters.Text;
+                            t.currentMaxTime = t.events.Values.Max(ev => ev.startTime + ev.duration);
+                            pTimeLine.Invalidate();
+
                         }
-                        else if(dr == System.Windows.Forms.DialogResult.Abort)
+                        else if (dr == System.Windows.Forms.DialogResult.Abort)
                         {
                             remove = se.Key;
                         }
                         this.frmEditShowEvent.reset();
                     }
                 }
-                if(remove != -1)
+                if (remove != -1)
                 {
                     t.events.Remove(remove);
                     this.pTimeLine.Invalidate();
@@ -324,5 +351,17 @@ namespace midiLightShow
         {
             this.pTimeLine.Invalidate();
         }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.tracks.Count > 1)
+            {
+                if (this.sfdLightShow.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    this.exportShow(this.sfdLightShow.FileName);
+                }
+            }
+        }
+
     }
 }

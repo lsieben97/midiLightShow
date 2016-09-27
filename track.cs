@@ -19,6 +19,7 @@ namespace midiLightShow
         public int yEnd = 0;
         public int currentMaxTime = 0;
         public int eventCount = 1;
+        public string LightName = "";
         private Panel pTimeLine;
         public Label lbName = new Label();
         public CheckBox cbMute = new CheckBox();
@@ -49,8 +50,10 @@ namespace midiLightShow
             this.frmOptions.tbName.Text = this.name;
             this.frmOptions.Text = "Options for '" + this.name + "'";
             this.frmOptions.cbLights.SelectedIndex = 0;
+            this.LightName = this.frmOptions.cbLights.SelectedItem.ToString();
             Type targetType = Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()],true);
             this.light = Activator.CreateInstance(targetType) as dmxLight;
+            this.frmAddShowEvent.light = this.light;
         }
 
         public void drawControls()
@@ -129,7 +132,9 @@ namespace midiLightShow
             {
                 this.name = frmOptions.tbName.Text;
                 this.lbName.Text = this.name;
+                this.LightName = this.frmOptions.cbLights.SelectedItem.ToString();
                 this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
+                this.frmAddShowEvent.light = this.light;
                 this.frmOptions.Text = "Options for '" + this.name + "'";
             }
         }

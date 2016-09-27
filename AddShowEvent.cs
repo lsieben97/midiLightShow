@@ -38,8 +38,6 @@ namespace midiLightShow
             }
             cbFunctions.SelectedIndex = 0;
             btnRemove.Visible = this.isEditForm;
-            tbDuration.Text = "0";
-            tbStartTime.Text = "0";
         }
         private string getParameterDescription(MethodInfo m)
         {
@@ -55,10 +53,14 @@ namespace midiLightShow
 
         private void cbFunctions_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lbParaDescription.Text = this.getParameterDescription(this.functions[cbFunctions.SelectedIndex]);
-            lbParaDescription.Visible = true;
-            lbMethodDescription.Text = this.getMethodDiscription(this.functions[cbFunctions.SelectedIndex]);
-            lbMethodDescription.Visible = true;
+            rtbParameterDescription.Text = this.getParameterDescription(this.functions[cbFunctions.SelectedIndex]);
+            rtbFunctionDescription.Text = this.getMethodDiscription(this.functions[cbFunctions.SelectedIndex]);
+        }
+
+        
+        private object checkConversion(string value, Type target)
+        {
+            return Convert.ChangeType(value, target);
         }
 
         private void btnOk_Click(object sender, EventArgs e)

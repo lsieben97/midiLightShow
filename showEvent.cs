@@ -13,15 +13,15 @@ namespace midiLightShow
         public int duration;
         public Rectangle bounds;
         public string function;
-        public string parameters;
+        public string paraString;
         public int index = 0;
 
-        public showEvent(int startTime, int duration, string function, string parameters,int index)
+        public showEvent(int startTime, int duration, string function, string paraString,int index)
         {
             this.startTime = startTime;
             this.duration = duration;
             this.function = function;
-            this.parameters = parameters;
+            this.paraString = paraString;
             this.index = index;
         }
     }
