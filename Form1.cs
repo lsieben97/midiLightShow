@@ -14,7 +14,6 @@ namespace midiLightShow
 {
     public partial class frmEditor : Form
     {
-        midiReader mr = new midiReader();
         Dmx512UsbRs485Driver d = new Dmx512UsbRs485Driver();
         List<List<midiEvent>> midiTracks = new List<List<midiEvent>>();
         List<track> tracks = new List<track>();
@@ -30,6 +29,7 @@ namespace midiLightShow
         public AddShowEvent frmEditShowEvent = new AddShowEvent();
         public double pixelsPerMiliSecond = 0;
         List<midiEvent> notesToPlay = new List<midiEvent>();
+        debug db = new debug();
         int midiClock = 0;
         public frmEditor()
         {
@@ -48,7 +48,6 @@ namespace midiLightShow
             Console.WriteLine(s.GetType().AssemblyQualifiedName);
             showtimer.Tick += showtimer_Tick;
             this.pixelsPerMiliSecond = 0.2;
-            mr.init();
             this.frmEditShowEvent.Text = "Edit event";
         }
 
@@ -165,16 +164,8 @@ namespace midiLightShow
         {
             if (this.ofdMidi.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                /*
-                mr.loadFile(this.ofdMidi.FileName);
-                mr.parseFile();
-                mr.calculateTimeLine();
-                this.midiTracks = mr.getSeparateTracks();
-                this.showtimer.Interval = Convert.ToInt32(this.mr.interval * 1000);
-                this.showtimer.Start();
-                 * */
-                midiPlayer p = new midiPlayer();
-                midiPlayer.playMidi(ofdMidi.FileName, "derp");
+                midiImport mi = new midiImport(this.ofdMidi.FileName);
+                mi.Show();
 
             }
         }
@@ -361,6 +352,11 @@ namespace midiLightShow
                     this.exportShow(this.sfdLightShow.FileName);
                 }
             }
+        }
+
+        private void debugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.db.Show();
         }
 
     }

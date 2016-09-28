@@ -9,5 +9,9 @@ namespace midiLightShow
     public class dmxLight
     {
         public string comPort = "";
+        public virtual bool checkParameters()
+        {
+            return false;
+        }
     }
 }

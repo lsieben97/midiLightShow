@@ -16,11 +16,33 @@ namespace midiLightShow
         public dmxLight light;
         public List<MethodInfo> functions = new List<MethodInfo>();
         public int duration = 100;
+        public List<Control> parameterControls = new List<Control>();
         public int startTime = 0;
+        private int controlOffset = 15;
         public bool isEditForm = false;
+        public Timer aniTimer = new Timer();
+        private int controlsDone = 0;
+        public List<ParameterInfo> parameterList = new List<ParameterInfo>();
+        public List<Type> parameterTypes = new List<Type>();
+        public List<object> parameters = new List<object>();
         public AddShowEvent()
         {
             InitializeComponent();
+            aniTimer.Interval = 200;
+            aniTimer.Tick += aniTimer_Tick;
+        }
+
+        void aniTimer_Tick(object sender, EventArgs e)
+        {
+            if(this.controlsDone != this.pParameterControls.Controls.Count)
+            {
+                this.pParameterControls.Controls[this.controlsDone].Visible = true;
+                this.controlsDone++;
+            }
+            else
+            {
+                this.aniTimer.Stop();
+            }
         }
 
         private void AddShowEvent_Load(object sender, EventArgs e)
@@ -55,9 +77,48 @@ namespace midiLightShow
         {
             rtbParameterDescription.Text = this.getParameterDescription(this.functions[cbFunctions.SelectedIndex]);
             rtbFunctionDescription.Text = this.getMethodDiscription(this.functions[cbFunctions.SelectedIndex]);
+            this.parameterList = this.getParameters(cbFunctions.SelectedIndex).ToList(); ;
+            this.parameterControls.Clear();
+            foreach(ParameterInfo p in this.parameterList)
+            {
+                switch(p.ParameterType.Name)
+                {
+                    case "String":
+                    case "Byte":
+                        TextBox tbpara = new TextBox();
+                        tbpara.Tag = p.Name;
+                        tbpara.Visible = false;
+                        this.parameterControls.Add(tbpara);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            this.drawParameterControls();
+
+        }
+        private ParameterInfo[] getParameters(int index)
+        {
+            return this.functions[index].GetParameters();
         }
 
-        
+        private void drawParameterControls()
+        {
+            pParameterControls.Controls.Clear();
+            foreach(Control parameterControl in this.parameterControls)
+            {
+                parameterControl.Location = new Point(60, this.pParameterControls.Controls.Count * this.controlOffset);
+                Label lbParameterName = new Label();
+                lbParameterName.Text = parameterControl.Tag.ToString();
+                lbParameterName.Location = new Point(5, this.pParameterControls.Controls.Count * this.controlOffset);
+                lbParameterName.Visible = false;
+                pParameterControls.Controls.Add(parameterControl);
+                pParameterControls.Controls.Add(lbParameterName);
+
+            }
+            this.controlsDone = 0;
+            this.aniTimer.Start();
+        }
         private object checkConversion(string value, Type target)
         {
             return Convert.ChangeType(value, target);
@@ -65,8 +126,10 @@ namespace midiLightShow
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            
             if (int.TryParse(tbDuration.Text, out this.duration) == true && int.TryParse(tbStartTime.Text, out this.startTime) == true)
             {
+                this.prepareParameters();
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
@@ -95,6 +158,22 @@ namespace midiLightShow
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Abort;
             this.Close();
+        }
+
+        private void prepareParameters()
+        {
+
+            for(int i = 0; i < this.parameterList.Count(); i++)
+            {
+                switch(this.parameterControls[i].GetType().Name)
+                {
+                    case "TextBox":
+                    case "ComboBox":
+                        this.parameters.Add(this.parameterControls[i].Text);
+                        break;
+                }
+                this.parameterTypes.Add(this.parameterList[i].ParameterType);
+            }
         }
     }
 }

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21ACA74F-5300-4B94-8C75-5240EEC5D798}</ProjectGuid>
+    <ProjectGuid>{FEDDF23D-8A9D-484F-B206-D15FF5AEF60E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>midiLightShow</RootNamespace>
@@ -59,6 +59,12 @@
     <Compile Include="AddShowEvent.Designer.cs">
       <DependentUpon>AddShowEvent.cs</DependentUpon>
     </Compile>
+    <Compile Include="debug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="debug.Designer.cs">
+      <DependentUpon>debug.cs</DependentUpon>
+    </Compile>
     <Compile Include="discLight.cs" />
     <Compile Include="dmxLight.cs" />
     <Compile Include="Form1.cs">
@@ -69,6 +75,12 @@
     </Compile>
     <Compile Include="lazer.cs" />
     <Compile Include="MethodDescriptionAttribute.cs" />
+    <Compile Include="midiImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="midiImport.Designer.cs">
+      <DependentUpon>midiImport.cs</DependentUpon>
+    </Compile>
     <Compile Include="midiPlayer.cs" />
     <Compile Include="midiReader.cs" />
     <Compile Include="ParameterDataAtribute.cs" />
@@ -89,8 +101,14 @@
     <EmbeddedResource Include="AddShowEvent.resx">
       <DependentUpon>AddShowEvent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="debug.resx">
+      <DependentUpon>debug.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="midiImport.resx">
+      <DependentUpon>midiImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

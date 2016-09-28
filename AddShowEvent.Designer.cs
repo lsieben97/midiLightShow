@@ -43,6 +43,7 @@
             this.rtbFunctionDescription = new System.Windows.Forms.RichTextBox();
             this.rtbParameterDescription = new System.Windows.Forms.RichTextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.pParameterControls = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // label1
@@ -97,7 +98,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(12, 280);
+            this.btnOk.Location = new System.Drawing.Point(12, 446);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 7;
@@ -107,7 +108,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(272, 280);
+            this.btnCancel.Location = new System.Drawing.Point(408, 446);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 7;
@@ -142,7 +143,7 @@
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(133, 280);
+            this.btnRemove.Location = new System.Drawing.Point(204, 446);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(75, 23);
             this.btnRemove.TabIndex = 12;
@@ -177,11 +178,19 @@
             this.label6.TabIndex = 14;
             this.label6.Text = "Parameter Description:";
             // 
+            // pParameterControls
+            // 
+            this.pParameterControls.Location = new System.Drawing.Point(142, 280);
+            this.pParameterControls.Name = "pParameterControls";
+            this.pParameterControls.Size = new System.Drawing.Size(341, 160);
+            this.pParameterControls.TabIndex = 15;
+            // 
             // AddShowEvent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 315);
+            this.ClientSize = new System.Drawing.Size(495, 481);
+            this.Controls.Add(this.pParameterControls);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.rtbParameterDescription);
             this.Controls.Add(this.rtbFunctionDescription);
@@ -223,5 +232,6 @@
         private System.Windows.Forms.RichTextBox rtbFunctionDescription;
         private System.Windows.Forms.RichTextBox rtbParameterDescription;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel pParameterControls;
     }
 }

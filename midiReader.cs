@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 
 namespace midiLightShow
 {
@@ -16,7 +17,9 @@ namespace midiLightShow
         public int byteCount = 0;
         public int division = 0;
         public double interval = 0;
+        public midiImport form;
         public List<int> trackIndexes = new List<int>();
+
         public void init()
         {
             this.events.Add("255127", new midiEvent("Sequencer-Specific Meta-event", "255127", true));
@@ -53,6 +56,7 @@ namespace midiLightShow
                     int trackChunkCount = 0;
                     this.getChunkGroup(2, out trackChunkCount);
                     this.division = this.calculateDivision(this.getChunkGroup(2));
+                    this.form.rtbStatus.AppendText(string.Format("Found MIDI header chunk with following data:\n\tFile format: {0}\n\tDivision: {1}\n\tTrack chunk count: {2}", fileFormat.ToString(), this.division.ToString(), trackChunkCount.ToString()));
                 }
                 else
                 {
@@ -65,7 +69,9 @@ namespace midiLightShow
                             // found meta event
                             midiEvent e = this.getMetaEvent();
                             e.deltaTime = delta;
-                            Console.WriteLine("Found " + e.name);
+                            this.form.rtbStatus.AppendText("Found " + e.name + "\n");
+                            Thread.Sleep(25);
+                            
                             this.timeLine.Add(e);
                             if(e.name == "End of Track")
                             {
@@ -77,7 +83,8 @@ namespace midiLightShow
                         {
                             midiEvent e = this.getChannelEvent();
                             e.deltaTime = delta;
-                            Console.WriteLine("Found " + e.name);
+                            this.form.rtbStatus.AppendText("Found " + e.name + "\n");
+                            Thread.Sleep(25);
                             this.timeLine.Add(e);
                         }
                     }

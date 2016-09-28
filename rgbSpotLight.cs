@@ -23,6 +23,11 @@ namespace midiLightShow
             // parameters split
             
         }
+        public override bool checkParameters()
+        {
+            // shit doet
+            return true;
+        }
         //Functions below for this light
         [ParameterDataAtribute(parameterDescription = new string[] { "Red", "Green", "Blue" })]
         [MethodDescriptionAtribute(methodDescription = "Set Light color")]
