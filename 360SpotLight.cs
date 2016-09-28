@@ -11,7 +11,8 @@ namespace midiLightShow
     {
         Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
         private Dictionary<string, byte> goboMap = new Dictionary<string, byte>();
-        
+
+        public _360SpotLight() { }
         public _360SpotLight(string comPort)
         {
             this.comPort = comPort;
@@ -148,7 +149,15 @@ namespace midiLightShow
         [MethodDescriptionAtribute(methodDescription = "Turn on a scrollthrough the gobos")]
         public void func_goboScroll(bool clockWise, byte speed)
         {
+            byte val = Convert.ToByte(128+speed/2);
 
+            if(!clockWise)
+            {
+                val = Convert.ToByte(val + 128);
+            }
+
+            this.driver.DmxLoadBuffer(13, val, 13);
+            this.driver.DmxSendCommand(1);
         }
 
     }

@@ -118,7 +118,7 @@ namespace midiLightShow
                     return;
                 }
 
-                this.events.Add(this.eventCount, new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters.ToArray(),this.frmAddShowEvent.parameterTypes.ToArray(), this.eventCount));
+                this.events.Add(this.eventCount, new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters.ToArray(), this.eventCount));
                 this.currentMaxTime += this.frmAddShowEvent.duration;
                 this.frmAddShowEvent.reset();
                 this.eventCount++;

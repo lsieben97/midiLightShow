@@ -18,20 +18,28 @@ namespace midiLightShow
         }
         public rgbSpotLight() { }
 
-        public void executeFunction(string name, string parameters)
+        public override void executeFunction(string function, string[] parameters)
         {
-            // parameters split
-            
-        }
-        public override bool checkParameters()
-        {
-            // shit doet
-            return true;
+            List<string> strings = new List<string>();
+            List<int> ints = new List<int>();
+            List<bool> bools = new List<bool>();
+            switch (function)
+            {
+                case "rgb":
+                    byte r = 0;
+                    byte g = 0;
+                    byte b = 0;
+                    if (byte.TryParse(parameters[0], out r) && byte.TryParse(parameters[1], out g) && byte.TryParse(parameters[2], out b))
+                    {
+                        this.func_rgb(r, g, b);
+                    }
+                    break;
+            }
         }
         //Functions below for this light
         [ParameterDataAtribute(parameterDescription = new string[] { "Red", "Green", "Blue" })]
         [MethodDescriptionAtribute(methodDescription = "Set Light color")]
-        public void func_rgb (byte r, byte g, byte b)
+        public void func_rgb(byte r, byte g, byte b)
         {
             this.driver.DmxLoadBuffer(1, r, 8);
             this.driver.DmxLoadBuffer(2, g, 8);
@@ -39,9 +47,9 @@ namespace midiLightShow
             this.driver.DmxSendCommand(3);
         }
 
-        [ParameterDataAtribute(parameterDescription = new string[] { "No parameters needed."})]
+        [ParameterDataAtribute(parameterDescription = new string[] { "No parameters needed." })]
         [MethodDescriptionAtribute(methodDescription = "Fade lights")]
-        public void func_fade ()
+        public void func_fade()
         {
             this.driver.DmxLoadBuffer(6, 64, 8);
             this.driver.DmxSendCommand(1);

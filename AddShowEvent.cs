@@ -24,7 +24,7 @@ namespace midiLightShow
         private int controlsDone = 0;
         public List<ParameterInfo> parameterList = new List<ParameterInfo>();
         public List<Type> parameterTypes = new List<Type>();
-        public List<object> parameters = new List<object>();
+        public List<string> parameters = new List<string>();
         public AddShowEvent()
         {
             InitializeComponent();
