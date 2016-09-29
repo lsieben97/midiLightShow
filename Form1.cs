@@ -34,28 +34,36 @@ namespace midiLightShow
         Color lineColor = SystemColors.Highlight;
         public frmEditor()
         {
+            Console.WriteLine("Initializing application...");
             InitializeComponent();
             this.testTimer.Interval = 100;
             this.testTimer.Tick += testTimer_Tick;
-            this.pTimeLine.AllowDrop = true;
+            this.testTimer.Start();
             showtimer.Interval = 125;
             track.makeTypeMap();
-            //rgbSpotLight s = new rgbSpotLight("COM3");
-            //s.fade();
-            //s.rgb(255, 0, 0);
             this.frmEditShowEvent.isEditForm = true;
-            rgbSpotLight s = new rgbSpotLight();
-            string t = s.GetType().AssemblyQualifiedName;
-            Console.WriteLine(s.GetType().AssemblyQualifiedName);
             showtimer.Tick += showtimer_Tick;
             this.pixelsPerMiliSecond = 0.2;
             this.frmEditShowEvent.Text = "Edit event";
             pTimeLine.BackColor = Color.FromArgb(255, 170, 213, 255);
+            Console.WriteLine("Done!");
+            // customize menu strip
+            msControl.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
+            fileToolStripMenuItem.ForeColor = this.lineColor;
+            toolsToolStripMenuItem.ForeColor = this.lineColor;
+            loadMIDIToolStripMenuItem.ForeColor = this.lineColor;
+            exitToolStripMenuItem.ForeColor = this.lineColor;
+            exportToolStripMenuItem.ForeColor = this.lineColor;
+            debugToolStripMenuItem.ForeColor = this.lineColor;
+            
         }
 
         void testTimer_Tick(object sender, EventArgs e)
         {
-
+            if (fileToolStripMenuItem.Pressed)
+            {
+                fileToolStripMenuItem.BackColor = SystemColors.ControlDarkDark;
+            }
         }
 
         private void exportShow(string path)
@@ -196,7 +204,7 @@ namespace midiLightShow
                     se.Value.bounds = r;
                     e.Graphics.DrawRectangle(new Pen(this.lineColor), r);
                     e.Graphics.DrawString(se.Value.function + "(" + se.Value.paraString + ")", btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 4);
-                    e.Graphics.DrawString("S: "+ se.Value.startTime.ToString(), btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 19);
+                    e.Graphics.DrawString("S: " + se.Value.startTime.ToString(), btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 19);
                     e.Graphics.DrawString("D: " + se.Value.duration.ToString(), btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 34);
                 }
                 //t.bAddEvent.Location = new Point(164 + (int)(t.currentMaxTime * this.pixelsPerMiliSecond), t.bAddEvent.Location.Y);
@@ -359,6 +367,120 @@ namespace midiLightShow
         private void debugToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.db.Show();
+        }
+
+        private void frmEditor_Load(object sender, EventArgs e)
+        {
+            panel1.Size = this.Size;
+        }
+
+    }
+    // custom menustrip colors
+    class CustomProfessionalColors : ProfessionalColorTable
+    {
+        public override Color MenuItemSelectedGradientBegin
+        {
+            get
+            {
+                return SystemColors.ControlDark;
+            }
+        }
+        public override Color MenuItemSelectedGradientEnd
+        {
+            get
+            {
+                return SystemColors.ControlDarkDark;
+            }
+        }
+        public override Color MenuItemBorder
+        {
+            get
+            {
+                return SystemColors.ControlDarkDark;
+            }
+        }
+
+        public override Color MenuItemSelected
+        {
+            get
+            {
+                return Color.FromArgb(64, 64, 64);
+            }
+        }
+
+        public override Color MenuItemPressedGradientBegin
+        {
+            get
+            {
+                return SystemColors.ControlDark;
+            }
+        }
+
+        public override Color MenuItemPressedGradientMiddle
+        {
+            get
+            {
+                return SystemColors.ControlDarkDark;
+            }
+        }
+        public override Color MenuItemPressedGradientEnd
+        {
+            get
+            {
+                return SystemColors.ControlDark;
+            }
+        }
+        public override Color MenuStripGradientBegin
+        {
+            get
+            {
+                return SystemColors.ControlDarkDark;
+            }
+        }
+
+        public override Color MenuStripGradientEnd
+        {
+            get
+            {
+                return SystemColors.ControlDark;
+            }
+        }
+
+        public override Color MenuBorder
+        {
+            get
+            {
+                return SystemColors.ControlDarkDark;
+            }
+        }
+        public override Color ToolStripDropDownBackground
+        {
+            get
+            {
+                return SystemColors.ControlDarkDark;
+            }
+        }
+        public override Color ImageMarginGradientBegin
+        {
+            get
+            {
+                return SystemColors.ControlDarkDark;
+            }
+        }
+
+        public override Color ImageMarginGradientEnd
+        {
+            get
+            {
+                return SystemColors.ControlDarkDark;
+            }
+        }
+        public override Color ImageMarginGradientMiddle
+        {
+            get
+            {
+                return SystemColors.ControlDarkDark;
+            }
         }
 
     }

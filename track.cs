@@ -30,6 +30,7 @@ namespace midiLightShow
         public TrackOptionsForm frmOptions = new TrackOptionsForm();
         public AddShowEvent frmAddShowEvent = new AddShowEvent();
         public int lastBlockXPos = 110;
+        public bool delete = false;
         public Dictionary<int, showEvent> events = new Dictionary<int, showEvent>();
 
         public static Dictionary<string, string> typeMap = new Dictionary<string, string>();
@@ -40,6 +41,7 @@ namespace midiLightShow
             track.typeMap.Add("360 Spotlight", "midiLightShow._360SpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             track.typeMap.Add("Lazer", "midiLightShow.lazer, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             track.typeMap.Add("Disc Light", "midiLightShow.discLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            Console.WriteLine("Generated TypeMap.");
         }
         public track(string name, int yPos, int yEnd, Panel p)
         {
@@ -90,6 +92,8 @@ namespace midiLightShow
             this.bAddEvent.Bounds = new Rectangle(this.bAddEvent.Location, new Size(50, 47));
             this.bAddEvent.Click += bAddEvent_Click;
             this.pTimeLine.Controls.Add(bAddEvent);
+
+            Console.WriteLine("Generated controls for '" + this.name + "'.");
         }
 
         void bAddEvent_Click(object sender, EventArgs e)
@@ -98,6 +102,7 @@ namespace midiLightShow
             DialogResult dr = this.frmAddShowEvent.ShowDialog();
             if(dr == DialogResult.OK)
             {
+                Console.WriteLine("Trying to create new event...");
                 int duration = Convert.ToInt32(this.frmAddShowEvent.tbDuration.Text);
                 int start = Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text);
                 bool valid = true;
@@ -115,17 +120,27 @@ namespace midiLightShow
                 if(!valid)
                 {
                     MessageBox.Show("event cannot overlap!");
+                    Console.WriteLine("Failed! (Invalid event timing for new event).");
                     return;
                 }
 
-                this.events.Add(this.eventCount, new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters.ToArray(), this.eventCount));
+                this.events.Add(this.eventCount, new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters.ToArray(), this.frmAddShowEvent.paraString, this.eventCount));
                 this.currentMaxTime += this.frmAddShowEvent.duration;
+                this.debugNewEvent(this.events[this.eventCount]);
                 this.frmAddShowEvent.reset();
                 this.eventCount++;
                 this.pTimeLine.Invalidate();
             }
         }
-
+        private void debugNewEvent(showEvent sEvent)
+        {
+            Console.WriteLine("Complete, created event with the following data:");
+            FieldInfo[] fields = sEvent.GetType().GetFields();
+            foreach(FieldInfo field in fields)
+            {
+                Console.WriteLine(string.Format("{0}: {1}", field.Name, field.GetValue(sEvent).ToString()));
+            }
+        }
         void bOptions_Click(object sender, EventArgs e)
         {
             if(this.frmOptions.ShowDialog() == DialogResult.OK)

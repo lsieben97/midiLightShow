@@ -15,14 +15,14 @@ namespace midiLightShow
         public string function;
         public string paraString;
         public string[] parameters;
-        public Type[] parameterTypes;
         public int index = 0;
 
-        public showEvent(int startTime, int duration, string function, string[] parameters,int index)
+        public showEvent(int startTime, int duration, string function, string[] parameters, string paraString, int index)
         {
             this.startTime = startTime;
             this.duration = duration;
             this.function = function;
+            this.paraString = paraString;
             this.parameters = parameters;
             this.index = index;
         }

@@ -22,6 +22,7 @@ namespace midiLightShow
         public bool isEditForm = false;
         public Timer aniTimer = new Timer();
         private int controlsDone = 0;
+        public string paraString;
         public List<ParameterInfo> parameterList = new List<ParameterInfo>();
         public List<Type> parameterTypes = new List<Type>();
         public List<string> parameters = new List<string>();
@@ -176,6 +177,8 @@ namespace midiLightShow
                         break;
                 }
                 this.parameterTypes.Add(this.parameterList[i].ParameterType);
+                this.paraString = string.Join(",", this.parameters);
+                
             }
         }
     }
