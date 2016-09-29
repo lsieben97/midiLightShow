@@ -152,6 +152,9 @@ namespace midiLightShow
             cbFunctions.Items.Clear();
             tbParameters.Clear();
             this.functions.Clear();
+            this.parameterList.Clear();
+            this.parameters.Clear();
+            this.parameterTypes.Clear();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)

@@ -31,6 +31,7 @@ namespace midiLightShow
         List<midiEvent> notesToPlay = new List<midiEvent>();
         debug db = new debug();
         int midiClock = 0;
+        Color lineColor = SystemColors.Highlight;
         public frmEditor()
         {
             InitializeComponent();
@@ -49,6 +50,7 @@ namespace midiLightShow
             showtimer.Tick += showtimer_Tick;
             this.pixelsPerMiliSecond = 0.2;
             this.frmEditShowEvent.Text = "Edit event";
+            pTimeLine.BackColor = Color.FromArgb(255, 170, 213, 255);
         }
 
         void testTimer_Tick(object sender, EventArgs e)
@@ -192,21 +194,21 @@ namespace midiLightShow
                     Rectangle r = new Rectangle(164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 4, (int)(se.Value.duration * this.pixelsPerMiliSecond), 44);
                     e.Graphics.FillRectangle(new Pen(Color.Red).Brush, r);
                     se.Value.bounds = r;
-                    e.Graphics.DrawRectangle(new Pen(Color.Black), r);
-                    e.Graphics.DrawString(se.Value.function + "(" + se.Value.paraString + ")", btnPlay.Font, new Pen(Color.Black).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 4);
-                    e.Graphics.DrawString("S: "+ se.Value.startTime.ToString(), btnPlay.Font, new Pen(Color.Black).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 19);
-                    e.Graphics.DrawString("D: " + se.Value.duration.ToString(), btnPlay.Font, new Pen(Color.Black).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 34);
+                    e.Graphics.DrawRectangle(new Pen(this.lineColor), r);
+                    e.Graphics.DrawString(se.Value.function + "(" + se.Value.paraString + ")", btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 4);
+                    e.Graphics.DrawString("S: "+ se.Value.startTime.ToString(), btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 19);
+                    e.Graphics.DrawString("D: " + se.Value.duration.ToString(), btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.Value.startTime * this.pixelsPerMiliSecond), t.yPos + 34);
                 }
                 //t.bAddEvent.Location = new Point(164 + (int)(t.currentMaxTime * this.pixelsPerMiliSecond), t.bAddEvent.Location.Y);
             }
-            e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 0, 0, this.pTimeLine.Width, 3);
-            //e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 0, this.pTimeLine.Height - 3, this.pTimeLine.Width, 3);
+            e.Graphics.FillRectangle(new Pen(this.lineColor).Brush, 0, 0, this.pTimeLine.Width, 3);
+            //e.Graphics.FillRectangle(new Pen(this.lineColor).Brush, 0, this.pTimeLine.Height - 3, this.pTimeLine.Width, 3);
             if (160 + Convert.ToInt32(this.currentTime * (this.pixelsPerMiliSecond)) > this.pTimeLine.Size.Width)
             {
                 this.currentTime = 0;
             }
-            e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 160 + Convert.ToInt32(this.currentTime * (this.pixelsPerMiliSecond)), 0, 3, pTimeLine.Height);
-            e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 160, 0, 3, pTimeLine.Height);
+            e.Graphics.FillRectangle(new Pen(this.lineColor).Brush, 160 + Convert.ToInt32(this.currentTime * (this.pixelsPerMiliSecond)), 0, 3, pTimeLine.Height);
+            e.Graphics.FillRectangle(new Pen(this.lineColor).Brush, 160, 0, 3, pTimeLine.Height);
 
             if (this.tracks.Count > 0)
             {
@@ -217,7 +219,7 @@ namespace midiLightShow
                     {
                         this.pTimeLine.Height += this.trackHeight;
                     }
-                    e.Graphics.FillRectangle(new Pen(Color.Black).Brush, 0, currentHeight + this.trackHeight, this.pTimeLine.Width, 3);
+                    e.Graphics.FillRectangle(new Pen(this.lineColor).Brush, 0, currentHeight + this.trackHeight, this.pTimeLine.Width, 3);
                     currentHeight += this.trackHeight;
                 }
                 if (this.tracks.Count(t => t.solo == true) == 1)
