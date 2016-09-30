@@ -28,6 +28,126 @@ namespace midiLightShow
             this.goboMap.Add("bubbles", 117);
         }
 
+
+        public override bool executeFunction(string function, Dictionary<string, string> parameters, bool execute = false)
+        {
+            List<string> strings = new List<string>();
+            List<int> ints = new List<int>();
+            List<bool> bools = new List<bool>();
+
+            uint rotation = 0;
+            uint value = 0;
+            byte speed = 0;
+
+            switch (function)
+            {
+                case "setPan":
+                    rotation = 0;
+                    if (uint.TryParse(parameters.ElementAt(0).Value, out rotation))
+                    {
+                        if (execute)
+                        {
+                            this.func_setPan(rotation);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+                case "setTilt":
+                    rotation = 0;
+                    if (uint.TryParse(parameters.ElementAt(0).Value, out rotation))
+                    {
+                        if (execute)
+                        {
+                            this.func_setTilt(rotation);
+                        }
+                        else { return true; }
+                    } else { return false; }
+                    break;
+                case "shutter":
+                    bool shutter = false;
+                    if (bool.TryParse(parameters.ElementAt(0).Value, out shutter))
+                    {
+                        if (execute)
+                        {
+                            this.func_shutter(shutter);
+                        }
+                        else { return true; }
+                    } else { return false; }
+                    break;
+                case "dimmer":
+                    value = 0;
+                    if(uint.TryParse(parameters.ElementAt(0).Value, out value))
+                    {
+                        if (execute)
+                        {
+                            this.func_dimmer(value);
+                        }
+                        else { return true; }
+                    } else { return false; }
+                    break;
+                case "strobo":
+                    value = 0;
+                    if(uint.TryParse(parameters.ElementAt(0).Value, out value))
+                    {
+                        if (execute)
+                        {
+                            this.func_strobo(value);
+                        }
+                        else { return true; }
+                    } else { return false; }
+                    break;
+                case "rgb":
+                    byte r = 0;
+                    byte g = 0;
+                    byte b = 0;
+                    if (byte.TryParse(parameters.ElementAt(0).Value, out r) && byte.TryParse(parameters.ElementAt(1).Value, out g) && byte.TryParse(parameters.ElementAt(2).Value, out b))
+                    {
+                        if (execute)
+                        {
+                            this.func_rgb(r, g, b);
+                        }
+                        else { return true; }
+                    } else { return false; }
+                    break;
+                case "setSpeed":
+                    byte mSpeed = 0;
+                    if (byte.TryParse(parameters.ElementAt(0).Value, out mSpeed))
+                    {
+                        if (execute)
+                        {
+                            this.func_setSpeed(mSpeed);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+                case "rainBow":
+                    bool direction = false;
+                    speed = 0;
+                    if(bool.TryParse(parameters.ElementAt(0).Value, out direction) && byte.TryParse(parameters.ElementAt(1).Value, out speed))
+                    {
+                        if (execute)
+                        {
+                            this.func_rainBow(direction, speed);
+                        }
+                        else { return true; }
+                    } else { return false; }
+                    break;
+                case "gobo":
+                    this.func_gobo(parameters.ElementAt(0).Value);
+                    break;
+                case "goboScroll":
+                    bool clockWise = false;
+                    speed = 0;
+                    if(bool.TryParse(parameters.ElementAt(0).Value, out clockWise) && byte.TryParse(parameters.ElementAt(1).Value, out speed))
+                    {
+                        if (execute)
+                        {
+                            this.func_goboScroll(clockWise, speed);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+            }
+            return false;
+        }
+
         //Functions below
 
         [ParameterDataAtribute(parameterDescription = new string[] { "Rotation angle" })]
@@ -59,7 +179,7 @@ namespace midiLightShow
 
         [ParameterDataAtribute(parameterDescription = new string[] { "Shutter closed" })]
         [MethodDescriptionAtribute(methodDescription = "Open or close the shutter")]
-        public void func_Shutter(bool shutter)
+        public void func_shutter(bool shutter)
         {
             byte s = 255;
 

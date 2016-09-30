@@ -56,8 +56,96 @@ namespace midiLightShow
             this.patternMap.Add("dots",248);
         }
 
+        public override bool executeFunction(string function, Dictionary<string, string> parameters, bool execute = false)
+        {
+            List<string> strings = new List<string>();
+            List<int> ints = new List<int>();
+            List<bool> bools = new List<bool>();
+
+            uint rotation = 0;
+            byte speed = 0;
+            bool clockWiseX = false;
+            bool clockWiseY = false;
+
+            switch (function)
+            {
+                case "autoRun":
+                    if(execute)
+                    {
+                        this.func_autoRun();
+                    } else { return true; }
+                    break;
+                case "symbol":
+                    if (execute)
+                    {
+                        this.func_symbol(parameters.ElementAt(0).Value);
+                    } else { return true; }
+                    break;
+                case "toggleLamp":
+                    if (execute)
+                    {
+                        this.func_toggleLamp();
+                    } else { return true; }
+                    break;
+                case "color":
+                    if (execute)
+                    {
+                        this.func_color();
+                    } else { return true; }
+                    break;
+                case "colorCycle":
+                    if (execute)
+                    {
+                        this.func_colorCycle();
+                    } else { return true; }
+                    break;
+                case "frequency":
+                    speed = 0;
+                    if (byte.TryParse(parameters.ElementAt(0).Value, out speed))
+                    {
+                        if (execute)
+                        {
+                            this.func_frequency(speed);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+                case "zoom":
+                    byte magnify = 0;
+                    if (byte.TryParse(parameters.ElementAt(0).Value, out magnify))
+                    {
+                        if (execute)
+                        {
+                            this.func_zoom(magnify);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+                case "autoZoom":
+                    speed = 0;
+                    if (byte.TryParse(parameters.ElementAt(0).Value, out speed))
+                    {
+                        if (execute)
+                        {
+                            this.func_autoZoom(speed);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+                case "xy":
+                    byte x = 0;
+                    byte y = 0;
+                    if (byte.TryParse(parameters.ElementAt(0).Value, out x) && byte.TryParse(parameters.ElementAt(1).Value, out y))
+                    {
+                        if (execute)
+                        {
+                            this.func_xy(x, y);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+            }
+            return false;
+        }
+
         //Fire up your lazor
-        public void autoRun()
+        public void func_autoRun()
         {
             this.driver.DmxLoadBuffer(1,0,10);
             this.driver.DmxSendCommand(1);

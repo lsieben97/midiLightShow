@@ -11,14 +11,14 @@ namespace midiLightShow
     {
         Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
 
+        public rgbSpotLight() { }
         public rgbSpotLight(string comPort)
         {
             this.comPort = comPort;
             this.driver.DmxToDefault(this.comPort);
         }
-        public rgbSpotLight() { }
 
-        public override void executeFunction(string function, string[] parameters)
+        public override bool executeFunction(string function, Dictionary<string,string> parameters, bool execute = false)
         {
             List<string> strings = new List<string>();
             List<int> ints = new List<int>();
@@ -29,12 +29,17 @@ namespace midiLightShow
                     byte r = 0;
                     byte g = 0;
                     byte b = 0;
-                    if (byte.TryParse(parameters[0], out r) && byte.TryParse(parameters[1], out g) && byte.TryParse(parameters[2], out b))
+                    if (byte.TryParse(parameters.ElementAt(0).Value, out r) && byte.TryParse(parameters.ElementAt(1).Value, out g) && byte.TryParse(parameters.ElementAt(2).Value, out b))
                     {
-                        this.func_rgb(r, g, b);
-                    }
+                        if(execute)
+                        {
+                            this.func_rgb(r, g, b);
+                        }
+                        else { return true; }
+                    } else { return false; }
                     break;
             }
+            return false;
         }
         //Functions below for this light
         [ParameterDataAtribute(parameterDescription = new string[] { "Red", "Green", "Blue" })]

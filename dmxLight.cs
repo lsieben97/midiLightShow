@@ -9,6 +9,6 @@ namespace midiLightShow
     public class dmxLight
     {
         public string comPort = "";
-        public virtual void executeFunction(string function, string[] parameters){ }
+        public virtual bool executeFunction(string function, Dictionary<string, string> parameters, bool execute = false) { return true; }
     }
 }
