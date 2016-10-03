@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dmx512UsbRs485;
 
 namespace midiLightShow
 {
     class _360SpotLight : dmxLight
     {
-        Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
         private Dictionary<string, byte> goboMap = new Dictionary<string, byte>();
 
         public _360SpotLight() { }

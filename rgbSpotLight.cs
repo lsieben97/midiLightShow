@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dmx512UsbRs485;
 
 namespace midiLightShow
 {
     public class rgbSpotLight : dmxLight
     {
-        Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
 
         public rgbSpotLight() { }
         public rgbSpotLight(string comPort)

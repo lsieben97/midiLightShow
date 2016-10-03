@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dmx512UsbRs485;
 
 namespace midiLightShow
 {
     class lazer : dmxLight
     {
-        Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
         private Dictionary<string, byte> patternMap = new Dictionary<string, byte>();
 
         bool lamp = false;
@@ -139,6 +137,16 @@ namespace midiLightShow
                             this.func_xy(x, y);
                         } else { return true; }
                     } else { return false; }
+                    break;
+                case "autoXY":
+                    break;
+                case "setPan":
+                    break;
+                case "setTilt":
+                    break;
+                case "setRotation":
+                    break;
+                case "autoRotation":
                     break;
             }
             return false;
