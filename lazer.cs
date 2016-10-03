@@ -139,8 +139,27 @@ namespace midiLightShow
                     } else { return false; }
                     break;
                 case "autoXY":
+                    clockWiseX = false;
+                    clockWiseY = false;
+                    if (bool.TryParse(parameters.ElementAt(0).Value, out clockWiseX) && bool.TryParse(parameters.ElementAt(1).Value, out clockWiseY))
+                    {
+                        if (execute)
+                        {
+                            this.func_autoXY(clockWiseX, clockWiseY);
+                        }
+                        else { return true; }
+                    }
+                    else { return false; }
                     break;
                 case "setPan":
+                    rotation = 0;
+                    if (uint.TryParse(parameters.ElementAt(0).Value, out rotation))
+                    {
+                        if (execute)
+                        {
+                            this.func_setPan(rotation);
+                        } else { return true; }
+                    } else { return false; }
                     break;
                 case "setTilt":
                     break;
