@@ -35,5 +35,11 @@ namespace midiLightShow
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Close();
         }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+            this.Close();
+        }
     }
 }

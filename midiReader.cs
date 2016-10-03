@@ -122,6 +122,7 @@ namespace midiLightShow
             return result;
         }
         #region Helper methods
+
         private string getChunkType()
         {
             string result = "";

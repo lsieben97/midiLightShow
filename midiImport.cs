@@ -13,7 +13,7 @@ namespace midiLightShow
 {
     public partial class midiImport : Form
     {
-        midiReader mr = new midiReader();
+        public midiReader mr = new midiReader();
         System.Windows.Forms.Timer loadTimer = new System.Windows.Forms.Timer();
         System.Windows.Forms.Timer finishTimer = new System.Windows.Forms.Timer();
         string path;
@@ -43,6 +43,10 @@ namespace midiLightShow
             rtbStatus.AppendText("Done\n");
             rtbStatus.AppendText("Parsing file...\n");
             mr.parseFile();
+            rtbStatus.AppendText("Done\n");
+            rtbStatus.AppendText("Calculating timeline...\n");
+            mr.calculateTimeLine();
+            rtbStatus.AppendText("Done\n");
             rtbStatus.AppendText("MIDI import complete!");
             this.finishTimer.Start();
             

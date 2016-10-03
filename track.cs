@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace midiLightShow
 {
+    [XmlInclude(typeof(rgbSpotLight))]
+    [Serializable]
     public class track
     {
         public string name = "";
@@ -19,20 +22,29 @@ namespace midiLightShow
         public int yEnd = 0;
         public int currentMaxTime = 0;
         public int eventCount = 1;
-        public string LightName = "";
-        private Panel pTimeLine;
+        public string LightName = "RGB Spotlight";
+        [XmlIgnore]
+        public Panel pTimeLine;
+        [XmlIgnore]
         public Label lbName = new Label();
+        [XmlIgnore]
         public CheckBox cbMute = new CheckBox();
+        [XmlIgnore]
         public CheckBox cbSolo = new CheckBox();
+        [XmlIgnore]
         public Button bOptions = new Button();
+        [XmlIgnore]
         public Button bAddEvent = new Button();
         public dmxLight light = new dmxLight();
+        [XmlIgnore]
         public TrackOptionsForm frmOptions = new TrackOptionsForm();
+        [XmlIgnore]
         public AddShowEvent frmAddShowEvent = new AddShowEvent();
         public int lastBlockXPos = 110;
         public bool delete = false;
-        public Dictionary<int, showEvent> events = new Dictionary<int, showEvent>();
 
+        public List<showEvent> events = new List<showEvent>();
+        [XmlIgnore]
         public static Dictionary<string, string> typeMap = new Dictionary<string, string>();
 
         public static void makeTypeMap()
@@ -42,7 +54,10 @@ namespace midiLightShow
             track.typeMap.Add("Lazer", "midiLightShow.lazer, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             track.typeMap.Add("Disc Light", "midiLightShow.discLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             Console.WriteLine("Generated TypeMap.");
+            
         }
+
+        public track() { }
         public track(string name, int yPos, int yEnd, Panel p)
         {
             this.name = name;
@@ -51,8 +66,7 @@ namespace midiLightShow
             this.pTimeLine = p;
             this.frmOptions.tbName.Text = this.name;
             this.frmOptions.Text = "Options for '" + this.name + "'";
-            this.frmOptions.cbLights.SelectedIndex = 0;
-            this.LightName = this.frmOptions.cbLights.SelectedItem.ToString();
+            this.frmOptions.cbLights.Text = this.LightName;
             Type targetType = Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()],true);
             this.light = Activator.CreateInstance(targetType) as dmxLight;
             this.frmAddShowEvent.light = this.light;
@@ -93,11 +107,21 @@ namespace midiLightShow
             this.bAddEvent.Click += bAddEvent_Click;
             this.pTimeLine.Controls.Add(bAddEvent);
 
-            Console.WriteLine("Generated controls for '" + this.name + "'.");
+            Console.WriteLine("Generated controls for track '" + this.name + "'.");
+        }
+
+        public void repositionControls()
+        {
+            this.lbName.Location = new Point(4, this.yPos + 3);
+            this.cbMute.Location = new Point(4, this.yPos + 30);
+            this.cbSolo.Location = new Point(60, this.yPos + 30);
+            this.bOptions.Location = new Point(90, this.yPos + 3);
+            this.bAddEvent.Location = new Point(110, this.yPos + 3);
         }
 
         void bAddEvent_Click(object sender, EventArgs e)
         {
+            this.frmAddShowEvent.reset();
             this.frmAddShowEvent.light = this.light;
             DialogResult dr = this.frmAddShowEvent.ShowDialog();
             if(dr == DialogResult.OK)
@@ -106,7 +130,7 @@ namespace midiLightShow
                 int duration = Convert.ToInt32(this.frmAddShowEvent.tbDuration.Text);
                 int start = Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text);
                 bool valid = true;
-                foreach(showEvent ev in this.events.Values)
+                foreach(showEvent ev in this.events)
                 {
                     if(start > ev.startTime && start < ev.startTime + ev.duration)
                     {
@@ -124,10 +148,9 @@ namespace midiLightShow
                     return;
                 }
 
-                this.events.Add(this.eventCount, new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters.ToArray(), this.frmAddShowEvent.paraString, this.eventCount));
+                this.events.Add(new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters, this.frmAddShowEvent.paraString, this.eventCount));
                 this.currentMaxTime += this.frmAddShowEvent.duration;
-                this.debugNewEvent(this.events[this.eventCount]);
-                this.frmAddShowEvent.reset();
+                this.debugNewEvent(this.events[this.eventCount -1]);
                 this.eventCount++;
                 this.pTimeLine.Invalidate();
             }
@@ -143,7 +166,8 @@ namespace midiLightShow
         }
         void bOptions_Click(object sender, EventArgs e)
         {
-            if(this.frmOptions.ShowDialog() == DialogResult.OK)
+            DialogResult dr = this.frmOptions.ShowDialog();
+            if(dr == DialogResult.OK)
             {
                 this.name = frmOptions.tbName.Text;
                 this.lbName.Text = this.name;
@@ -151,6 +175,10 @@ namespace midiLightShow
                 this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
                 this.frmAddShowEvent.light = this.light;
                 this.frmOptions.Text = "Options for '" + this.name + "'";
+            }
+            else if(dr == DialogResult.Abort)
+            {
+                this.delete = true;
             }
         }
 
@@ -164,6 +192,7 @@ namespace midiLightShow
            {
                this.mute = true;
            }
+           Console.WriteLine("Toggled mute option for track '" + this.name + "'.");
         }
 
         void cbSolo_CheckedChanged(object sender, EventArgs e)
@@ -179,6 +208,21 @@ namespace midiLightShow
                 this.solo = true;
                 this.pTimeLine.Invalidate();
             }
+        }
+        public void removeControls()
+        {
+            this.pTimeLine.Controls.Remove(this.lbName);
+            this.pTimeLine.Controls.Remove(this.bAddEvent);
+            this.pTimeLine.Controls.Remove(this.bOptions);
+            this.pTimeLine.Controls.Remove(this.cbMute);
+            this.pTimeLine.Controls.Remove(this.cbSolo);
+        }
+
+        public void afterImport()
+        {
+            this.frmOptions.tbName.Text = this.name;
+            this.frmOptions.Text = "Options for '" + this.name + "'";
+            this.frmOptions.cbLights.Text = this.LightName;
         }
     }
 }

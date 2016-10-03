@@ -44,7 +44,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.sfdLightShow = new System.Windows.Forms.SaveFileDialog();
             this.tpDescription = new System.Windows.Forms.ToolTip(this.components);
-            this.button1 = new System.Windows.Forms.Button();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ofdLoad = new System.Windows.Forms.OpenFileDialog();
             this.msControl.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -69,6 +70,7 @@
             this.fileToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadMIDIToolStripMenuItem,
+            this.importToolStripMenuItem,
             this.exportToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
@@ -94,7 +96,7 @@
             this.exportToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Text = "Save show";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
@@ -118,7 +120,7 @@
             this.debugToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.debugToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.Click += new System.EventHandler(this.debugToolStripMenuItem_Click);
             // 
@@ -182,14 +184,17 @@
             this.sfdLightShow.Filter = "Light shows|*.lightshow";
             this.sfdLightShow.RestoreDirectory = true;
             // 
-            // button1
+            // importToolStripMenuItem
             // 
-            this.button1.Location = new System.Drawing.Point(255, 37);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.importToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importToolStripMenuItem.Text = "Load show";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
+            // 
+            // ofdLoad
+            // 
+            this.ofdLoad.FileName = "openFileDialog1";
             // 
             // frmEditor
             // 
@@ -198,7 +203,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1022, 602);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAddTrack);
             this.Controls.Add(this.btnStop);
@@ -235,7 +239,8 @@
         private System.Windows.Forms.ToolTip tpDescription;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog ofdLoad;
     }
 }
 
