@@ -39,6 +39,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cbComPorts = new System.Windows.Forms.ComboBox();
             this.spSearch = new System.IO.Ports.SerialPort(this.components);
+            this.cbLive = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -91,7 +92,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(170, 114);
+            this.btnCancel.Location = new System.Drawing.Point(172, 114);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 4;
@@ -126,11 +127,22 @@
             this.cbComPorts.Size = new System.Drawing.Size(121, 21);
             this.cbComPorts.TabIndex = 7;
             // 
+            // cbLive
+            // 
+            this.cbLive.AutoSize = true;
+            this.cbLive.Location = new System.Drawing.Point(201, 78);
+            this.cbLive.Name = "cbLive";
+            this.cbLive.Size = new System.Drawing.Size(59, 17);
+            this.cbLive.TabIndex = 8;
+            this.cbLive.Text = "Enable";
+            this.cbLive.UseVisualStyleBackColor = true;
+            // 
             // TrackOptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(257, 149);
+            this.ClientSize = new System.Drawing.Size(259, 149);
+            this.Controls.Add(this.cbLive);
             this.Controls.Add(this.cbComPorts);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnRemove);
@@ -162,5 +174,6 @@
         private System.Windows.Forms.Label label3;
         private System.IO.Ports.SerialPort spSearch;
         public System.Windows.Forms.ComboBox cbComPorts;
+        public System.Windows.Forms.CheckBox cbLive;
     }
 }
