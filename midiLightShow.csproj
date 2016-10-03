@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21ACA74F-5300-4B94-8C75-5240EEC5D798}</ProjectGuid>
+    <ProjectGuid>{FEDDF23D-8A9D-484F-B206-D15FF5AEF60E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>midiLightShow</RootNamespace>
@@ -91,6 +91,12 @@
     <Compile Include="showEventButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="splash.Designer.cs">
+      <DependentUpon>splash.cs</DependentUpon>
+    </Compile>
     <Compile Include="track.cs" />
     <Compile Include="TrackOptionsForm.cs">
       <SubType>Form</SubType>
@@ -118,7 +124,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="splash.resx">
+      <DependentUpon>splash.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TrackOptionsForm.resx">
       <DependentUpon>TrackOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,6 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DMX-studio logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

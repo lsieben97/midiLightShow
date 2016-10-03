@@ -32,6 +32,7 @@
             this.msControl = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadMIDIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,7 +45,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.sfdLightShow = new System.Windows.Forms.SaveFileDialog();
             this.tpDescription = new System.Windows.Forms.ToolTip(this.components);
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdLoad = new System.Windows.Forms.OpenFileDialog();
             this.msControl.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -86,16 +86,24 @@
             // 
             this.loadMIDIToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.loadMIDIToolStripMenuItem.Name = "loadMIDIToolStripMenuItem";
-            this.loadMIDIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadMIDIToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.loadMIDIToolStripMenuItem.Text = "Load MIDI";
             this.loadMIDIToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.loadMIDIToolStripMenuItem.Click += new System.EventHandler(this.loadMIDIToolStripMenuItem_Click);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.importToolStripMenuItem.Text = "Load show";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.exportToolStripMenuItem.Text = "Save show";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
@@ -103,7 +111,7 @@
             // 
             this.exitToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // toolsToolStripMenuItem
@@ -183,14 +191,6 @@
             // 
             this.sfdLightShow.Filter = "Light shows|*.lightshow";
             this.sfdLightShow.RestoreDirectory = true;
-            // 
-            // importToolStripMenuItem
-            // 
-            this.importToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.importToolStripMenuItem.Text = "Load show";
-            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // ofdLoad
             // 

@@ -22,11 +22,14 @@ namespace midiLightShow
         Timer showtimer = new Timer();
         Timer testTimer = new Timer();
         Timer aniTimer = new Timer();
+        Timer preciseShowTimer = new Timer();
         ToolStripMenuItem aniTarget;
         int currentTime = 0;
+        int preciseCurrentTime = 0;
         public int showTime = 20000;
         public int trackHeight = 50;
         private int trackCounter = 1;
+        private int prevTimeLIne = 0;
         public AddShowEvent frmEditShowEvent = new AddShowEvent();
         public double pixelsPerMiliSecond = 0;
         List<midiEvent> notesToPlay = new List<midiEvent>();
@@ -39,11 +42,10 @@ namespace midiLightShow
         {
             Console.WriteLine("Initializing application...");
             InitializeComponent();
-            this.testTimer.Interval = 100;
-            this.testTimer.Tick += testTimer_Tick;
-            this.testTimer.Start();
             showtimer.Interval = 125;
             track.makeTypeMap();
+            this.preciseShowTimer.Interval = 1;
+            this.preciseShowTimer.Tick += preciseShowTimer_Tick;
             this.frmEditShowEvent.isEditForm = true;
             showtimer.Tick += showtimer_Tick;
             this.pixelsPerMiliSecond = 0.2;
@@ -62,12 +64,17 @@ namespace midiLightShow
             
         }
 
-        void testTimer_Tick(object sender, EventArgs e)
+        void preciseShowTimer_Tick(object sender, EventArgs e)
         {
-            if (fileToolStripMenuItem.Pressed)
+            foreach(track t in this.tracks)
             {
-                fileToolStripMenuItem.BackColor = SystemColors.ControlDarkDark;
+                if(t.events.Count(ev => ev.startTime == this.preciseCurrentTime) == 1)
+                {
+                    showEvent currentEvent = t.events.Single(ev => ev.startTime == this.preciseCurrentTime);
+                    t.light.executeFunction(currentEvent.function, currentEvent.parameters, true);
+                }
             }
+            this.preciseCurrentTime++;
         }
 
         private void exportShow(string path)
@@ -89,6 +96,7 @@ namespace midiLightShow
 
             this.currentTime += 125;
             this.pTimeLine.Invalidate();
+            
         }
 
         void t_Tick(object sender, EventArgs e)
@@ -310,11 +318,13 @@ namespace midiLightShow
             if (this.btnPlay.Text == "Play")
             {
                 this.showtimer.Start();
+                this.preciseShowTimer.Start();
                 this.btnPlay.Text = "Pause";
             }
             else
             {
                 this.showtimer.Stop();
+                this.preciseShowTimer.Stop();
                 this.btnPlay.Text = "Play";
             }
         }
@@ -322,7 +332,9 @@ namespace midiLightShow
         private void btnStop_Click(object sender, EventArgs e)
         {
             this.currentTime = 0;
+            this.preciseCurrentTime = 0;
             this.showtimer.Stop();
+            this.preciseShowTimer.Stop();
             this.pTimeLine.Invalidate();
             this.btnPlay.Text = "Play";
         }

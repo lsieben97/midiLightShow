@@ -173,6 +173,8 @@ namespace midiLightShow
                 this.lbName.Text = this.name;
                 this.LightName = this.frmOptions.cbLights.SelectedItem.ToString();
                 this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
+                this.light.comPort = this.frmOptions.cbComPorts.Text;
+
                 this.frmAddShowEvent.light = this.light;
                 this.frmOptions.Text = "Options for '" + this.name + "'";
             }

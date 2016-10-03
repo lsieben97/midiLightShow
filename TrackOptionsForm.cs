@@ -7,14 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO.Ports;
 
 namespace midiLightShow
 {
     public partial class TrackOptionsForm : Form
     {
+        public string portName = "";
         public TrackOptionsForm()
         {
             InitializeComponent();
+
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -40,6 +43,25 @@ namespace midiLightShow
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Abort;
             this.Close();
+        }
+
+        private void TrackOptionsForm_Load(object sender, EventArgs e)
+        {
+            cbComPorts.Items.Clear();
+            cbComPorts.Items.Add("None");
+            string[] ports = SerialPort.GetPortNames();
+            foreach(string port in ports)
+            {
+                cbComPorts.Items.Add(port);
+            }
+            if(cbComPorts.Items.Contains(this.portName))
+            {
+                cbComPorts.SelectedItem = this.portName;
+            }
+            else
+            {
+                cbComPorts.Text = this.portName;
+            }
         }
     }
 }

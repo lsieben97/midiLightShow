@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cbLights = new System.Windows.Forms.ComboBox();
@@ -35,6 +36,9 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbComPorts = new System.Windows.Forms.ComboBox();
+            this.spSearch = new System.IO.Ports.SerialPort(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -77,7 +81,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(12, 73);
+            this.btnOk.Location = new System.Drawing.Point(12, 114);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
@@ -87,7 +91,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(170, 73);
+            this.btnCancel.Location = new System.Drawing.Point(170, 114);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 4;
@@ -105,11 +109,30 @@
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 78);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "COM port:";
+            // 
+            // cbComPorts
+            // 
+            this.cbComPorts.FormattingEnabled = true;
+            this.cbComPorts.Location = new System.Drawing.Point(74, 75);
+            this.cbComPorts.Name = "cbComPorts";
+            this.cbComPorts.Size = new System.Drawing.Size(121, 21);
+            this.cbComPorts.TabIndex = 7;
+            // 
             // TrackOptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(257, 108);
+            this.ClientSize = new System.Drawing.Size(257, 149);
+            this.Controls.Add(this.cbComPorts);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -121,6 +144,7 @@
             this.Name = "TrackOptionsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Options";
+            this.Load += new System.EventHandler(this.TrackOptionsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,5 +159,8 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Label label3;
+        private System.IO.Ports.SerialPort spSearch;
+        public System.Windows.Forms.ComboBox cbComPorts;
     }
 }
