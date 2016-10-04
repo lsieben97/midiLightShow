@@ -23,6 +23,12 @@ namespace midiLightShow
         {
 
         }
+
+        private void rtbDebug_TextChanged(object sender, EventArgs e)
+        {
+            rtbDebug.SelectionStart = rtbDebug.Text.Length;
+            rtbDebug.ScrollToCaret();
+        }
     }
     public class ControlWriter : TextWriter
     {

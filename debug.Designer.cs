@@ -33,19 +33,22 @@
             // 
             // rtbDebug
             // 
-            this.rtbDebug.Location = new System.Drawing.Point(12, 12);
+            this.rtbDebug.Location = new System.Drawing.Point(16, 15);
+            this.rtbDebug.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rtbDebug.Name = "rtbDebug";
             this.rtbDebug.ReadOnly = true;
-            this.rtbDebug.Size = new System.Drawing.Size(481, 212);
+            this.rtbDebug.Size = new System.Drawing.Size(640, 260);
             this.rtbDebug.TabIndex = 0;
             this.rtbDebug.Text = "";
+            this.rtbDebug.TextChanged += new System.EventHandler(this.rtbDebug_TextChanged);
             // 
             // debug
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(505, 236);
+            this.ClientSize = new System.Drawing.Size(673, 290);
             this.Controls.Add(this.rtbDebug);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "debug";
             this.Text = "debug";
             this.Load += new System.EventHandler(this.debug_Load);

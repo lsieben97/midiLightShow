@@ -133,8 +133,16 @@ namespace midiLightShow
             if (int.TryParse(tbDuration.Text, out this.duration) == true && int.TryParse(tbStartTime.Text, out this.startTime) == true)
             {
                 this.prepareParameters();
-                this.DialogResult = System.Windows.Forms.DialogResult.OK;
-                this.Close();
+
+                if (this.light.executeFunction(cbFunctions.Text, this.parameters))
+                {
+                    this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid parameters!");
+                }
             }
             else
             {

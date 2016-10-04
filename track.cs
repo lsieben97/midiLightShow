@@ -22,6 +22,7 @@ namespace midiLightShow
         public int yEnd = 0;
         public int currentMaxTime = 0;
         public int eventCount = 1;
+        public int maxEventLength = 0;
         public string LightName = "RGB Spotlight";
         [XmlIgnore]
         public Panel pTimeLine;
@@ -151,6 +152,10 @@ namespace midiLightShow
                 this.events.Add(new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters, this.frmAddShowEvent.paraString, this.eventCount));
                 this.currentMaxTime += this.frmAddShowEvent.duration;
                 this.debugNewEvent(this.events[this.eventCount -1]);
+                if (this.events[this.eventCount - 1].startTime + this.events[this.eventCount - 1].duration > this.maxEventLength)
+                {
+                    this.maxEventLength = this.events[this.eventCount - 1].startTime + this.events[this.eventCount - 1].duration;
+                }
                 this.eventCount++;
                 this.pTimeLine.Invalidate();
             }
