@@ -10,44 +10,127 @@ using System.Xml.Serialization;
 
 namespace midiLightShow
 {
+    /// <summary>
+    /// track class. represents an track in the lightshow
+    /// </summary>
     [XmlInclude(typeof(rgbSpotLight))]
     [Serializable]
     public class track
     {
+        #region global variables
+        /// <summary>
+        /// The name of this track.
+        /// </summary>
         public string name = "";
-        public bool solo = false;
-        public bool soloSwitch = false;
-        public bool mute = false;
-        public int yPos = 0;
-        public int yEnd = 0;
-        public int currentMaxTime = 0;
-        public int eventCount = 1;
-        public int maxEventLength = 0;
+        /// <summary>
+        /// The name of the light of this track.
+        /// </summary>
         public string LightName = "RGB Spotlight";
-        [XmlIgnore]
-        public Panel pTimeLine;
-        [XmlIgnore]
-        public Label lbName = new Label();
-        [XmlIgnore]
-        public CheckBox cbMute = new CheckBox();
-        [XmlIgnore]
-        public CheckBox cbSolo = new CheckBox();
-        [XmlIgnore]
-        public Button bOptions = new Button();
-        [XmlIgnore]
-        public Button bAddEvent = new Button();
-        public dmxLight light = new dmxLight();
-        [XmlIgnore]
-        public TrackOptionsForm frmOptions = new TrackOptionsForm();
-        [XmlIgnore]
-        public AddShowEvent frmAddShowEvent = new AddShowEvent();
-        public int lastBlockXPos = 110;
+
+        /// <summary>
+        /// Indicates if this track plays solo.
+        /// </summary>
+        public bool solo = false;
+        /// <summary>
+        /// Indicates if the solo field has changed.
+        /// </summary>
+        public bool soloSwitch = false;
+        /// <summary>
+        /// Indicates if this track is muted.
+        /// </summary>
+        public bool mute = false;
+        /// <summary>
+        /// Indicates if this track sould be deleted.
+        /// </summary>
         public bool delete = false;
 
+        /// <summary>
+        /// The top y-position of this track in the panel.
+        /// </summary>
+        public int yPos = 0;
+        /// <summary>
+        /// The bottom y-position of this track in the panel.
+        /// </summary>
+        public int yEnd = 0;
+        /// <summary>
+        /// The end time of the last event in this track. 
+        /// </summary>
+        public int currentMaxTime = 0;
+        /// <summary>
+        /// Number of events in this track (used as event index)
+        /// </summary>
+        public int eventCount = 1;
+        /// <summary>
+        /// Longest event duration in this track. 
+        /// </summary>
+        public int maxEventLength = 0;
+        /// <summary>
+        /// The x-position of the last event in this track.
+        /// </summary>
+        public int lastBlockXPos = 110;
+        
+        /// <summary>
+        /// The dmxLight object of this track.
+        /// </summary>
+        public dmxLight light = new dmxLight();
+       
+        /// <summary>
+        /// The events list of this track.
+        /// </summary>
         public List<showEvent> events = new List<showEvent>();
+
+        /// <summary>
+        /// Panel reference needed for drawing controls.
+        /// </summary>
+        [XmlIgnore]
+        public Panel pTimeLine;
+        /// <summary>
+        /// Label control for displaying the track name.
+        /// </summary>
+        [XmlIgnore]
+        public Label lbName = new Label();
+        /// <summary>
+        /// Checkbox for indicating if this track needs to be muted.
+        /// </summary>
+        [XmlIgnore]
+        public CheckBox cbMute = new CheckBox();
+        /// <summary>
+        /// Checkbox for indicating if this track needs to be played solo.
+        /// </summary>
+        [XmlIgnore]
+        public CheckBox cbSolo = new CheckBox();
+        /// <summary>
+        /// Button for opening the options dialog for this track.
+        /// </summary>
+        [XmlIgnore]
+        public Button bOptions = new Button();
+        /// <summary>
+        /// Button for opening the add-event dialog for this track.
+        /// </summary>
+        [XmlIgnore]
+        public Button bAddEvent = new Button();
+        /// <summary>
+        /// Options form for this track.
+        /// </summary>
+        [XmlIgnore]
+        public TrackOptionsForm frmOptions = new TrackOptionsForm();
+        /// <summary>
+        /// Add-event form for this track.
+        /// </summary>
+        [XmlIgnore]
+        public AddShowEvent frmAddShowEvent = new AddShowEvent();
+        
+        /// <summary>
+        /// Static Dictionary for mapping name strings with FullyQualifiedAssemblyNames.
+        /// </summary>
         [XmlIgnore]
         public static Dictionary<string, string> typeMap = new Dictionary<string, string>();
 
+        #endregion
+        #region static methods
+        /// <summary>
+        /// Generate the global typemap.
+        /// </summary>
         public static void makeTypeMap()
         {
             track.typeMap.Add("RGB Spotlight", "midiLightShow.rgbSpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
@@ -57,8 +140,20 @@ namespace midiLightShow
             Console.WriteLine("Generated TypeMap.");
             
         }
-
+        #endregion
+        #region constructors
+        /// <summary>
+        /// Empty constructor for deserializing xml.
+        /// </summary>
         public track() { }
+
+        /// <summary>
+        /// Create new track
+        /// </summary>
+        /// <param name="name">The name of the track</param>
+        /// <param name="yPos">The top y-position of the track</param>
+        /// <param name="yEnd">The bottom y-position of the track</param>
+        /// <param name="p">The panel to draw controls on</param>
         public track(string name, int yPos, int yEnd, Panel p)
         {
             this.name = name;
@@ -72,7 +167,11 @@ namespace midiLightShow
             this.light = Activator.CreateInstance(targetType) as dmxLight;
             this.frmAddShowEvent.light = this.light;
         }
-
+        #endregion
+        #region track methods
+        /// <summary>
+        /// Draw the controls for this track on the panel
+        /// </summary>
         public void drawControls()
         {
             this.lbName.Text = this.name;
@@ -111,6 +210,9 @@ namespace midiLightShow
             Console.WriteLine("Generated controls for track '" + this.name + "'.");
         }
 
+        /// <summary>
+        /// Reposition controls after an track has been deleted
+        /// </summary>
         public void repositionControls()
         {
             this.lbName.Location = new Point(4, this.yPos + 3);
@@ -120,46 +222,73 @@ namespace midiLightShow
             this.bAddEvent.Location = new Point(110, this.yPos + 3);
         }
 
+        /// <summary>
+        /// Click event handler for addEvent button
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         void bAddEvent_Click(object sender, EventArgs e)
+        {
+            openAddEventDialog();
+        }
+
+        /// <summary>
+        /// Open the addShowEvent dialog of this track
+        /// </summary>
+        private void openAddEventDialog()
         {
             this.frmAddShowEvent.reset();
             this.frmAddShowEvent.light = this.light;
             DialogResult dr = this.frmAddShowEvent.ShowDialog();
-            if(dr == DialogResult.OK)
+            if (dr == DialogResult.OK)
             {
-                Console.WriteLine("Trying to create new event...");
-                int duration = Convert.ToInt32(this.frmAddShowEvent.tbDuration.Text);
-                int start = Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text);
-                bool valid = true;
-                foreach(showEvent ev in this.events)
-                {
-                    if(start > ev.startTime && start < ev.startTime + ev.duration)
-                    {
-                        valid = false;
-                    }
-                    if(start + duration > ev.startTime && start + duration < ev.startTime + ev.duration)
-                    {
-                        valid = false;
-                    }
-                }
-                if(!valid)
-                {
-                    MessageBox.Show("event cannot overlap!");
-                    Console.WriteLine("Failed! (Invalid event timing for new event).");
-                    return;
-                }
-
-                this.events.Add(new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters, this.frmAddShowEvent.paraString, this.eventCount));
-                this.currentMaxTime += this.frmAddShowEvent.duration;
-                this.debugNewEvent(this.events[this.eventCount -1]);
-                if (this.events[this.eventCount - 1].startTime + this.events[this.eventCount - 1].duration > this.maxEventLength)
-                {
-                    this.maxEventLength = this.events[this.eventCount - 1].startTime + this.events[this.eventCount - 1].duration;
-                }
-                this.eventCount++;
-                this.pTimeLine.Invalidate();
+                checkAndShowEvent();
+                return;
             }
         }
+        /// <summary>
+        /// Checks if the recently entered event is valid and creates and adds an showEvent object to the event list of this track
+        /// </summary>
+        private void checkAndShowEvent()
+        {
+            Console.WriteLine("Trying to create new event...");
+            int duration = Convert.ToInt32(this.frmAddShowEvent.tbDuration.Text);
+            int start = Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text);
+            bool valid = true;
+            foreach (showEvent ev in this.events)
+            {
+                if (start > ev.startTime && start < ev.startTime + ev.duration)
+                {
+                    valid = false;
+                }
+                if (start + duration > ev.startTime && start + duration < ev.startTime + ev.duration)
+                {
+                    valid = false;
+                }
+            }
+            if (!valid)
+            {
+                MessageBox.Show("event cannot overlap!");
+                Console.WriteLine("Failed! (Invalid event timing for new event).");
+                return;
+            }
+
+            this.events.Add(new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters, this.frmAddShowEvent.paraString, this.eventCount));
+            this.currentMaxTime += this.frmAddShowEvent.duration;
+            this.debugNewEvent(this.events[this.eventCount - 1]);
+            if (this.events[this.eventCount - 1].startTime + this.events[this.eventCount - 1].duration > this.maxEventLength)
+            {
+                this.maxEventLength = this.events[this.eventCount - 1].startTime + this.events[this.eventCount - 1].duration;
+            }
+            this.eventCount++;
+            this.pTimeLine.Invalidate();
+            return;
+        }
+
+        /// <summary>
+        /// Writes debug information to the debug window about the given showEvent object
+        /// </summary>
+        /// <param name="sEvent">The showEvent object to write debug information about</param>
         private void debugNewEvent(showEvent sEvent)
         {
             Console.WriteLine("Complete, created event with the following data:");
@@ -169,10 +298,24 @@ namespace midiLightShow
                 Console.WriteLine(string.Format("{0}: {1}", field.Name, field.GetValue(sEvent).ToString()));
             }
         }
+
+        /// <summary>
+        /// Click event handler of the trackOptions button
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         void bOptions_Click(object sender, EventArgs e)
         {
+            openTrackOptionsDialog();
+        }
+
+        /// <summary>
+        /// Opens the trackOptions dialog of this track and optionally updates various track options
+        /// </summary>
+        private void openTrackOptionsDialog()
+        {
             DialogResult dr = this.frmOptions.ShowDialog();
-            if(dr == DialogResult.OK)
+            if (dr == DialogResult.OK)
             {
                 this.name = frmOptions.tbName.Text;
                 this.lbName.Text = this.name;
@@ -184,12 +327,17 @@ namespace midiLightShow
                 this.frmAddShowEvent.light = this.light;
                 this.frmOptions.Text = "Options for '" + this.name + "'";
             }
-            else if(dr == DialogResult.Abort)
+            else if (dr == DialogResult.Abort)
             {
                 this.delete = true;
             }
         }
 
+        /// <summary>
+        /// Event handler for the CheckedChanged event of the mute checkbox
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         void cbMute_CheckedChanged(object sender, EventArgs e)
         {
            if(!this.cbMute.Checked)
@@ -203,6 +351,11 @@ namespace midiLightShow
            Console.WriteLine("Toggled mute option for track '" + this.name + "'.");
         }
 
+        /// <summary>
+        /// Event handler for the CheckedChanged event of the solo checkbox
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         void cbSolo_CheckedChanged(object sender, EventArgs e)
         {
             if(!this.cbSolo.Checked)
@@ -217,6 +370,10 @@ namespace midiLightShow
                 this.pTimeLine.Invalidate();
             }
         }
+
+        /// <summary>
+        /// Remove controls from the panel
+        /// </summary>
         public void removeControls()
         {
             this.pTimeLine.Controls.Remove(this.lbName);
@@ -226,11 +383,15 @@ namespace midiLightShow
             this.pTimeLine.Controls.Remove(this.cbSolo);
         }
 
+        /// <summary>
+        /// Set some track options after a file has been imported
+        /// </summary>
         public void afterImport()
         {
             this.frmOptions.tbName.Text = this.name;
             this.frmOptions.Text = "Options for '" + this.name + "'";
             this.frmOptions.cbLights.Text = this.LightName;
         }
+        #endregion
     }
 }
