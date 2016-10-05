@@ -12,7 +12,7 @@ using System.IO.Ports;
 namespace midiLightShow
 {
     /// <summary>
-    /// form class for editing various track options
+    /// Form class for editing various track options
     /// </summary>
     public partial class TrackOptionsForm : Form
     {

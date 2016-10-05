@@ -8,31 +8,69 @@ using System.Threading;
 
 namespace midiLightShow
 {
+    /// <summary>
+    /// Class for reading MIDI files
+    /// </summary>
     public class midiReader
     {
+        #region Global variables
+        /// <summary>
+        /// List with the bytes of the MIDI file
+        /// </summary>
         public List<byte> data = new List<byte>();
+        /// <summary>
+        /// List of midiEvents objects representing a time line
+        /// </summary>
         public List<midiEvent> timeLine = new List<midiEvent>();
+        /// <summary>
+        /// List of all MIDI event information to test against
+        /// </summary>
         public Dictionary<string,midiEvent> events = new Dictionary<string,midiEvent>();
+        /// <summary>
+        /// Amount of bytes allready read
+        /// </summary>
         public int totalLengthRead = 0;
+        /// <summary>
+        /// Total number of bytes in the MIDI file
+        /// </summary>
         public int byteCount = 0;
+        /// <summary>
+        /// MIDI Devision (see official MIDI specification)
+        /// </summary>
         public int division = 0;
+        /// <summary>
+        /// nember of miliseconds per MIDI tick
+        /// </summary>
         public double interval = 0;
+        /// <summary>
+        /// midiImport form object to write information to
+        /// </summary>
         public midiImport form;
+        /// <summary>
+        /// Indexes of the different MIDI tracks on the timeline
+        /// </summary>
         public List<int> trackIndexes = new List<int>();
-
+        #endregion
+        #region Main methods
+        /// <summary>
+        /// Initialize the events dictionary
+        /// </summary>
         public void init()
         {
             this.events.Add("255127", new midiEvent("Sequencer-Specific Meta-event", "255127", true));
             this.events.Add("255001", new midiEvent("Text Event", "2551", true));
             this.events.Add("255081003", new midiEvent("Set Tempo", "255813", true));
-            this.events.Add("255088", new midiEvent("Time Signature", "25588", true));
-            this.events.Add("255047", new midiEvent("End of Track", "255470", true));
+            this.events.Add("2555047", new midiEvent("End of Track", "255470", true));
             this.events.Add("255003", new midiEvent("Track Name", "2553", true));
             this.events.Add("255032001", new midiEvent("MIDI Channel Prefix", "255321", true));
             this.events.Add("144", new midiEvent("Note On", "144", true));
             this.events.Add("128", new midiEvent("Note Off", "128", true));
             this.events.Add("192", new midiEvent("Program Change", "192", true));
         }
+        /// <summary>
+        /// Loads a MIDI file
+        /// </summary>
+        /// <param name="path">Path to the MIDI file to read</param>
         public void loadFile(string path)
         {
             if(File.Exists(path))
@@ -42,6 +80,9 @@ namespace midiLightShow
             }
         }
 
+        /// <summary>
+        /// Parses the loaded file and saves the results in the global timeline variable
+        /// </summary>
         public void parseFile()
         {
             while(this.totalLengthRead != this.byteCount)
@@ -92,6 +133,9 @@ namespace midiLightShow
 
             }
         }
+        /// <summary>
+        /// calculates the timeframe for each MIDI event found
+        /// </summary>
         public void calculateTimeLine()
         {
             double prevTime = 0;
@@ -101,6 +145,10 @@ namespace midiLightShow
                 e.timeFrame = prevTime;
             }
         }
+
+        /// <summary>
+        /// Reset this MIDI reader for re-use
+        /// </summary>
         public void reset()
         {
             this.data.Clear();
@@ -110,6 +158,11 @@ namespace midiLightShow
             this.totalLengthRead = 0;
             this.byteCount = 0;
         }
+
+        /// <summary>
+        /// Splits the timeline into multiple timelines, one per MIDI track
+        /// </summary>
+        /// <returns>List of a List of midiEvents</returns>
         public List<List<midiEvent>> getSeparateTracks()
         {
             List<List<midiEvent>> result = new List<List<midiEvent>>();
@@ -121,6 +174,7 @@ namespace midiLightShow
             }
             return result;
         }
+        #endregion
         #region Helper methods
 
         private string getChunkType()
