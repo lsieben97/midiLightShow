@@ -11,22 +11,54 @@ using System.Reflection;
 
 namespace midiLightShow
 {
+    /// <summary>
+    /// Form class for adding and editing showEvents
+    /// </summary>
     public partial class AddShowEvent : Form
     {
+        #region Global variables
+        /// <summary>
+        /// The dmxLight object required to acces the executeFunction method to check parameters
+        /// </summary>
         public dmxLight light;
+        /// <summary>
+        /// List of methods that are present in the selected light class
+        /// </summary>
         public List<MethodInfo> functions = new List<MethodInfo>();
+        /// <summary>
+        /// The duration of the event being added/edited
+        /// </summary>
         public int duration = 100;
+        /// <summary>
+        /// List of parameter controls to display parameters
+        /// </summary>
         public List<Control> parameterControls = new List<Control>();
+        /// <summary>
+        /// The start time of the event being added/edited
+        /// </summary>
         public int startTime = 0;
+        /// <summary>
+        /// The default vertical space between two parameter controls
+        /// </summary>
         private int controlOffset = 15;
+        /// <summary>
+        /// Indicates if this form is used as edit form or as add form
+        /// </summary>
         public bool isEditForm = false;
+        /// <summary>
+        /// The original function name used when editing an existing showEvent
+        /// </summary>
         public string originalFunction = "";
+        /// <summary>
+        /// Animation timer to animate the parameter controls
+        /// </summary>
         public Timer aniTimer = new Timer();
         private int controlsDone = 0;
         public string paraString = "";
         public List<ParameterInfo> parameterList = new List<ParameterInfo>();
         public List<Type> parameterTypes = new List<Type>();
         public Dictionary<string, string> parameters = new Dictionary<string, string>();
+        #endregion
         public AddShowEvent()
         {
             InitializeComponent();

@@ -278,7 +278,6 @@
             this.Name = "frmEditor";
             this.Text = "Editor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.frmEditor_Load);
             this.msControl.ResumeLayout(false);
             this.msControl.PerformLayout();
             this.panel1.ResumeLayout(false);

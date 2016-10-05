@@ -152,7 +152,6 @@ namespace midiLightShow
             xmlse.Serialize(w, this.tracks);
             w.Flush();
             w.Close();
-            w.Dispose();
             MessageBox.Show("Exported to " + path);
             return;
         }
@@ -770,5 +769,6 @@ namespace midiLightShow
         }
 
     }
-}
     #endregion
+}
+    
