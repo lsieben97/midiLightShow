@@ -14,52 +14,75 @@ using System.Diagnostics;
 
 namespace midiLightShow
 {
+    /// <summary>
+    /// Editor form. Contains all editor stuff.
+    /// </summary>
     public partial class frmEditor : Form
     {
-        Dmx512UsbRs485Driver d = new Dmx512UsbRs485Driver();
-        List<List<midiEvent>> midiTracks = new List<List<midiEvent>>();
-        List<track> tracks = new List<track>();
-        List<showEventButton> showEvents = new List<showEventButton>();
-        Timer showtimer = new Timer();
-        Timer testTimer = new Timer();
-        Timer aniTimer = new Timer();
-        Timer preciseShowTimer = new Timer();
-        Stopwatch st = new Stopwatch();
-        ToolStripMenuItem aniTarget;
-        int currentTime = 0;
-        int preciseCurrentTime = 0;
-        int bpm = 120;
-        int pixelsPer16thNote = 10;
-        int milisecondsPer16thNote = 0;
-        public int showTime = 20000;
-        public int trackHeight = 50;
+        #region variables
+        /// <summary>
+        /// The current time of the playhead in 16th beats
+        /// </summary>
+        private int currentTime = 0;
+        /// <summary>
+        /// Indicates the beats per minute for the show
+        /// </summary>
+        private int bpm = 120;
+        /// <summary>
+        /// Indicates the amount of pixels per 16th beat for the show (can be used as zoom)
+        /// </summary>
+        private int pixelsPer16thNote = 10;
+        /// <summary>
+        /// Indicates how many miliseconds fit into 1 16th beat 
+        /// </summary>
+        private int milisecondsPer16thNote = 0;
+        /// <summary>
+        /// Indicates how many tracks are being used
+        /// </summary>
         private int trackCounter = 1;
-        private int prevTimeLIne = 0;
+        /// <summary>
+        /// Indicates the length of the show in 16th beats
+        /// </summary>
+        private int showTime = 16;
+        /// <summary>
+        /// Indicates the standard height of each track
+        /// </summary>
+        private int trackHeight = 50;
+
+        /// <summary>
+        /// List of all the track objects used in the show
+        /// </summary>
+        private List<track> tracks = new List<track>();
+        /// <summary>
+        /// Timer to play the show
+        /// </summary>
+        private Timer showTimer = new Timer();
+        /// <summary>
+        /// Debug dialog
+        /// </summary>
+        private debug db = new debug();
+        private Color lineColor = SystemColors.Highlight;
+       
         public AddShowEvent frmEditShowEvent = new AddShowEvent();
-        public double pixelsPerMiliSecond = 0;
-        List<midiEvent> notesToPlay = new List<midiEvent>();
-        debug db = new debug();
-        int midiClock = 0;
-        Color lineColor = SystemColors.Highlight;
 
         public static Dmx512UsbRs485Driver driver = new Dmx512UsbRs485Driver();
+
+        #endregion
         public frmEditor()
         {
             Console.WriteLine("Initializing application...");
             InitializeComponent();
             this.calculateTime();
-            showtimer.Interval = this.pixelsPer16thNote;
+            showTimer.Interval = this.pixelsPer16thNote;
             track.makeTypeMap();
-            this.preciseShowTimer.Interval = this.milisecondsPer16thNote;
-            this.preciseShowTimer.Tick += preciseShowTimer_Tick;
+            this.showTimer.Interval = this.milisecondsPer16thNote;
+            this.showTimer.Tick += showTimer_Tick;
             this.frmEditShowEvent.isEditForm = true;
-            showtimer.Tick += showtimer_Tick;
-            this.pixelsPerMiliSecond = 0.2;
             this.frmEditShowEvent.Text = "Edit event";
             pTimeLine.BackColor = Color.FromArgb(255, 170, 213, 255);
             nudBeatsPerMinute.Value = this.bpm;
-            this.showTime = 16;
             Console.WriteLine("Done!");
+
             // customize menu strip
             msControl.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             fileToolStripMenuItem.ForeColor = this.lineColor;
@@ -74,13 +97,12 @@ namespace midiLightShow
             
         }
 
-        void preciseShowTimer_Tick(object sender, EventArgs e)
+        void showTimer_Tick(object sender, EventArgs e)
         {
             if(this.currentTime == this.showTime)
             {
                 this.currentTime = 0;
             }
-            this.st.Start();
             foreach(track t in this.tracks)
             {
                 if(t.events.Count(ev => ev.startTime == this.currentTime) == 1)
@@ -91,8 +113,6 @@ namespace midiLightShow
             }
             this.currentTime++;
             this.pTimeLine.Invalidate();
-            this.st.Stop();
-            //Console.WriteLine(this.st.ElapsedMilliseconds.ToString());
         }
 
         private void exportShow(string path)
@@ -107,86 +127,6 @@ namespace midiLightShow
             w.Dispose();
             MessageBox.Show("Exported to " + path);
             return;
-        }
-
-        void showtimer_Tick(object sender, EventArgs e)
-        {
-
-            
-        }
-
-        void t_Tick(object sender, EventArgs e)
-        {
-            foreach (midiEvent ev in this.midiTracks[1])
-            {
-                if (ev.timeFrame <= this.midiClock && ev.isCompleted == false)
-                {
-                    ev.isCompleted = true;
-                }
-                if (ev.timeFrame <= this.midiClock && ev.name == "Note On")
-                {
-                    this.notesToPlay.Add(ev);
-                }
-                if (ev.timeFrame <= this.midiClock && ev.name == "Note Off")
-                {
-                    this.notesToPlay.Add(ev);
-                }
-            }
-            int notesPlayed = 0;
-            if (this.notesToPlay.Count == 0)
-            {
-                d.DmxLoadBuffer(1, 0, 8);
-                d.DmxLoadBuffer(2, 0, 8);
-                d.DmxLoadBuffer(3, 0, 8);
-            }
-            foreach (midiEvent ev in this.notesToPlay)
-            {
-                if (ev.name == "Note Off")
-                {
-                    switch (notesPlayed)
-                    {
-                        case 0:
-                            d.DmxLoadBuffer(1, 0, 8);
-                            notesPlayed++;
-                            break;
-                        case 1:
-                            d.DmxLoadBuffer(2, 0, 8);
-                            notesPlayed++;
-                            break;
-                        case 2:
-                            d.DmxLoadBuffer(3, 0, 8);
-                            notesPlayed++;
-                            break;
-                        default:
-                            notesPlayed = 0;
-                            break;
-                    }
-                }
-                else if (ev.name == "Note On")
-                {
-                    switch (notesPlayed)
-                    {
-                        case 0:
-                            d.DmxLoadBuffer(1, ev.note, 8);
-                            notesPlayed++;
-                            break;
-                        case 1:
-                            d.DmxLoadBuffer(2, ev.note, 8);
-                            notesPlayed++;
-                            break;
-                        case 2:
-                            d.DmxLoadBuffer(3, ev.note, 8);
-                            notesPlayed++;
-                            break;
-                        default:
-                            notesPlayed = 0;
-                            break;
-                    }
-                }
-
-            }
-            this.notesToPlay.Clear();
-            d.DmxSendCommand(8);
         }
 
         private void loadMIDIToolStripMenuItem_Click(object sender, EventArgs e)
@@ -289,7 +229,6 @@ namespace midiLightShow
             if (160 + Convert.ToInt32(this.currentTime * (this.pixelsPer16thNote)) > this.pTimeLine.Size.Width)
             {
                 this.currentTime = 0;
-                this.preciseCurrentTime = 0;
             }
             //Console.WriteLine("t: " + this.currentTime.ToString() + "st: " + this.preciseCurrentTime.ToString());
             e.Graphics.FillRectangle(new Pen(this.lineColor).Brush, 160 + Convert.ToInt32(this.currentTime * (this.pixelsPer16thNote)), 0, 3, pTimeLine.Height);
@@ -336,14 +275,12 @@ namespace midiLightShow
         {
             if (this.btnPlay.Text == "Play")
             {
-                this.showtimer.Start();
-                this.preciseShowTimer.Start();
+                this.showTimer.Start();
                 this.btnPlay.Text = "Pause";
             }
             else
             {
-                this.showtimer.Stop();
-                this.preciseShowTimer.Stop();
+                this.showTimer.Stop();
                 this.btnPlay.Text = "Play";
             }
         }
@@ -351,9 +288,7 @@ namespace midiLightShow
         private void btnStop_Click(object sender, EventArgs e)
         {
             this.currentTime = 0;
-            this.preciseCurrentTime = 0;
-            this.showtimer.Stop();
-            this.preciseShowTimer.Stop();
+            this.showTimer.Stop();
             this.pTimeLine.Invalidate();
             this.btnPlay.Text = "Play";
         }
