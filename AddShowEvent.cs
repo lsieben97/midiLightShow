@@ -53,19 +53,40 @@ namespace midiLightShow
         /// Animation timer to animate the parameter controls
         /// </summary>
         public Timer aniTimer = new Timer();
+        /// <summary>
+        /// Indicates how many controls have been animated
+        /// </summary>
         private int controlsDone = 0;
+        /// <summary>
+        /// The parameter string for the showEvent
+        /// </summary>
         public string paraString = "";
+        /// <summary>
+        /// List with all the parameters from the current function
+        /// </summary>
         public List<ParameterInfo> parameterList = new List<ParameterInfo>();
-        public List<Type> parameterTypes = new List<Type>();
+        /// <summary>
+        /// Dictionary of parameter name - parameter value pairs
+        /// </summary>
         public Dictionary<string, string> parameters = new Dictionary<string, string>();
         #endregion
+        #region Constructors
+        /// <summary>
+        /// Create new adShowEvent form
+        /// </summary>
         public AddShowEvent()
         {
             InitializeComponent();
             aniTimer.Interval = 200;
             aniTimer.Tick += aniTimer_Tick;
         }
-
+        #endregion
+        #region AddShowEvent methods
+        /// <summary>
+        /// Tick event handler for the animation timer
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         void aniTimer_Tick(object sender, EventArgs e)
         {
             if (this.controlsDone != this.pParameterControls.Controls.Count)
@@ -78,8 +99,20 @@ namespace midiLightShow
                 this.aniTimer.Stop();
             }
         }
-
+        /// <summary>
+        /// Load event handler for this form
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         private void AddShowEvent_Load(object sender, EventArgs e)
+        {
+            init();
+        }
+
+        /// <summary>
+        /// Initialize functions and get parameters for the current function
+        /// </summary>
+        private void init()
         {
             Type t = this.light.GetType();
             MethodInfo[] methInfo = t.GetMethods();
@@ -95,19 +128,42 @@ namespace midiLightShow
             cbFunctions.SelectedIndex = 0;
             btnRemove.Visible = this.isEditForm;
         }
+        /// <summary>
+        /// Gets a comma seperated string of parameter descriptions for the specified method
+        /// </summary>
+        /// <param name="m">methodInfo object from the method to get parameter descriptions from</param>
+        /// <returns>Comma seperated string with parameter descriptions</returns>
         private string getParameterDescription(MethodInfo m)
         {
             ParameterDataAtribute a = m.GetCustomAttribute(new ParameterDataAtribute().GetType(), false) as ParameterDataAtribute;
             return string.Join(", ", a.parameterDescription);
         }
 
+        /// <summary>
+        /// Gets the method description for the specified method
+        /// </summary>
+        /// <param name="m">methodInfo object to get the method description from</param>
+        /// <returns>String with method description</returns>
         private string getMethodDiscription(MethodInfo m)
         {
             MethodDescriptionAtribute a = m.GetCustomAttribute(new MethodDescriptionAtribute().GetType(), false) as MethodDescriptionAtribute;
             return a.methodDescription;
         }
 
+        /// <summary>
+        /// SelectedIndexChanged event handler for the functions combobox
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         private void cbFunctions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateParameters();
+        }
+
+        /// <summary>
+        /// Get parameter descriptions and method description from the newly chosen function
+        /// </summary>
+        private void updateParameters()
         {
             rtbParameterDescription.Text = this.getParameterDescription(this.functions[cbFunctions.SelectedIndex]);
             rtbFunctionDescription.Text = this.getMethodDiscription(this.functions[cbFunctions.SelectedIndex]);
@@ -119,6 +175,7 @@ namespace midiLightShow
                 {
                     case "String":
                     case "Byte":
+                    case "uint":
                         TextBox tbpara = new TextBox();
                         tbpara.Tag = p.Name;
                         tbpara.Visible = false;
@@ -130,13 +187,21 @@ namespace midiLightShow
             }
             this.drawParameterControls();
             this.fillParameters();
-
         }
+
+        /// <summary>
+        /// Gets an array of parameterInfo objects representing the parameters of the methods index in the global function list 
+        /// </summary>
+        /// <param name="index">Index of the method in the global function list</param>
+        /// <returns>Array of parameterInfo objects</returns>
         private ParameterInfo[] getParameters(int index)
         {
             return this.functions[index].GetParameters();
         }
 
+        /// <summary>
+        /// Draw the parameter controls of the parameters from the current function
+        /// </summary>
         private void drawParameterControls()
         {
             pParameterControls.Controls.Clear();
@@ -154,14 +219,22 @@ namespace midiLightShow
             this.controlsDone = 0;
             this.aniTimer.Start();
         }
-        private object checkConversion(string value, Type target)
-        {
-            return Convert.ChangeType(value, target);
-        }
 
+        /// <summary>
+        /// Click event handler for the ok button
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         private void btnOk_Click(object sender, EventArgs e)
         {
+            checkAndSendInput();
+        }
 
+        /// <summary>
+        /// Check and if valid send the input to the track
+        /// </summary>
+        private void checkAndSendInput()
+        {
             if (int.TryParse(tbDuration.Text, out this.duration) == true && int.TryParse(tbStartTime.Text, out this.startTime) == true)
             {
                 this.prepareParameters();
@@ -182,11 +255,20 @@ namespace midiLightShow
             }
         }
 
+        /// <summary>
+        /// Click event handler for the cancel button
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Close();
         }
+
+        /// <summary>
+        /// Reset this form for re-use
+        /// </summary>
         public void reset()
         {
             this.duration = 0;
@@ -196,15 +278,22 @@ namespace midiLightShow
             this.functions.Clear();
             this.parameterList.Clear();
             this.parameters.Clear();
-            this.parameterTypes.Clear();
         }
 
+        /// <summary>
+        /// Click event handler for the remove button
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         private void btnRemove_Click(object sender, EventArgs e)
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Abort;
             this.Close();
         }
 
+        /// <summary>
+        /// Prepare the entered parameters to be send to the showEvent object by the track
+        /// </summary>
         private void prepareParameters()
         {
             this.parameters.Clear();
@@ -217,12 +306,14 @@ namespace midiLightShow
                         this.parameters.Add(this.parameterList.ElementAt(i).Name, this.parameterControls[i].Text);
                         break;
                 }
-                this.parameterTypes.Add(this.parameterList[i].ParameterType);
                 this.paraString = string.Join(",", this.parameters.Values);
 
             }
         }
 
+        /// <summary>
+        /// Enter the correct values into the textboxes when editing an existing showEvent
+        /// </summary>
         public void fillParameters()
         {
             if (this.cbFunctions.Text == this.originalFunction)
@@ -233,5 +324,6 @@ namespace midiLightShow
                 }
             }
         }
+        #endregion
     }
 }
