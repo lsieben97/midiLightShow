@@ -17,7 +17,7 @@ namespace midiLightShow
     [Serializable]
     public class track
     {
-        #region global variables
+        #region Global variables
         /// <summary>
         /// The name of this track.
         /// </summary>
@@ -127,7 +127,7 @@ namespace midiLightShow
         public static Dictionary<string, string> typeMap = new Dictionary<string, string>();
 
         #endregion
-        #region static methods
+        #region Static methods
         /// <summary>
         /// Generate the global typemap.
         /// </summary>
@@ -141,7 +141,7 @@ namespace midiLightShow
             
         }
         #endregion
-        #region constructors
+        #region Constructors
         /// <summary>
         /// Empty constructor for deserializing xml.
         /// </summary>
@@ -168,7 +168,7 @@ namespace midiLightShow
             this.frmAddShowEvent.light = this.light;
         }
         #endregion
-        #region track methods
+        #region Track methods
         /// <summary>
         /// Draw the controls for this track on the panel
         /// </summary>
