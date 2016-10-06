@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace midiLightShow
 {
+    /// <summary>
+    /// <summary>
+    /// thgfhhgfgjhghggrd
+    /// </summary>
+    /// ddadf
+    /// </summary>
     public class rgbSpotLight : dmxLight
     {
+
+        bool fade = false;
 
         public rgbSpotLight() { }
         public rgbSpotLight(string comPort)
@@ -16,11 +24,8 @@ namespace midiLightShow
             this.driver.DmxToDefault(this.comPort);
         }
 
-        public override bool executeFunction(string function, Dictionary<string,string> parameters, bool execute = false)
+        public override bool executeFunction(string function, Dictionary<string, string> parameters, bool execute = false)
         {
-            List<string> strings = new List<string>();
-            List<int> ints = new List<int>();
-            List<bool> bools = new List<bool>();
             switch (function)
             {
                 case "rgb":
@@ -29,12 +34,20 @@ namespace midiLightShow
                     byte b = 0;
                     if (byte.TryParse(parameters.ElementAt(0).Value, out r) && byte.TryParse(parameters.ElementAt(1).Value, out g) && byte.TryParse(parameters.ElementAt(2).Value, out b))
                     {
-                        if(execute)
+                        if (execute)
                         {
                             this.func_rgb(r, g, b);
                         }
                         else { return true; }
-                    } else { return false; }
+                    }
+                    else { return false; }
+                    break;
+                case "fade":
+                    if (execute)
+                    {
+                        this.func_fade();
+                    }
+                    else { return true; }
                     break;
             }
             return false;
@@ -54,7 +67,12 @@ namespace midiLightShow
         [MethodDescriptionAtribute(methodDescription = "Fade lights")]
         public void func_fade()
         {
-            this.driver.DmxLoadBuffer(6, 64, 8);
+            if (fade)
+                fade = false;
+            else
+                fade = true;
+
+            this.driver.DmxLoadBuffer(6, (byte)(Convert.ToByte(fade) * 64), 8);
             this.driver.DmxSendCommand(1);
         }
 

@@ -19,7 +19,7 @@ namespace midiLightShow
         bool color = false;
 
         #endregion
-        #region Constructor
+        #region Constructors
         /// <summary>
         /// Empty Constructor
         /// </summary>

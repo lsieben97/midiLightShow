@@ -18,7 +18,7 @@ namespace midiLightShow
         /// </summary>
         private Dictionary<string, byte> goboMap = new Dictionary<string, byte>();
         #endregion
-        #region Constructor
+        #region Constructors
         /// <summary>
         /// Empty Constructor
         /// </summary>
