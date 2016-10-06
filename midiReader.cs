@@ -8,6 +8,7 @@ using System.Threading;
 
 namespace midiLightShow
 {
+    #region MIDI reader
     /// <summary>
     /// Class for reading MIDI files
     /// </summary>
@@ -176,7 +177,10 @@ namespace midiLightShow
         }
         #endregion
         #region Helper methods
-
+        /// <summary>
+        /// Get the chunktype of the current chunk
+        /// </summary>
+        /// <returns>Returns either HEAD or TRACK as a string</returns>
         private string getChunkType()
         {
             string result = "";
@@ -199,6 +203,12 @@ namespace midiLightShow
             }
         }
 
+        /// <summary>
+        /// Gets the specified amount of bytes from the input array
+        /// </summary>
+        /// <param name="groupSize">The amount of bytes to get</param>
+        /// <param name="total">The sum of all the bytes in the group</param>
+        /// <returns>The result byte array </returns>
         private byte[] getChunkGroup(int groupSize, out int total)
         {
             List<byte> result = new List<byte>();
@@ -214,6 +224,11 @@ namespace midiLightShow
             total = totals;
             return result.ToArray();
         }
+        /// <summary>
+        /// Gets the specified amount of bytes from the input array
+        /// </summary>
+        /// <param name="groupSize">The amount of bytes to get</param>
+        /// <returns>The result byte array</returns>
         private byte[] getChunkGroup(int groupSize)
         {
             List<byte> result = new List<byte>();
@@ -225,6 +240,11 @@ namespace midiLightShow
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Calculate the MIDI division using the specified bytes
+        /// </summary>
+        /// <param name="data">The bytes to use to calculate the MIDI division</param>
+        /// <returns>The MIDI division</returns>
         private int calculateDivision(byte[] data)
         {
             int result = 0;
@@ -244,6 +264,12 @@ namespace midiLightShow
 
             return result;
         }
+
+        /// <summary>
+        /// Helper method for calculation
+        /// </summary>
+        /// <param name="data">The data to use</param>
+        /// <returns>Intermidiate value for the time calculation</returns>
         private int calculateTime(byte[] data)
         {
             int result = 0;
@@ -264,6 +290,10 @@ namespace midiLightShow
 
             return result;
         }
+        /// <summary>
+        /// Transforms an variable length quantity into it's decimal representation
+        /// </summary>
+        /// <returns>The dicimal representation of the variable length quantity</returns>
         private int getVariableLengthQuantity()
         {
             List<byte> deltaTimeBytes = new List<byte>();
@@ -306,10 +336,21 @@ namespace midiLightShow
             }
         }
 
+        /// <summary>
+        /// Convert the specified byte to it's binairy representation
+        /// </summary>
+        /// <param name="input">The byte to convert</param>
+        /// <param name="shortPadLength">Use short pad length</param>
+        /// <returns></returns>
         private string byteToString(byte input, bool shortPadLength = false)
         {
             return shortPadLength ? Convert.ToString(input, 2).PadLeft(8, '0') : Convert.ToString(input, 2).PadLeft(8, '0');
         }
+
+        /// <summary>
+        /// Gets the next MIDI meta event from the input
+        /// </summary>
+        /// <returns>The found MIDI meta event</returns>
         private midiEvent getMetaEvent()
         {
             byte[] prefixBytes = this.getChunkGroup(2);
@@ -386,6 +427,11 @@ namespace midiLightShow
 
             return e;
         }
+
+        /// <summary>
+        /// Gets the next MIDI channel event from the input
+        /// </summary>
+        /// <returns>The found MIDI channel event</returns>
         private midiEvent getChannelEvent()
         {
             midiEvent e = new midiEvent();
@@ -413,52 +459,74 @@ namespace midiLightShow
             return e;
         }
         #endregion
-        #region Static functions
-        public static midiEvent copyEvent(midiEvent input)
-        {
-            midiEvent e = new midiEvent();
-            e.name = input.name;
-            e.length = input.length;
-            e.deltaTime = input.deltaTime;
-            e.hasLength = input.hasLength;
-            e.isCompleted = input.isCompleted;
-            e.note = input.note;
-            e.prefix = input.prefix;
-            e.prefixLength = input.prefixLength;
-            e.timeFrame = input.timeFrame;
-            return e;
-        }
-        #endregion
     }
+    #endregion
+    #region MIDI event
+    /// <summary>
+    /// Class that represents an MIDI event in a MIDI file
+    /// </summary>
     public class midiEvent
     {
+        #region Global variables
+        /// <summary>
+        /// The name of this MIDI event
+        /// </summary>
         public string name = "";
+        /// <summary>
+        /// The byte prefix for this MIDI event
+        /// </summary>
         public string prefix = "";
+        /// <summary>
+        /// The length in bytes of this MIDI event
+        /// </summary>
         public int length = 0;
+        /// <summary>
+        /// The length of the prefix of this MIDI event
+        /// </summary>
         public int prefixLength = 0;
+        /// <summary>
+        /// Indicates if this MIDI event has a default length
+        /// </summary>
         public bool hasLength = false;
+        /// <summary>
+        /// The byte representing a note value if this MIDI event is either a 'Note On' or a 'Note Off'
+        /// </summary>
         public byte note = 0;
+        /// <summary>
+        /// The delta time value of this MIDI event (see the official MIDI 1.0 specification)
+        /// </summary>
         public int deltaTime = 0;
+        /// <summary>
+        /// The time on the time line for this MIDI event
+        /// </summary>
         public double timeFrame = 0;
+        /// <summary>
+        /// Indicates if this MIDI event has allready ben executed (currently not used)
+        /// </summary>
         public bool isCompleted = false;
-
+        #endregion
+        #region Constructors
+        /// <summary>
+        /// Create a new midiEvent object
+        /// </summary>
+        /// <param name="name">The name of the MIDI event</param>
+        /// <param name="prefix">The prefix of the event</param>
+        /// <param name="hasLength">Does the event has a default length?</param>
         public midiEvent(string name,string prefix,bool hasLength = false)
         {
             this.name = name;
             this.prefix = prefix;
             this.hasLength = hasLength;
         }
+
+        /// <summary>
+        /// Default empty constructor
+        /// </summary>
         public midiEvent()
         {
 
         }
+        #endregion
     }
-    public class midiNote
-    {
-        public int noteValue = 0;
-        public midiNote(int noteValue)
-        {
-            this.noteValue = noteValue;
-        }
-    }
+#endregion
 }

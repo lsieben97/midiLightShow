@@ -617,6 +617,7 @@ namespace midiLightShow
     /// </summary>
     class CustomProfessionalColors : ProfessionalColorTable
     {
+        #region Overrides
         /// <summary>
         /// The start gradient for the upper menuStripItem
         /// </summary>
@@ -767,7 +768,7 @@ namespace midiLightShow
                 return SystemColors.ControlDarkDark;
             }
         }
-
+        #endregion
     }
     #endregion
 }

@@ -51,7 +51,6 @@
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "debug";
             this.Text = "debug";
-            this.Load += new System.EventHandler(this.debug_Load);
             this.ResumeLayout(false);
 
         }
