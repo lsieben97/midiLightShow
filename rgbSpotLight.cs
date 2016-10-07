@@ -15,7 +15,7 @@ namespace midiLightShow
     public class rgbSpotLight : dmxLight
     {
 
-        bool fade = false;
+        byte speed = 0;
 
         public rgbSpotLight() { }
         public rgbSpotLight(string comPort)
@@ -43,11 +43,27 @@ namespace midiLightShow
                     else { return false; }
                     break;
                 case "fade":
-                    if (execute)
+                    speed = 0;
+                    if (byte.TryParse(parameters.ElementAt(0).Value, out speed))
                     {
-                        this.func_fade();
+                        if (execute)
+                        {
+                            this.func_fade(speed);
+                        }
+                        else { return true; }
+                    } else { return false; }
+                    break;
+                case "rainBow":
+                    speed = 0;
+                    if (byte.TryParse(parameters.ElementAt(0).Value, out speed))
+                    {
+                        if (execute)
+                        {
+                            this.func_rainBow(speed);
+                        }
+                        else { return true; }
                     }
-                    else { return true; }
+                    else { return false; }
                     break;
             }
             return false;
@@ -63,19 +79,25 @@ namespace midiLightShow
             this.driver.DmxSendCommand(3);
         }
 
-        [ParameterDataAtribute(parameterDescription = new string[] { "No parameters needed." })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Speed" })]
         [MethodDescriptionAtribute(methodDescription = "Fade lights")]
-        public void func_fade()
+        public void func_fade(byte speed = 0)
         {
-            if (fade)
-                fade = false;
+            if(speed != 0)
+                this.driver.DmxLoadBuffer(6, (byte)(64 + 64 / (speed + 1)), 8);
             else
-                fade = true;
-
-            this.driver.DmxLoadBuffer(6, (byte)(Convert.ToByte(fade) * 64), 8);
+                this.driver.DmxLoadBuffer(6, 0, 8);
             this.driver.DmxSendCommand(1);
         }
 
-
+        [ParameterDataAtribute(parameterDescription = new string[] { "Speed" })]
+        public void func_rainBow(byte speed = 0)
+        {
+            if (speed != 0)
+                this.driver.DmxLoadBuffer(6, (byte)(128 + 64 / (speed + 1)), 8);
+            else
+                this.driver.DmxLoadBuffer(6, 0, 8);
+            this.driver.DmxSendCommand(1);
+        }
     }
 }

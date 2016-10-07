@@ -48,7 +48,7 @@ namespace midiLightShow
                 {
                     this.driver.DmxToDefault(this.comPort);
                 }
-                catch (Exception)
+                catch
                 {
                     MessageBox.Show("An error occured when connecting to this light, when not connected uncheck 'enable'.");
                 }

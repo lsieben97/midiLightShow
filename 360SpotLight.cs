@@ -317,7 +317,7 @@ namespace midiLightShow
 
             //Loads an sends the values to the moving head
             this.driver.DmxLoadBuffer(10, d, 13);
-            this.driver.DmxLoadBuffer(11, (byte)(255 / speed + 1), 13);
+            this.driver.DmxLoadBuffer(11, (byte)(255 / (speed + 1)), 13);
             this.driver.DmxSendCommand(2);
         }
 
