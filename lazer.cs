@@ -235,7 +235,7 @@ namespace midiLightShow
                 lamp = true;
 
             //Loads and sends the value to the lazer
-            this.driver.DmxLoadBuffer(3, Convert.ToByte(Convert.ToByte(lamp) * 25), 10);
+            this.driver.DmxLoadBuffer(3, (byte)(Convert.ToByte(lamp) * 25), 10);
             this.driver.DmxSendCommand(1);
         }
 
@@ -251,7 +251,7 @@ namespace midiLightShow
                 color = true;
 
             //Loads and sends the value to the lazer
-            this.driver.DmxLoadBuffer(3, Convert.ToByte(Convert.ToByte(color) * 25 + 50), 10);
+            this.driver.DmxLoadBuffer(3, (byte)(Convert.ToByte(color) * 25 + 50), 10);
             this.driver.DmxSendCommand(1);
         }
 
