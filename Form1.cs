@@ -51,6 +51,10 @@ namespace midiLightShow
         private int trackHeight = 50;
 
         /// <summary>
+        /// The default message to show when no help text is shown
+        /// </summary>
+        public string defaultHelpMessage = "Ready";
+        /// <summary>
         /// List of all the track objects used in the show
         /// </summary>
         private List<track> tracks = new List<track>();
@@ -93,9 +97,12 @@ namespace midiLightShow
             this.nudBeatsPerMinute.Value = this.bpm;
             this.pixelsPer16thNote = trbZoom.Value;
             this.lbZoom.Text = (trbZoom.Value / 10 * 100).ToString() + "%";
+            this.Size = new Size(Screen.GetWorkingArea(this).Width, Screen.GetWorkingArea(this).Height);
+            this.Location = new Point(0, 0);
             track.makeTypeMap();
             // customize menu strip
             msControl.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
+            msBottom.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             fileToolStripMenuItem.ForeColor = this.lineColor;
             toolsToolStripMenuItem.ForeColor = this.lineColor;
             loadMIDIToolStripMenuItem.ForeColor = this.lineColor;
@@ -310,18 +317,22 @@ namespace midiLightShow
         /// </summary>
         private void recalculatePanelWidth()
         {
-            this.panel1.Size = new Size(this.Size.Width - 3, this.Size.Height - 12);
+            this.panel1.Size = new Size(this.Size.Width - 20, this.pTimeLine.Size.Height + 17);
             if (this.tracks.Count > 0)
             {
                 this.showTime = this.tracks.Max(tr => tr.maxEventLength);
+                if(this.showTime < 16)
+                {
+                    this.showTime = 16;
+                }
                 int max = 160 + Convert.ToInt32(this.tracks.Max(t => t.maxEventLength) * this.pixelsPer16thNote + 5);
-                if (max > 1344)
+                if (max > this.Size.Width - 3)
                 {
                     this.pTimeLine.Size = new Size(max + 5, this.pTimeLine.Size.Height);
                 }
                 else
                 {
-                    this.pTimeLine.Size = new Size(this.Size.Width - 3, this.pTimeLine.Size.Height);
+                    this.pTimeLine.Size = new Size(this.Size.Width - 20, this.pTimeLine.Size.Height);
                 }
             }
         }
@@ -588,6 +599,7 @@ namespace midiLightShow
         private void calculateTime()
         {
             this.milisecondsPer16thNote = 60000 / this.bpm / 4;
+            this.showTimer.Interval = this.milisecondsPer16thNote;
         }
 
         /// <summary>
@@ -613,9 +625,32 @@ namespace midiLightShow
         private void trbZoom_Scroll(object sender, EventArgs e)
         {
             this.pixelsPer16thNote = trbZoom.Value;
-            this.lbZoom.Text = (trbZoom.Value / 10 * 100).ToString() + "%";
+            this.lbZoom.Text = ((double) trbZoom.Value / 10 * 100).ToString() + "%";
+            this.pTimeLine.Invalidate();
         }
         #endregion
+
+        private void btnStop_MouseEnter(object sender, EventArgs e)
+        {
+            Button b = sender as Button;
+            switch(b.Name)
+            {
+                case "btnPlay":
+                    this.tbHelp.Text = "Play the show.";
+                    break;
+                case "btnStop":
+                    this.tbHelp.Text = "Stop playing the show.";
+                    break;
+                case "btnAddTrack":
+                    this.tbHelp.Text = "Add a new track to the show.";
+                    break;
+            }
+        }
+
+        private void btnPlay_MouseLeave(object sender, EventArgs e)
+        {
+
+        }
     }
     #endregion
     #region Custom colors

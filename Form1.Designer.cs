@@ -53,10 +53,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.trbZoom = new System.Windows.Forms.TrackBar();
             this.lbZoom = new System.Windows.Forms.Label();
+            this.msBottom = new System.Windows.Forms.MenuStrip();
+            this.tbHelp = new System.Windows.Forms.ToolStripTextBox();
             this.msControl.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBeatsPerMinute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbZoom)).BeginInit();
+            this.msBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // msControl
@@ -168,9 +171,9 @@
             // pTimeLine
             // 
             this.pTimeLine.BackColor = System.Drawing.Color.White;
-            this.pTimeLine.Location = new System.Drawing.Point(3, 3);
+            this.pTimeLine.Location = new System.Drawing.Point(0, 0);
             this.pTimeLine.Name = "pTimeLine";
-            this.pTimeLine.Size = new System.Drawing.Size(1344, 621);
+            this.pTimeLine.Size = new System.Drawing.Size(1344, 616);
             this.pTimeLine.TabIndex = 2;
             this.pTimeLine.Scroll += new System.Windows.Forms.ScrollEventHandler(this.pTimeLine_Scroll);
             this.pTimeLine.Click += new System.EventHandler(this.pTimeLine_Click);
@@ -178,33 +181,60 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(12, 37);
+            this.btnPlay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnPlay.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
+            this.btnPlay.FlatAppearance.BorderSize = 0;
+            this.btnPlay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnPlay.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPlay.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnPlay.Location = new System.Drawing.Point(12, 32);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(75, 23);
+            this.btnPlay.Size = new System.Drawing.Size(75, 29);
             this.btnPlay.TabIndex = 3;
             this.btnPlay.Text = "Play";
-            this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.UseVisualStyleBackColor = false;
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            this.btnPlay.MouseEnter += new System.EventHandler(this.btnStop_MouseEnter);
+            this.btnPlay.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(93, 37);
+            this.btnStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnStop.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
+            this.btnStop.FlatAppearance.BorderSize = 0;
+            this.btnStop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnStop.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStop.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnStop.Location = new System.Drawing.Point(93, 32);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStop.Size = new System.Drawing.Size(75, 29);
             this.btnStop.TabIndex = 4;
             this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.UseVisualStyleBackColor = false;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnStop.MouseEnter += new System.EventHandler(this.btnStop_MouseEnter);
+            this.btnStop.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             // 
             // btnAddTrack
             // 
-            this.btnAddTrack.Location = new System.Drawing.Point(174, 37);
+            this.btnAddTrack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnAddTrack.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
+            this.btnAddTrack.FlatAppearance.BorderSize = 0;
+            this.btnAddTrack.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btnAddTrack.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnAddTrack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddTrack.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnAddTrack.Location = new System.Drawing.Point(174, 32);
             this.btnAddTrack.Name = "btnAddTrack";
-            this.btnAddTrack.Size = new System.Drawing.Size(75, 23);
+            this.btnAddTrack.Size = new System.Drawing.Size(75, 29);
             this.btnAddTrack.TabIndex = 5;
             this.btnAddTrack.Text = "Add track";
-            this.btnAddTrack.UseVisualStyleBackColor = true;
+            this.btnAddTrack.UseVisualStyleBackColor = false;
             this.btnAddTrack.Click += new System.EventHandler(this.btnAddTrack_Click);
+            this.btnAddTrack.MouseEnter += new System.EventHandler(this.btnStop_MouseEnter);
+            this.btnAddTrack.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             // 
             // panel1
             // 
@@ -212,7 +242,7 @@
             this.panel1.Controls.Add(this.pTimeLine);
             this.panel1.Location = new System.Drawing.Point(12, 66);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1350, 641);
+            this.panel1.Size = new System.Drawing.Size(1350, 707);
             this.panel1.TabIndex = 6;
             // 
             // sfdLightShow
@@ -226,7 +256,10 @@
             // 
             // nudBeatsPerMinute
             // 
-            this.nudBeatsPerMinute.Location = new System.Drawing.Point(290, 41);
+            this.nudBeatsPerMinute.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.nudBeatsPerMinute.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.nudBeatsPerMinute.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.nudBeatsPerMinute.Location = new System.Drawing.Point(291, 41);
             this.nudBeatsPerMinute.Margin = new System.Windows.Forms.Padding(2);
             this.nudBeatsPerMinute.Maximum = new decimal(new int[] {
             140,
@@ -239,7 +272,7 @@
             0,
             0});
             this.nudBeatsPerMinute.Name = "nudBeatsPerMinute";
-            this.nudBeatsPerMinute.Size = new System.Drawing.Size(57, 20);
+            this.nudBeatsPerMinute.Size = new System.Drawing.Size(57, 16);
             this.nudBeatsPerMinute.TabIndex = 7;
             this.nudBeatsPerMinute.Value = new decimal(new int[] {
             90,
@@ -251,7 +284,8 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(254, 42);
+            this.label1.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.label1.Location = new System.Drawing.Point(254, 40);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 13);
@@ -261,7 +295,8 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(396, 42);
+            this.label2.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.label2.Location = new System.Drawing.Point(353, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 13);
             this.label2.TabIndex = 9;
@@ -269,7 +304,7 @@
             // 
             // trbZoom
             // 
-            this.trbZoom.Location = new System.Drawing.Point(439, 37);
+            this.trbZoom.Location = new System.Drawing.Point(396, 32);
             this.trbZoom.Maximum = 50;
             this.trbZoom.Minimum = 2;
             this.trbZoom.Name = "trbZoom";
@@ -282,11 +317,34 @@
             // lbZoom
             // 
             this.lbZoom.AutoSize = true;
-            this.lbZoom.Location = new System.Drawing.Point(625, 42);
+            this.lbZoom.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lbZoom.Location = new System.Drawing.Point(582, 40);
             this.lbZoom.Name = "lbZoom";
             this.lbZoom.Size = new System.Drawing.Size(19, 13);
             this.lbZoom.TabIndex = 11;
             this.lbZoom.Text = "__";
+            // 
+            // msBottom
+            // 
+            this.msBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.msBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.msBottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbHelp});
+            this.msBottom.Location = new System.Drawing.Point(0, 731);
+            this.msBottom.Name = "msBottom";
+            this.msBottom.Size = new System.Drawing.Size(1022, 24);
+            this.msBottom.TabIndex = 12;
+            this.msBottom.Text = "menuStrip1";
+            // 
+            // tbHelp
+            // 
+            this.tbHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tbHelp.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbHelp.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.tbHelp.Name = "tbHelp";
+            this.tbHelp.ReadOnly = true;
+            this.tbHelp.Size = new System.Drawing.Size(100, 20);
+            this.tbHelp.Text = "Ready";
             // 
             // frmEditor
             // 
@@ -294,7 +352,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(1022, 602);
+            this.ClientSize = new System.Drawing.Size(1022, 755);
+            this.Controls.Add(this.msBottom);
             this.Controls.Add(this.lbZoom);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -309,12 +368,13 @@
             this.MainMenuStrip = this.msControl;
             this.Name = "frmEditor";
             this.Text = "Editor";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.msControl.ResumeLayout(false);
             this.msControl.PerformLayout();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudBeatsPerMinute)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbZoom)).EndInit();
+            this.msBottom.ResumeLayout(false);
+            this.msBottom.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -346,6 +406,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TrackBar trbZoom;
         private System.Windows.Forms.Label lbZoom;
+        private System.Windows.Forms.MenuStrip msBottom;
+        private System.Windows.Forms.ToolStripTextBox tbHelp;
     }
 }
 
