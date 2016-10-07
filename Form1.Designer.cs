@@ -37,6 +37,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.minimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdMidi = new System.Windows.Forms.OpenFileDialog();
             this.pTimeLine = new System.Windows.Forms.Panel();
@@ -49,10 +50,13 @@
             this.ofdLoad = new System.Windows.Forms.OpenFileDialog();
             this.nudBeatsPerMinute = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
+            this.trbZoom = new System.Windows.Forms.TrackBar();
+            this.lbZoom = new System.Windows.Forms.Label();
             this.msControl.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBeatsPerMinute)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trbZoom)).BeginInit();
             this.SuspendLayout();
             // 
             // msControl
@@ -67,8 +71,7 @@
             this.minimizeToolStripMenuItem});
             this.msControl.Location = new System.Drawing.Point(0, 0);
             this.msControl.Name = "msControl";
-            this.msControl.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.msControl.Size = new System.Drawing.Size(1363, 28);
+            this.msControl.Size = new System.Drawing.Size(1022, 24);
             this.msControl.TabIndex = 1;
             this.msControl.Text = "menuStrip1";
             // 
@@ -86,7 +89,7 @@
             this.fileToolStripMenuItem.ImageTransparentColor = System.Drawing.SystemColors.ControlDarkDark;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Overflow = System.Windows.Forms.ToolStripItemOverflow.AsNeeded;
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
             // 
@@ -94,7 +97,7 @@
             // 
             this.loadMIDIToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.loadMIDIToolStripMenuItem.Name = "loadMIDIToolStripMenuItem";
-            this.loadMIDIToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
+            this.loadMIDIToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.loadMIDIToolStripMenuItem.Text = "Load MIDI";
             this.loadMIDIToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.loadMIDIToolStripMenuItem.Click += new System.EventHandler(this.loadMIDIToolStripMenuItem_Click);
@@ -103,7 +106,7 @@
             // 
             this.importToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.importToolStripMenuItem.Text = "Load show";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
@@ -111,7 +114,7 @@
             // 
             this.exportToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.exportToolStripMenuItem.Text = "Save show";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
@@ -119,7 +122,7 @@
             // 
             this.exitToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // toolsToolStripMenuItem
@@ -128,7 +131,7 @@
             this.debugToolStripMenuItem});
             this.toolsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(56, 24);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // debugToolStripMenuItem
@@ -136,15 +139,24 @@
             this.debugToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.debugToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(129, 26);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.Click += new System.EventHandler(this.debugToolStripMenuItem_Click);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.closeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(26, 20);
+            this.closeToolStripMenuItem.Text = "X";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // minimizeToolStripMenuItem
             // 
             this.minimizeToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
-            this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(27, 24);
+            this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(24, 20);
             this.minimizeToolStripMenuItem.Text = "_";
             this.minimizeToolStripMenuItem.Click += new System.EventHandler(this.minimizeToolStripMenuItem_Click);
             // 
@@ -156,10 +168,9 @@
             // pTimeLine
             // 
             this.pTimeLine.BackColor = System.Drawing.Color.White;
-            this.pTimeLine.Location = new System.Drawing.Point(4, 4);
-            this.pTimeLine.Margin = new System.Windows.Forms.Padding(4);
+            this.pTimeLine.Location = new System.Drawing.Point(3, 3);
             this.pTimeLine.Name = "pTimeLine";
-            this.pTimeLine.Size = new System.Drawing.Size(1792, 764);
+            this.pTimeLine.Size = new System.Drawing.Size(1344, 621);
             this.pTimeLine.TabIndex = 2;
             this.pTimeLine.Scroll += new System.Windows.Forms.ScrollEventHandler(this.pTimeLine_Scroll);
             this.pTimeLine.Click += new System.EventHandler(this.pTimeLine_Click);
@@ -167,10 +178,9 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(16, 46);
-            this.btnPlay.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPlay.Location = new System.Drawing.Point(12, 37);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(100, 28);
+            this.btnPlay.Size = new System.Drawing.Size(75, 23);
             this.btnPlay.TabIndex = 3;
             this.btnPlay.Text = "Play";
             this.btnPlay.UseVisualStyleBackColor = true;
@@ -178,10 +188,9 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(124, 46);
-            this.btnStop.Margin = new System.Windows.Forms.Padding(4);
+            this.btnStop.Location = new System.Drawing.Point(93, 37);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(100, 28);
+            this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 4;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -189,10 +198,9 @@
             // 
             // btnAddTrack
             // 
-            this.btnAddTrack.Location = new System.Drawing.Point(232, 46);
-            this.btnAddTrack.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddTrack.Location = new System.Drawing.Point(174, 37);
             this.btnAddTrack.Name = "btnAddTrack";
-            this.btnAddTrack.Size = new System.Drawing.Size(100, 28);
+            this.btnAddTrack.Size = new System.Drawing.Size(75, 23);
             this.btnAddTrack.TabIndex = 5;
             this.btnAddTrack.Text = "Add track";
             this.btnAddTrack.UseVisualStyleBackColor = true;
@@ -202,10 +210,9 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.pTimeLine);
-            this.panel1.Location = new System.Drawing.Point(16, 81);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4);
+            this.panel1.Location = new System.Drawing.Point(12, 66);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1800, 789);
+            this.panel1.Size = new System.Drawing.Size(1350, 641);
             this.panel1.TabIndex = 6;
             // 
             // sfdLightShow
@@ -219,7 +226,8 @@
             // 
             // nudBeatsPerMinute
             // 
-            this.nudBeatsPerMinute.Location = new System.Drawing.Point(386, 50);
+            this.nudBeatsPerMinute.Location = new System.Drawing.Point(290, 41);
+            this.nudBeatsPerMinute.Margin = new System.Windows.Forms.Padding(2);
             this.nudBeatsPerMinute.Maximum = new decimal(new int[] {
             140,
             0,
@@ -231,7 +239,7 @@
             0,
             0});
             this.nudBeatsPerMinute.Name = "nudBeatsPerMinute";
-            this.nudBeatsPerMinute.Size = new System.Drawing.Size(76, 22);
+            this.nudBeatsPerMinute.Size = new System.Drawing.Size(57, 20);
             this.nudBeatsPerMinute.TabIndex = 7;
             this.nudBeatsPerMinute.Value = new decimal(new int[] {
             90,
@@ -243,28 +251,52 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(339, 52);
+            this.label1.Location = new System.Drawing.Point(254, 42);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 17);
+            this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 8;
             this.label1.Text = "BPM:";
             // 
-            // closeToolStripMenuItem
+            // label2
             // 
-            this.closeToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.closeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(30, 24);
-            this.closeToolStripMenuItem.Text = "X";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(396, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(37, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Zoom:";
+            // 
+            // trbZoom
+            // 
+            this.trbZoom.Location = new System.Drawing.Point(439, 37);
+            this.trbZoom.Maximum = 50;
+            this.trbZoom.Minimum = 2;
+            this.trbZoom.Name = "trbZoom";
+            this.trbZoom.Size = new System.Drawing.Size(180, 45);
+            this.trbZoom.TabIndex = 10;
+            this.trbZoom.TickFrequency = 2;
+            this.trbZoom.Value = 10;
+            this.trbZoom.Scroll += new System.EventHandler(this.trbZoom_Scroll);
+            // 
+            // lbZoom
+            // 
+            this.lbZoom.AutoSize = true;
+            this.lbZoom.Location = new System.Drawing.Point(625, 42);
+            this.lbZoom.Name = "lbZoom";
+            this.lbZoom.Size = new System.Drawing.Size(19, 13);
+            this.lbZoom.TabIndex = 11;
+            this.lbZoom.Text = "__";
             // 
             // frmEditor
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(1363, 741);
+            this.ClientSize = new System.Drawing.Size(1022, 602);
+            this.Controls.Add(this.lbZoom);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nudBeatsPerMinute);
             this.Controls.Add(this.panel1);
@@ -272,9 +304,9 @@
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.msControl);
+            this.Controls.Add(this.trbZoom);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.msControl;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmEditor";
             this.Text = "Editor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -282,6 +314,7 @@
             this.msControl.PerformLayout();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudBeatsPerMinute)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trbZoom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,6 +343,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem minimizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TrackBar trbZoom;
+        private System.Windows.Forms.Label lbZoom;
     }
 }
 

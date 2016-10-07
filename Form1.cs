@@ -91,7 +91,8 @@ namespace midiLightShow
             // diverse statements
             this.pTimeLine.BackColor = Color.FromArgb(255, 170, 213, 255);
             this.nudBeatsPerMinute.Value = this.bpm;
-            this.panel1.Size = this.Size;
+            this.pixelsPer16thNote = trbZoom.Value;
+            this.lbZoom.Text = (trbZoom.Value / 10 * 100).ToString() + "%";
             track.makeTypeMap();
             // customize menu strip
             msControl.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
@@ -309,6 +310,7 @@ namespace midiLightShow
         /// </summary>
         private void recalculatePanelWidth()
         {
+            this.panel1.Size = new Size(this.Size.Width - 3, this.Size.Height - 12);
             if (this.tracks.Count > 0)
             {
                 this.showTime = this.tracks.Max(tr => tr.maxEventLength);
@@ -319,7 +321,7 @@ namespace midiLightShow
                 }
                 else
                 {
-                    this.pTimeLine.Size = new Size(1344, this.pTimeLine.Size.Height);
+                    this.pTimeLine.Size = new Size(this.Size.Width - 3, this.pTimeLine.Size.Height);
                 }
             }
         }
@@ -607,8 +609,13 @@ namespace midiLightShow
         {
             this.WindowState = FormWindowState.Minimized;
         }
+        
+        private void trbZoom_Scroll(object sender, EventArgs e)
+        {
+            this.pixelsPer16thNote = trbZoom.Value;
+            this.lbZoom.Text = (trbZoom.Value / 10 * 100).ToString() + "%";
+        }
         #endregion
-
     }
     #endregion
     #region Custom colors
