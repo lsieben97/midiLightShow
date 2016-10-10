@@ -7,25 +7,43 @@ using System.Threading.Tasks;
 namespace midiLightShow
 {
     /// <summary>
-    /// <summary>
-    /// thgfhhgfgjhghggrd
-    /// </summary>
-    /// ddadf
+    /// RGB light class. Functions for the RGB spotlight
+    /// Inherited from dmxLight
     /// </summary>
     public class rgbSpotLight : dmxLight
     {
-
+        #region Global variables
+        /// <summary>
+        /// Speed variable used for
+        /// </summary>
         byte speed = 0;
-
+        #endregion
+        #region Constructors
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public rgbSpotLight() { }
+        /// <summary>
+        /// Constructor for RGB spot light class
+        /// </summary>
+        /// <param name="comPort">Connection port</param>
         public rgbSpotLight(string comPort)
         {
             this.comPort = comPort;
             this.driver.DmxToDefault(this.comPort);
         }
-
+        #endregion
+        #region Execute method
+        /// <summary>
+        /// execute function method override from parent dmxLight
+        /// </summary>
+        /// <param name="function">Function given from track</param>
+        /// <param name="parameters">Paramaters given with the function</param>
+        /// <param name="execute">Indicator variable for executing the function</param>
+        /// <returns>Parameter validation</returns>
         public override bool executeFunction(string function, Dictionary<string, string> parameters, bool execute = false)
         {
+            //execute function switch case
             switch (function)
             {
                 case "rgb":
@@ -68,14 +86,22 @@ namespace midiLightShow
             }
             return false;
         }
-        //Functions below for this light
+        #endregion
+        #region Functions
+        /// <summary>
+        /// Set the color
+        /// </summary>
+        /// <param name="r">Red value</param>
+        /// <param name="g">Green value</param>
+        /// <param name="b">Blue value</param>
         [ParameterDataAtribute(parameterDescription = new string[] { "Red", "Green", "Blue" })]
         [MethodDescriptionAtribute(methodDescription = "Set Light color")]
         public void func_rgb(byte r, byte g, byte b)
         {
-            this.driver.DmxLoadBuffer(1, r, 8);
-            this.driver.DmxLoadBuffer(2, g, 8);
-            this.driver.DmxLoadBuffer(3, b, 8);
+            //Loads and sends the value to the RGB spotlight
+            this.driver.DmxLoadBuffer(1, r, 512);
+            this.driver.DmxLoadBuffer(2, g, 512);
+            this.driver.DmxLoadBuffer(3, b, 512);
             this.driver.DmxSendCommand(3);
         }
 
@@ -83,10 +109,13 @@ namespace midiLightShow
         [MethodDescriptionAtribute(methodDescription = "Fade lights")]
         public void func_fade(byte speed = 0)
         {
+            //Switches the value
             if(speed != 0)
                 this.driver.DmxLoadBuffer(6, (byte)(64 + 64 / (speed + 1)), 8);
             else
                 this.driver.DmxLoadBuffer(6, 0, 8);
+            
+            //Sends the value to the RGB spotlight
             this.driver.DmxSendCommand(1);
         }
 
@@ -99,5 +128,6 @@ namespace midiLightShow
                 this.driver.DmxLoadBuffer(6, 0, 8);
             this.driver.DmxSendCommand(1);
         }
+        #endregion
     }
 }
