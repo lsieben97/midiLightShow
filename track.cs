@@ -103,7 +103,7 @@ namespace midiLightShow
         /// Button for opening the options dialog for this track.
         /// </summary>
         [XmlIgnore]
-        public Button bOptions = new Button();
+        public PictureBox pbOptions = new PictureBox();
         /// <summary>
         /// Button for opening the add-event dialog for this track.
         /// </summary>
@@ -191,19 +191,13 @@ namespace midiLightShow
             this.cbSolo.CheckedChanged += cbSolo_CheckedChanged;
             this.pTimeLine.Controls.Add(cbSolo);
 
-            this.bOptions.Text = "O";
-            this.bOptions.Location = new Point(90, this.yPos + 3);
-            this.bOptions.BackColor = SystemColors.Control;
-            this.bOptions.BackColor = SystemColors.ControlDarkDark;
-            this.bOptions.ForeColor = SystemColors.Highlight;
-            this.bOptions.FlatStyle = FlatStyle.Flat;
-            this.bOptions.FlatAppearance.BorderSize = 0;
-            this.bOptions.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
-            this.bOptions.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
-            this.bOptions.Size = new Size(20, 20);
+            //this.pbOptions.Image = global::midiLightShow.Properties.Resources.options_icon;
+            this.pbOptions.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.pbOptions.Size = new Size(25, 25);
+            this.pbOptions.Location = new Point(60, this.yPos + 3);
             //this.bOptions.Bounds = new Rectangle(bOptions.Location, new Size(20, 50));
-            this.bOptions.Click += bOptions_Click;
-            this.pTimeLine.Controls.Add(bOptions);
+            this.pbOptions.Click += bOptions_Click;
+            this.pTimeLine.Controls.Add(pbOptions);
 
             this.bAddEvent.Text = "Add event";
             this.bAddEvent.Location = new Point(110, this.yPos + 3);
@@ -229,7 +223,7 @@ namespace midiLightShow
             this.lbName.Location = new Point(4, this.yPos + 3);
             this.cbMute.Location = new Point(4, this.yPos + 30);
             this.cbSolo.Location = new Point(60, this.yPos + 30);
-            this.bOptions.Location = new Point(90, this.yPos + 3);
+            this.pbOptions.Location = new Point(80, this.yPos + 3);
             this.bAddEvent.Location = new Point(110, this.yPos + 3);
         }
 
@@ -390,7 +384,7 @@ namespace midiLightShow
         {
             this.pTimeLine.Controls.Remove(this.lbName);
             this.pTimeLine.Controls.Remove(this.bAddEvent);
-            this.pTimeLine.Controls.Remove(this.bOptions);
+            this.pTimeLine.Controls.Remove(this.pbOptions);
             this.pTimeLine.Controls.Remove(this.cbMute);
             this.pTimeLine.Controls.Remove(this.cbSolo);
         }
