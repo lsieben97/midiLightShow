@@ -343,7 +343,7 @@
             this.tbHelp.ForeColor = System.Drawing.SystemColors.Highlight;
             this.tbHelp.Name = "tbHelp";
             this.tbHelp.ReadOnly = true;
-            this.tbHelp.Size = new System.Drawing.Size(100, 20);
+            this.tbHelp.Size = new System.Drawing.Size(1000, 20);
             this.tbHelp.Text = "Ready";
             // 
             // frmEditor

@@ -194,6 +194,12 @@ namespace midiLightShow
             this.bOptions.Text = "O";
             this.bOptions.Location = new Point(90, this.yPos + 3);
             this.bOptions.BackColor = SystemColors.Control;
+            this.bOptions.BackColor = SystemColors.ControlDarkDark;
+            this.bOptions.ForeColor = SystemColors.Highlight;
+            this.bOptions.FlatStyle = FlatStyle.Flat;
+            this.bOptions.FlatAppearance.BorderSize = 0;
+            this.bOptions.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
+            this.bOptions.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
             this.bOptions.Size = new Size(20, 20);
             //this.bOptions.Bounds = new Rectangle(bOptions.Location, new Size(20, 50));
             this.bOptions.Click += bOptions_Click;
@@ -202,7 +208,12 @@ namespace midiLightShow
             this.bAddEvent.Text = "Add event";
             this.bAddEvent.Location = new Point(110, this.yPos + 3);
             this.bAddEvent.Size = new Size(50, 47);
-            this.bAddEvent.BackColor = SystemColors.Control;
+            this.bAddEvent.BackColor = SystemColors.ControlDarkDark;
+            this.bAddEvent.ForeColor = SystemColors.Highlight;
+            this.bAddEvent.FlatStyle = FlatStyle.Flat;
+            this.bAddEvent.FlatAppearance.BorderSize = 0;
+            this.bAddEvent.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
+            this.bAddEvent.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
             this.bAddEvent.Bounds = new Rectangle(this.bAddEvent.Location, new Size(50, 47));
             this.bAddEvent.Click += bAddEvent_Click;
             this.pTimeLine.Controls.Add(bAddEvent);
@@ -239,6 +250,7 @@ namespace midiLightShow
         {
             this.frmAddShowEvent.reset();
             this.frmAddShowEvent.light = this.light;
+            this.frmAddShowEvent.tbTitle.Text = "Add show event to '" + this.name + "'";
             DialogResult dr = this.frmAddShowEvent.ShowDialog();
             if (dr == DialogResult.OK)
             {

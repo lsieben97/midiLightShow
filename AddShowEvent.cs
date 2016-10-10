@@ -178,6 +178,8 @@ namespace midiLightShow
                     case "uint":
                         TextBox tbpara = new TextBox();
                         tbpara.Tag = p.Name;
+                        tbpara.BackColor = SystemColors.ControlDark;
+                        tbpara.BorderStyle = BorderStyle.FixedSingle;
                         tbpara.Visible = false;
                         this.parameterControls.Add(tbpara);
                         break;
@@ -209,7 +211,8 @@ namespace midiLightShow
             {
                 parameterControl.Location = new Point(60, this.pParameterControls.Controls.Count * this.controlOffset);
                 Label lbParameterName = new Label();
-                lbParameterName.Text = parameterControl.Tag.ToString();
+                lbParameterName.Text = parameterControl.Tag.ToString() + ":";
+                lbParameterName.ForeColor = SystemColors.Highlight;
                 lbParameterName.Location = new Point(5, this.pParameterControls.Controls.Count * this.controlOffset);
                 lbParameterName.Visible = false;
                 pParameterControls.Controls.Add(parameterControl);

@@ -649,7 +649,7 @@ namespace midiLightShow
 
         private void btnPlay_MouseLeave(object sender, EventArgs e)
         {
-
+            this.tbHelp.Text = this.defaultHelpMessage;
         }
     }
     #endregion
