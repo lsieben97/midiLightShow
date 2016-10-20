@@ -47,6 +47,7 @@ namespace midiLightShow
         #region Functions
         public void func_color(bool red, bool green, bool blue, bool white)
         {
+            byte[] mix = { 0, 53, 38, 128, 23, 143, 113, 203, 8, 98, 83, 188, 68, 173, 158, 218 };
             bool[] colors = { red, green, blue, white };
 
             string binary = "";
@@ -58,11 +59,29 @@ namespace midiLightShow
                     binary += "0";
             }
 
-            this.driver.DmxLoadBuffer(4, (byte)(Convert.ToInt32(binary, 2) / 256 * 224), 512);
+            this.driver.DmxLoadBuffer(4, mix[Convert.ToInt32(binary, 2)], 512);
             this.driver.DmxSendCommand(1);
         }
 
+        public void func_rainbow(uint speed)
+        {
 
+        }
+
+        public void func_rotateX(uint rotation)
+        {
+
+        }
+
+        public void func_rotateY(uint rotation)
+        {
+
+        }
+
+        public void func_rotateLights(byte speed)
+        {
+
+        }
         #endregion
     }
 }
