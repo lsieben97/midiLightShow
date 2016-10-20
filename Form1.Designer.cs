@@ -42,6 +42,9 @@
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.minimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startTutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdMidi = new System.Windows.Forms.OpenFileDialog();
             this.pTimeLine = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -60,14 +63,19 @@
             this.msBottom = new System.Windows.Forms.MenuStrip();
             this.tbHelp = new System.Windows.Forms.ToolStripTextBox();
             this.btnAddTrack = new System.Windows.Forms.Button();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pTutorial = new System.Windows.Forms.Panel();
+            this.rtbTutorialContent = new System.Windows.Forms.RichTextBox();
+            this.msTutorial = new System.Windows.Forms.MenuStrip();
+            this.tbTutorial = new System.Windows.Forms.ToolStripTextBox();
+            this.btnNextTutorial = new System.Windows.Forms.Button();
             this.msControl.SuspendLayout();
             this.pTimeLine.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBeatsPerMinute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbZoom)).BeginInit();
             this.msBottom.SuspendLayout();
+            this.pTutorial.SuspendLayout();
+            this.msTutorial.SuspendLayout();
             this.SuspendLayout();
             // 
             // msControl
@@ -223,6 +231,32 @@
             this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(24, 20);
             this.minimizeToolStripMenuItem.Text = "_";
             this.minimizeToolStripMenuItem.Click += new System.EventHandler(this.minimizeToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.userManualToolStripMenuItem,
+            this.startTutorialToolStripMenuItem});
+            this.helpToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // userManualToolStripMenuItem
+            // 
+            this.userManualToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
+            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.userManualToolStripMenuItem.Text = "User manual";
+            this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
+            // 
+            // startTutorialToolStripMenuItem
+            // 
+            this.startTutorialToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.startTutorialToolStripMenuItem.Name = "startTutorialToolStripMenuItem";
+            this.startTutorialToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.startTutorialToolStripMenuItem.Text = "Start Tutorial";
+            this.startTutorialToolStripMenuItem.Click += new System.EventHandler(this.startTutorialToolStripMenuItem_Click);
             // 
             // ofdMidi
             // 
@@ -441,28 +475,77 @@
             this.btnAddTrack.Name = "btnAddTrack";
             this.btnAddTrack.Size = new System.Drawing.Size(75, 29);
             this.btnAddTrack.TabIndex = 4;
+            this.btnAddTrack.Tag = "button";
             this.btnAddTrack.Text = "Add track";
             this.btnAddTrack.UseVisualStyleBackColor = false;
             this.btnAddTrack.Click += new System.EventHandler(this.btnAddTrack_Click);
             this.btnAddTrack.MouseEnter += new System.EventHandler(this.btnStop_MouseEnter);
             this.btnAddTrack.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             // 
-            // helpToolStripMenuItem
+            // pTutorial
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.userManualToolStripMenuItem});
-            this.helpToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
+            this.pTutorial.Controls.Add(this.rtbTutorialContent);
+            this.pTutorial.Controls.Add(this.msTutorial);
+            this.pTutorial.Controls.Add(this.btnNextTutorial);
+            this.pTutorial.Location = new System.Drawing.Point(365, 32);
+            this.pTutorial.Name = "pTutorial";
+            this.pTutorial.Size = new System.Drawing.Size(348, 225);
+            this.pTutorial.TabIndex = 14;
             // 
-            // userManualToolStripMenuItem
+            // rtbTutorialContent
             // 
-            this.userManualToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
-            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.userManualToolStripMenuItem.Text = "User manual";
-            this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
+            this.rtbTutorialContent.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.rtbTutorialContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbTutorialContent.Font = new System.Drawing.Font("Corbel", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbTutorialContent.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.rtbTutorialContent.Location = new System.Drawing.Point(3, 27);
+            this.rtbTutorialContent.Name = "rtbTutorialContent";
+            this.rtbTutorialContent.Size = new System.Drawing.Size(342, 160);
+            this.rtbTutorialContent.TabIndex = 1;
+            this.rtbTutorialContent.Text = "Welcome to the tutorial for DMX studio!\nThis tutorial will guide you through the " +
+    "application and help you setup your first lightshow";
+            // 
+            // msTutorial
+            // 
+            this.msTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.msTutorial.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbTutorial});
+            this.msTutorial.Location = new System.Drawing.Point(0, 0);
+            this.msTutorial.Name = "msTutorial";
+            this.msTutorial.Size = new System.Drawing.Size(348, 24);
+            this.msTutorial.TabIndex = 0;
+            this.msTutorial.Text = "menuStrip1";
+            // 
+            // tbTutorial
+            // 
+            this.tbTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tbTutorial.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbTutorial.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.tbTutorial.Name = "tbTutorial";
+            this.tbTutorial.ReadOnly = true;
+            this.tbTutorial.Size = new System.Drawing.Size(250, 20);
+            this.tbTutorial.Text = "Tutorial - Welcome!";
+            // 
+            // btnNextTutorial
+            // 
+            this.btnNextTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnNextTutorial.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
+            this.btnNextTutorial.FlatAppearance.BorderSize = 0;
+            this.btnNextTutorial.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnNextTutorial.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnNextTutorial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNextTutorial.Font = new System.Drawing.Font("Corbel", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNextTutorial.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnNextTutorial.Location = new System.Drawing.Point(270, 193);
+            this.btnNextTutorial.Name = "btnNextTutorial";
+            this.btnNextTutorial.Size = new System.Drawing.Size(75, 29);
+            this.btnNextTutorial.TabIndex = 4;
+            this.btnNextTutorial.Tag = "button";
+            this.btnNextTutorial.Text = "Next";
+            this.btnNextTutorial.UseVisualStyleBackColor = false;
+            this.btnNextTutorial.Click += new System.EventHandler(this.btnNextTutorial_Click);
+            this.btnNextTutorial.MouseEnter += new System.EventHandler(this.btnStop_MouseEnter);
+            this.btnNextTutorial.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             // 
             // frmEditor
             // 
@@ -471,6 +554,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1022, 755);
+            this.Controls.Add(this.pTutorial);
             this.Controls.Add(this.msBottom);
             this.Controls.Add(this.lbZoom);
             this.Controls.Add(this.label2);
@@ -498,6 +582,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.trbZoom)).EndInit();
             this.msBottom.ResumeLayout(false);
             this.msBottom.PerformLayout();
+            this.pTutorial.ResumeLayout(false);
+            this.pTutorial.PerformLayout();
+            this.msTutorial.ResumeLayout(false);
+            this.msTutorial.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -538,6 +626,12 @@
         private System.Windows.Forms.ToolStripMenuItem resetZoomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userManualToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startTutorialToolStripMenuItem;
+        private System.Windows.Forms.Panel pTutorial;
+        private System.Windows.Forms.RichTextBox rtbTutorialContent;
+        private System.Windows.Forms.MenuStrip msTutorial;
+        private System.Windows.Forms.ToolStripTextBox tbTutorial;
+        private System.Windows.Forms.Button btnNextTutorial;
     }
 }
 

@@ -171,11 +171,12 @@ namespace midiLightShow
             this.parameterControls.Clear();
             foreach (ParameterInfo p in this.parameterList)
             {
+                Console.WriteLine(p.ParameterType.Name);
                 switch (p.ParameterType.Name)
                 {
                     case "String":
                     case "Byte":
-                    case "uint":
+                    case "Uint32":
                         TextBox tbpara = new TextBox();
                         tbpara.Tag = p.Name;
                         tbpara.BackColor = SystemColors.ControlDark;

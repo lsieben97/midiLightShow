@@ -197,6 +197,7 @@ namespace midiLightShow
 
             this.pbOptions.Image = global::midiLightShow.Properties.Resources.options_icon;
             this.pbOptions.Cursor = Cursors.Hand;
+            this.pbOptions.Tag = "Track";
             this.pbOptions.SizeMode = PictureBoxSizeMode.StretchImage;
             this.pbOptions.Size = new Size(25, 25);
             this.pbOptions.Location = new Point(60, this.yPos + 3);
@@ -209,6 +210,7 @@ namespace midiLightShow
             this.bAddEvent.Size = new Size(50, 47);
             this.bAddEvent.BackColor = SystemColors.ControlDarkDark;
             this.bAddEvent.ForeColor = SystemColors.Highlight;
+            this.bAddEvent.Tag = "Track";
             this.bAddEvent.FlatStyle = FlatStyle.Flat;
             this.bAddEvent.FlatAppearance.BorderSize = 0;
             this.bAddEvent.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
