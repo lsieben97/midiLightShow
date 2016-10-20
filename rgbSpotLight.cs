@@ -91,6 +91,7 @@ namespace midiLightShow
         }
 
         [ParameterDataAtribute(parameterDescription = new string[] { "Speed" })]
+        [MethodDescriptionAtribute(methodDescription = "Rainbow effect")]
         public void func_rainBow(byte speed = 0)
         {
             if (speed != 0)
