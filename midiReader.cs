@@ -58,15 +58,21 @@ namespace midiLightShow
         /// </summary>
         public void init()
         {
-            this.events.Add("255127", new midiEvent("Sequencer-Specific Meta-event", "255127", true));
-            this.events.Add("255001", new midiEvent("Text Event", "2551", true));
-            this.events.Add("255081003", new midiEvent("Set Tempo", "255813", true));
-            this.events.Add("2555047", new midiEvent("End of Track", "255470", true));
-            this.events.Add("255003", new midiEvent("Track Name", "2553", true));
-            this.events.Add("255032001", new midiEvent("MIDI Channel Prefix", "255321", true));
-            this.events.Add("144", new midiEvent("Note On", "144", true));
-            this.events.Add("128", new midiEvent("Note Off", "128", true));
-            this.events.Add("192", new midiEvent("Program Change", "192", true));
+            // Meta events
+            this.events.Add("255127", new midiEvent("Sequencer-Specific Meta-event", "255127"));
+            this.events.Add("255001", new midiEvent("Text Event", "2551"));
+            this.events.Add("255088", new midiEvent("Time Signature", "25588", true,4));
+            this.events.Add("255081", new midiEvent("Set Tempo", "255813",true, 4));
+            this.events.Add("255047", new midiEvent("End of Track", "255470", true, 1));
+            this.events.Add("255003", new midiEvent("Track Name", "2553"));
+            this.events.Add("255032", new midiEvent("MIDI Channel Prefix", "255321",true,2));
+            this.events.Add("255000", new midiEvent("Sequence Number", "25502",true,3));
+            this.events.Add("255002", new midiEvent("Copyright Notice", "2552"));
+            this.events.Add("255004", new midiEvent("Instrument Name", "2554"));
+            // channel events
+            this.events.Add("1100", new midiEvent("Program Change", "1100", true, 1));
+            this.events.Add("1001", new midiEvent("Note On", "1001", true, 2));
+            this.events.Add("1000", new midiEvent("Note Off", "1000", true, 2));
         }
         /// <summary>
         /// Loads a MIDI file
@@ -112,7 +118,7 @@ namespace midiLightShow
                             midiEvent e = this.getMetaEvent();
                             e.deltaTime = delta;
                             this.form.rtbStatus.AppendText("Found " + e.name + "\n");
-                            Thread.Sleep(25);
+                            Thread.Sleep(10);
                             
                             this.timeLine.Add(e);
                             if(e.name == "End of Track")
@@ -120,13 +126,18 @@ namespace midiLightShow
                                 this.trackIndexes.Add(this.timeLine.Count - 1);
                                 endOfTrack = true;
                             }
+                            else
+                            {
+                                this.totalLengthRead++;
+                            }
+                            
                         }
                         else
                         {
                             midiEvent e = this.getChannelEvent();
                             e.deltaTime = delta;
                             this.form.rtbStatus.AppendText("Found " + e.name + "\n");
-                            Thread.Sleep(25);
+                            Thread.Sleep(10);
                             this.timeLine.Add(e);
                         }
                     }
@@ -171,7 +182,7 @@ namespace midiLightShow
             foreach(int index in this.trackIndexes)
             {
                 result.Add(this.timeLine.GetRange(startIndex, index + 1 - startIndex));
-                startIndex = index;
+                startIndex = index + 1;
             }
             return result;
         }
@@ -302,7 +313,7 @@ namespace midiLightShow
             byte fbyte = this.data[this.totalLengthRead];
             if(fbyte == 0)
             {
-                this.totalLengthRead++;
+                this.totalLengthRead ++;
                 return 0;
             }
             else
@@ -368,18 +379,25 @@ namespace midiLightShow
                     e.hasLength = this.events[prefix].hasLength;
                     break;
                 }
-                else if(kvPair.Key.StartsWith(prefix) == true && this.events.ContainsKey(prefix + this.data[this.totalLengthRead].ToString().PadLeft(3,'0')))
+            }
+            if(e.hasLength)
+            {
+                if (e.name == "Set Tempo")
                 {
-                    string newPrefix = prefix + this.data[this.totalLengthRead].ToString().PadLeft(3, '0');
-                    e.name = this.events[newPrefix].name;
-                    e.length = this.events[newPrefix].length;
-                    e.prefix = this.events[newPrefix].prefix;
-                    e.prefixLength = this.events[newPrefix].prefixLength;
-                    e.hasLength = this.events[newPrefix].hasLength;
                     this.totalLengthRead++;
-                    break;
+                    this.interval = (double)1 / (this.division / (this.calculateTime(this.getChunkGroup(3)) / 1000));
+                }
+                else
+                {
+                    this.totalLengthRead += e.length;
                 }
             }
+            else
+            {
+                this.totalLengthRead += this.getVariableLengthQuantity();
+            }
+            return e;
+            /*
             if(e.name == "")
             {
 
@@ -424,8 +442,7 @@ namespace midiLightShow
             {
                 throw new Exception("Unknown meta event with prefix" + prefix);
             }
-
-            return e;
+             * */
         }
 
         /// <summary>
@@ -435,27 +452,34 @@ namespace midiLightShow
         private midiEvent getChannelEvent()
         {
             midiEvent e = new midiEvent();
-            if(this.data[this.totalLengthRead] == 144)
+            string binaryByte = this.byteToString(this.data[this.totalLengthRead]);
+            foreach (KeyValuePair<string, midiEvent> kvPair in this.events)
             {
-                e.name = "Note On";
-                this.totalLengthRead++;
-                e.note = this.data[this.totalLengthRead];
+                if (binaryByte.StartsWith(kvPair.Key))
+                {
+                    e.name = this.events[kvPair.Key].name;
+                    e.length = this.events[kvPair.Key].length;
+                    e.prefix = this.events[kvPair.Key].prefix;
+                    e.prefixLength = this.events[kvPair.Key].prefixLength;
+                    e.hasLength = this.events[kvPair.Key].hasLength;
+                    break;
+                }
             }
-            else if(this.data[this.totalLengthRead] == 128)
+            this.totalLengthRead++;
+            if(e.name == "Note On")
             {
-                e.name = "Note Off";
-                this.totalLengthRead++;
                 e.note = this.data[this.totalLengthRead];
+                this.totalLengthRead += e.length;
             }
-            else if(this.data[this.totalLengthRead] == 192)
+            else if(e.name == "Note Off")
             {
-                e.name = "Program Change";
+                e.note = this.data[this.totalLengthRead];
+                this.totalLengthRead += e.length;
             }
             else
             {
-
+                this.totalLengthRead += e.length;
             }
-            this.totalLengthRead += 2;
             return e;
         }
         #endregion
@@ -481,7 +505,7 @@ namespace midiLightShow
         /// </summary>
         public int length = 0;
         /// <summary>
-        /// The length of the prefix of this MIDI event
+        /// The length in bytes of the prefix
         /// </summary>
         public int prefixLength = 0;
         /// <summary>
@@ -512,11 +536,12 @@ namespace midiLightShow
         /// <param name="name">The name of the MIDI event</param>
         /// <param name="prefix">The prefix of the event</param>
         /// <param name="hasLength">Does the event has a default length?</param>
-        public midiEvent(string name,string prefix,bool hasLength = false)
+        public midiEvent(string name,string prefix, bool hasLength = false,int length = 0)
         {
             this.name = name;
             this.prefix = prefix;
             this.hasLength = hasLength;
+            this.length = length;
         }
 
         /// <summary>

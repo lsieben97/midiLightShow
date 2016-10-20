@@ -36,7 +36,7 @@ namespace midiLightShow
         /// <param name="parameters">Paramaters given with the function</param>
         /// <param name="execute">Indicator variable for executing the function</param>
         /// <returns>Parameter validation</returns>
-        public virtual bool executeFunction(string function, Dictionary<string, string> parameters, bool execute = false) { return true; }
+        public virtual bool executeFunction(string function, List<string> parameters, bool execute = false) { return true; }
         /// <summary>
         /// Sets up the DMX 512 driver
         /// </summary>

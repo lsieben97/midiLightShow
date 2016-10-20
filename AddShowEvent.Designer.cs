@@ -63,7 +63,7 @@
             // 
             this.tbDuration.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tbDuration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbDuration.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tbDuration.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.tbDuration.Location = new System.Drawing.Point(146, 58);
             this.tbDuration.Name = "tbDuration";
             this.tbDuration.Size = new System.Drawing.Size(210, 20);
@@ -82,7 +82,8 @@
             // cbFunctions
             // 
             this.cbFunctions.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.cbFunctions.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cbFunctions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFunctions.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.cbFunctions.FormattingEnabled = true;
             this.cbFunctions.Location = new System.Drawing.Point(146, 83);
             this.cbFunctions.Name = "cbFunctions";
@@ -104,7 +105,7 @@
             // 
             this.tbParameters.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tbParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbParameters.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tbParameters.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.tbParameters.Location = new System.Drawing.Point(146, 172);
             this.tbParameters.Name = "tbParameters";
             this.tbParameters.Size = new System.Drawing.Size(210, 20);
@@ -166,7 +167,7 @@
             // 
             this.tbStartTime.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tbStartTime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbStartTime.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tbStartTime.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.tbStartTime.Location = new System.Drawing.Point(146, 36);
             this.tbStartTime.Name = "tbStartTime";
             this.tbStartTime.Size = new System.Drawing.Size(210, 20);
@@ -192,7 +193,7 @@
             // 
             this.rtbFunctionDescription.BackColor = System.Drawing.SystemColors.ControlDark;
             this.rtbFunctionDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbFunctionDescription.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rtbFunctionDescription.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.rtbFunctionDescription.Location = new System.Drawing.Point(146, 110);
             this.rtbFunctionDescription.Name = "rtbFunctionDescription";
             this.rtbFunctionDescription.ReadOnly = true;
@@ -204,7 +205,7 @@
             // 
             this.rtbParameterDescription.BackColor = System.Drawing.SystemColors.ControlDark;
             this.rtbParameterDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbParameterDescription.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rtbParameterDescription.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.rtbParameterDescription.Location = new System.Drawing.Point(146, 198);
             this.rtbParameterDescription.Name = "rtbParameterDescription";
             this.rtbParameterDescription.ReadOnly = true;

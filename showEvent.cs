@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Xml.Serialization;
 
 namespace midiLightShow
 {
@@ -36,7 +37,8 @@ namespace midiLightShow
         /// <summary>
         /// Dictionary with 'parameter name, parameter value' pairs.
         /// </summary>
-        public Dictionary<string,string> parameters;
+        
+        public List<string> parameters;
         /// <summary>
         /// The index of this show event. Used for deleting this show event
         /// </summary>
@@ -61,7 +63,7 @@ namespace midiLightShow
         /// <param name="parameters">The parameters to send when executing the show event</param>
         /// <param name="paraString">The parameter string for the show event</param>
         /// <param name="index">The index for the show event</param>
-        public showEvent(int startTime, int duration, string function, Dictionary<string,string> parameters, string paraString, int index)
+        public showEvent(int startTime, int duration, string function, List<string> parameters, string paraString, int index)
         {
             this.startTime = startTime;
             this.duration = duration;

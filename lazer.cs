@@ -76,7 +76,7 @@ namespace midiLightShow
         /// <param name="parameters">Paramaters given with the function</param>
         /// <param name="execute">Indicator variable for executing the function</param>
         /// <returns>Parameter validation</returns>
-        public override bool executeFunction(string function, Dictionary<string, string> parameters, bool execute = false)
+        public override bool executeFunction(string function, List<string> parameters, bool execute = false)
         {
             //parameter variables that occur in several functions
             uint rotation = 0;
@@ -96,7 +96,7 @@ namespace midiLightShow
                 case "symbol":
                     if (execute)
                     {
-                        this.func_symbol(parameters.ElementAt(0).Value);
+                        this.func_symbol(parameters[0]);
                     } else { return true; }
                     break;
                 case "toggleLamp":
@@ -119,7 +119,7 @@ namespace midiLightShow
                     break;
                 case "frequency":
                     speed = 0;
-                    if (byte.TryParse(parameters.ElementAt(0).Value, out speed))
+                    if (byte.TryParse(parameters[0], out speed))
                     {
                         if (execute)
                         {
@@ -129,7 +129,7 @@ namespace midiLightShow
                     break;
                 case "zoom":
                     byte magnify = 0;
-                    if (byte.TryParse(parameters.ElementAt(0).Value, out magnify))
+                    if (byte.TryParse(parameters[0], out magnify))
                     {
                         if (execute)
                         {
@@ -139,7 +139,7 @@ namespace midiLightShow
                     break;
                 case "autoZoom":
                     speed = 0;
-                    if (byte.TryParse(parameters.ElementAt(0).Value, out speed))
+                    if (byte.TryParse(parameters[0], out speed))
                     {
                         if (execute)
                         {
@@ -150,7 +150,7 @@ namespace midiLightShow
                 case "xy":
                     byte x = 0;
                     byte y = 0;
-                    if (byte.TryParse(parameters.ElementAt(0).Value, out x) && byte.TryParse(parameters.ElementAt(1).Value, out y))
+                    if (byte.TryParse(parameters[0], out x) && byte.TryParse(parameters[1], out y))
                     {
                         if (execute)
                         {
@@ -161,7 +161,7 @@ namespace midiLightShow
                 case "autoXY":
                     clockWiseX = false;
                     clockWiseY = false;
-                    if (bool.TryParse(parameters.ElementAt(0).Value, out clockWiseX) && bool.TryParse(parameters.ElementAt(1).Value, out clockWiseY))
+                    if (bool.TryParse(parameters[0], out clockWiseX) && bool.TryParse(parameters[1], out clockWiseY))
                     {
                         if (execute)
                         {
@@ -173,7 +173,7 @@ namespace midiLightShow
                     break;
                 case "setPan":
                     rotation = 0;
-                    if (uint.TryParse(parameters.ElementAt(0).Value, out rotation))
+                    if (uint.TryParse(parameters[0], out rotation))
                     {
                         if (execute)
                         {

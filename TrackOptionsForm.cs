@@ -97,5 +97,13 @@ namespace midiLightShow
             }
         }
         #endregion
+
+        private void btnChangeColor_Click(object sender, EventArgs e)
+        {
+            if(this.cdEventColor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                lbColorPreview.ForeColor = this.cdEventColor.Color;
+            }
+        }
     }
 }

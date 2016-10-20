@@ -50,7 +50,7 @@ namespace midiLightShow
         /// <param name="parameters">Paramaters given with the function</param>
         /// <param name="execute">Indicator variable for executing the function</param>
         /// <returns>Parameter validation</returns>
-        public override bool executeFunction(string function, Dictionary<string, string> parameters, bool execute = false)
+        public override bool executeFunction(string function, List<string> parameters, bool execute = false)
         {
             //parameter variables that occur in several functions
             uint rotation = 0;
@@ -62,7 +62,7 @@ namespace midiLightShow
             {
                 case "setPan":
                     rotation = 0;
-                    if (uint.TryParse(parameters.ElementAt(0).Value, out rotation))
+                    if (uint.TryParse(parameters[0], out rotation))
                     {
                         if (execute)
                         {
@@ -72,7 +72,7 @@ namespace midiLightShow
                     break;
                 case "setTilt":
                     rotation = 0;
-                    if (uint.TryParse(parameters.ElementAt(0).Value, out rotation))
+                    if (uint.TryParse(parameters[0], out rotation))
                     {
                         if (execute)
                         {
@@ -83,7 +83,7 @@ namespace midiLightShow
                     break;
                 case "shutter":
                     bool shutter = false;
-                    if (bool.TryParse(parameters.ElementAt(0).Value, out shutter))
+                    if (bool.TryParse(parameters[0], out shutter))
                     {
                         if (execute)
                         {
@@ -94,7 +94,7 @@ namespace midiLightShow
                     break;
                 case "dimmer":
                     value = 0;
-                    if(uint.TryParse(parameters.ElementAt(0).Value, out value))
+                    if(uint.TryParse(parameters[0], out value))
                     {
                         if (execute)
                         {
@@ -105,7 +105,7 @@ namespace midiLightShow
                     break;
                 case "strobo":
                     value = 0;
-                    if(uint.TryParse(parameters.ElementAt(0).Value, out value))
+                    if(uint.TryParse(parameters[0], out value))
                     {
                         if (execute)
                         {
@@ -118,7 +118,7 @@ namespace midiLightShow
                     byte r = 0;
                     byte g = 0;
                     byte b = 0;
-                    if (byte.TryParse(parameters.ElementAt(0).Value, out r) && byte.TryParse(parameters.ElementAt(1).Value, out g) && byte.TryParse(parameters.ElementAt(2).Value, out b))
+                    if (byte.TryParse(parameters[0], out r) && byte.TryParse(parameters[1], out g) && byte.TryParse(parameters[2], out b))
                     {
                         if (execute)
                         {
@@ -129,7 +129,7 @@ namespace midiLightShow
                     break;
                 case "setSpeed":
                     byte mSpeed = 0;
-                    if (byte.TryParse(parameters.ElementAt(0).Value, out mSpeed))
+                    if (byte.TryParse(parameters[0], out mSpeed))
                     {
                         if (execute)
                         {
@@ -140,7 +140,7 @@ namespace midiLightShow
                 case "rainBow":
                     bool direction = false;
                     speed = 0;
-                    if(bool.TryParse(parameters.ElementAt(0).Value, out direction) && byte.TryParse(parameters.ElementAt(1).Value, out speed))
+                    if(bool.TryParse(parameters[0], out direction) && byte.TryParse(parameters[1], out speed))
                     {
                         if (execute)
                         {
@@ -150,12 +150,12 @@ namespace midiLightShow
                     } else { return false; }
                     break;
                 case "gobo":
-                    this.func_gobo(parameters.ElementAt(0).Value);
+                    this.func_gobo(parameters[0]);
                     break;
                 case "goboScroll":
                     bool clockWise = false;
                     speed = 0;
-                    if(bool.TryParse(parameters.ElementAt(0).Value, out clockWise) && byte.TryParse(parameters.ElementAt(1).Value, out speed))
+                    if(bool.TryParse(parameters[0], out clockWise) && byte.TryParse(parameters[1], out speed))
                     {
                         if (execute)
                         {

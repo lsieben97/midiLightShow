@@ -68,7 +68,7 @@ namespace midiLightShow
         /// <summary>
         /// Dictionary of parameter name - parameter value pairs
         /// </summary>
-        public Dictionary<string, string> parameters = new Dictionary<string, string>();
+        public List<string> parameters = new List<string>();
         #endregion
         #region Constructors
         /// <summary>
@@ -179,6 +179,7 @@ namespace midiLightShow
                         TextBox tbpara = new TextBox();
                         tbpara.Tag = p.Name;
                         tbpara.BackColor = SystemColors.ControlDark;
+                        tbpara.ForeColor = SystemColors.HotTrack;
                         tbpara.BorderStyle = BorderStyle.FixedSingle;
                         tbpara.Visible = false;
                         this.parameterControls.Add(tbpara);
@@ -306,10 +307,10 @@ namespace midiLightShow
                 {
                     case "TextBox":
                     case "ComboBox":
-                        this.parameters.Add(this.parameterList.ElementAt(i).Name, this.parameterControls[i].Text);
+                        this.parameters.Add(this.parameterControls[i].Text);
                         break;
                 }
-                this.paraString = string.Join(",", this.parameters.Values);
+                this.paraString = string.Join(",", this.parameters);
 
             }
         }
@@ -321,9 +322,9 @@ namespace midiLightShow
         {
             if (this.cbFunctions.Text == this.originalFunction)
             {
-                foreach (KeyValuePair<string, string> para in this.parameters)
+                for(int i = 0; i < this.parameterControls.Count; i++)
                 {
-                    this.parameterControls.Find(pc => pc.Tag.ToString() == para.Key).Text = para.Value;
+                    this.parameterControls[i].Text = this.parameters[i];
                 }
             }
         }

@@ -68,7 +68,8 @@ namespace midiLightShow
         /// The x-position of the last event in this track.
         /// </summary>
         public int lastBlockXPos = 110;
-        
+
+        public string eventColor = "Red";
         /// <summary>
         /// The dmxLight object of this track.
         /// </summary>
@@ -161,11 +162,14 @@ namespace midiLightShow
             this.yEnd = yEnd;
             this.pTimeLine = p;
             this.frmOptions.tbName.Text = this.name;
-            this.frmOptions.Text = "Options for '" + this.name + "'";
+            this.frmOptions.tbTitle.Text = "Options for '" + this.name + "'";
             this.frmOptions.cbLights.Text = this.LightName;
+            this.frmOptions.cdEventColor.Color = Color.FromName(this.eventColor);
+            this.frmOptions.lbColorPreview.ForeColor = Color.FromName(this.eventColor);
             Type targetType = Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()],true);
             this.light = Activator.CreateInstance(targetType) as dmxLight;
             this.frmAddShowEvent.light = this.light;
+            this.pTimeLine.Invalidate();
         }
         #endregion
         #region Track methods
@@ -191,7 +195,8 @@ namespace midiLightShow
             this.cbSolo.CheckedChanged += cbSolo_CheckedChanged;
             this.pTimeLine.Controls.Add(cbSolo);
 
-            //this.pbOptions.Image = global::midiLightShow.Properties.Resources.options_icon;
+            this.pbOptions.Image = global::midiLightShow.Properties.Resources.options_icon;
+            this.pbOptions.Cursor = Cursors.Hand;
             this.pbOptions.SizeMode = PictureBoxSizeMode.StretchImage;
             this.pbOptions.Size = new Size(25, 25);
             this.pbOptions.Location = new Point(60, this.yPos + 3);
@@ -207,12 +212,24 @@ namespace midiLightShow
             this.bAddEvent.FlatStyle = FlatStyle.Flat;
             this.bAddEvent.FlatAppearance.BorderSize = 0;
             this.bAddEvent.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
-            this.bAddEvent.FlatAppearance.MouseOverBackColor = SystemColors.ControlDarkDark;
+            this.bAddEvent.FlatAppearance.MouseOverBackColor = SystemColors.ControlDark;
+            this.bAddEvent.MouseEnter += bAddEvent_MouseEnter;
+            this.bAddEvent.MouseLeave += bAddEvent_MouseLeave;
             this.bAddEvent.Bounds = new Rectangle(this.bAddEvent.Location, new Size(50, 47));
             this.bAddEvent.Click += bAddEvent_Click;
             this.pTimeLine.Controls.Add(bAddEvent);
 
             Console.WriteLine("Generated controls for track '" + this.name + "'.");
+        }
+
+        void bAddEvent_MouseLeave(object sender, EventArgs e)
+        {
+            this.bAddEvent.ForeColor = SystemColors.Highlight;
+        }
+
+        void bAddEvent_MouseEnter(object sender, EventArgs e)
+        {
+            this.bAddEvent.ForeColor = SystemColors.HotTrack;
         }
 
         /// <summary>
@@ -329,13 +346,16 @@ namespace midiLightShow
                 this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
                 this.light.comPort = this.frmOptions.cbComPorts.Text;
                 this.light.live = this.frmOptions.cbLive.Checked;
+                this.eventColor = this.frmOptions.cdEventColor.Color.Name;
                 this.light.connectDMX();
                 this.frmAddShowEvent.light = this.light;
-                this.frmOptions.Text = "Options for '" + this.name + "'";
+                this.frmOptions.tbTitle.Text = "Options for '" + this.name + "'";
+                this.pTimeLine.Invalidate();
             }
             else if (dr == DialogResult.Abort)
             {
                 this.delete = true;
+                this.pTimeLine.Invalidate();
             }
         }
 
