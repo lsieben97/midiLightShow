@@ -36,6 +36,8 @@
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadMIDIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetZoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,8 +60,8 @@
             this.msBottom = new System.Windows.Forms.MenuStrip();
             this.tbHelp = new System.Windows.Forms.ToolStripTextBox();
             this.btnAddTrack = new System.Windows.Forms.Button();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetZoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msControl.SuspendLayout();
             this.pTimeLine.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -78,7 +80,8 @@
             this.viewToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.closeToolStripMenuItem,
-            this.minimizeToolStripMenuItem});
+            this.minimizeToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.msControl.Location = new System.Drawing.Point(0, 0);
             this.msControl.Name = "msControl";
             this.msControl.Size = new System.Drawing.Size(1022, 24);
@@ -163,6 +166,26 @@
             this.exitToolStripMenuItem.MouseEnter += new System.EventHandler(this.exitToolStripMenuItem_MouseEnter);
             this.exitToolStripMenuItem.MouseLeave += new System.EventHandler(this.loadMIDIToolStripMenuItem_MouseLeave);
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resetZoomToolStripMenuItem});
+            this.viewToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F);
+            this.viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // resetZoomToolStripMenuItem
+            // 
+            this.resetZoomToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F);
+            this.resetZoomToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.resetZoomToolStripMenuItem.Name = "resetZoomToolStripMenuItem";
+            this.resetZoomToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
+            this.resetZoomToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.resetZoomToolStripMenuItem.Text = "Reset zoom";
+            this.resetZoomToolStripMenuItem.Click += new System.EventHandler(this.resetZoomToolStripMenuItem_Click);
+            // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -180,7 +203,7 @@
             this.debugToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.Click += new System.EventHandler(this.debugToolStripMenuItem_Click);
             // 
@@ -424,25 +447,22 @@
             this.btnAddTrack.MouseEnter += new System.EventHandler(this.btnStop_MouseEnter);
             this.btnAddTrack.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             // 
-            // viewToolStripMenuItem
+            // helpToolStripMenuItem
             // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetZoomToolStripMenuItem});
-            this.viewToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F);
-            this.viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.userManualToolStripMenuItem});
+            this.helpToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
             // 
-            // resetZoomToolStripMenuItem
+            // userManualToolStripMenuItem
             // 
-            this.resetZoomToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F);
-            this.resetZoomToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.resetZoomToolStripMenuItem.Name = "resetZoomToolStripMenuItem";
-            this.resetZoomToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
-            this.resetZoomToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.resetZoomToolStripMenuItem.Text = "Reset zoom";
-            this.resetZoomToolStripMenuItem.Click += new System.EventHandler(this.resetZoomToolStripMenuItem_Click);
+            this.userManualToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
+            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.userManualToolStripMenuItem.Text = "User manual";
+            this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
             // 
             // frmEditor
             // 
@@ -516,6 +536,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetZoomToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userManualToolStripMenuItem;
     }
 }
 

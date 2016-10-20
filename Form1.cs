@@ -832,6 +832,12 @@ namespace midiLightShow
         {
             this.btnResetZoom_Click(this, EventArgs.Empty);
         }
+
+        private void userManualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            help h = new help();
+            h.ShowDialog();
+        }
     }
     #endregion
     #region Custom colors
