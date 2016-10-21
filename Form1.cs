@@ -913,7 +913,7 @@ namespace midiLightShow
                     tbTutorial.Text = "Tutorial - About show events";
                     rtbTutorialContent.Text = "A show event represents an event in your lightshow this can be anything: a light needs to be turned on, an option of a light needs to be changed etc. show events are a vital part of DMX studio, so understanding how they work is key.\n\nClick 'Next' to continue.";
                     this.currentTutorialStep = "aboutShowevents";
-                    break;
+                    break;   
                 case "aboutShowevents":
                     tbTutorial.Text = "Tutorial - Timing in DMX studio";
                     rtbTutorialContent.Text = "A important part of learning how show events work is understanding how DMX studio uses timing.\n DMX studio uses BPM to to calculate timing. BPM stands for Beats Per Minute and is a common phrase in the music industry. The smallest time unit is a 16th beat. By changing the bpm you can make time go faster or slower.\n\nClick 'Next' to continue.";
