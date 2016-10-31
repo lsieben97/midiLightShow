@@ -80,6 +80,7 @@
       <DependentUpon>help.cs</DependentUpon>
     </Compile>
     <Compile Include="lazer.cs" />
+    <Compile Include="lightshow.cs" />
     <Compile Include="MethodDescriptionAttribute.cs" />
     <Compile Include="midiImport.cs">
       <SubType>Form</SubType>

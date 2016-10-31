@@ -51,6 +51,8 @@ namespace midiLightShow
         /// Indexes of the different MIDI tracks on the timeline
         /// </summary>
         public List<int> trackIndexes = new List<int>();
+
+        public int trackChunkCount = 0;
         #endregion
         #region Main methods
         /// <summary>
@@ -65,14 +67,25 @@ namespace midiLightShow
             this.events.Add("255081", new midiEvent("Set Tempo", "255813",true, 4));
             this.events.Add("255047", new midiEvent("End of Track", "255470", true, 1));
             this.events.Add("255003", new midiEvent("Track Name", "2553"));
-            this.events.Add("255032", new midiEvent("MIDI Channel Prefix", "255321",true,2));
+            this.events.Add("255032", new midiEvent("MIDI Channel Prefix", "255321",true,1));
             this.events.Add("255000", new midiEvent("Sequence Number", "25502",true,3));
             this.events.Add("255002", new midiEvent("Copyright Notice", "2552"));
             this.events.Add("255004", new midiEvent("Instrument Name", "2554"));
+            this.events.Add("255005", new midiEvent("Lyric", "2555"));
+            this.events.Add("255006", new midiEvent("Marker", "2556"));
+            this.events.Add("255007", new midiEvent("Cue Point", "2557"));
+            this.events.Add("255033", new midiEvent("MIDI Port", "255331",true,1));
+            this.events.Add("255089", new midiEvent("Key Signature", "255892",true,3));
+            this.events.Add("255084", new midiEvent("SMPTE Offset", "25575",true,6));
+
             // channel events
             this.events.Add("1100", new midiEvent("Program Change", "1100", true, 1));
             this.events.Add("1001", new midiEvent("Note On", "1001", true, 2));
             this.events.Add("1000", new midiEvent("Note Off", "1000", true, 2));
+            this.events.Add("1010", new midiEvent("Polyphonic Key Pressure", "1010", true, 2));
+            this.events.Add("1011", new midiEvent("Control Change", "1011", true, 2));
+            this.events.Add("1101", new midiEvent("Channel Pressure", "1101", true, 1));
+            this.events.Add("1110", new midiEvent("Pitch Wheel Change", "1110", true, 2));
         }
         /// <summary>
         /// Loads a MIDI file
@@ -101,10 +114,9 @@ namespace midiLightShow
                 {
                     int fileFormat = 0;
                     this.getChunkGroup(2, out fileFormat);
-                    int trackChunkCount = 0;
-                    this.getChunkGroup(2, out trackChunkCount);
+                    this.getChunkGroup(2, out this.trackChunkCount);
                     this.division = this.calculateDivision(this.getChunkGroup(2));
-                    this.form.rtbStatus.AppendText(string.Format("Found MIDI header chunk with following data:\n\tFile format: {0}\n\tDivision: {1}\n\tTrack chunk count: {2}", fileFormat.ToString(), this.division.ToString(), trackChunkCount.ToString()));
+                    //this.form.rtbStatus.AppendText(string.Format("Found MIDI header chunk with following data:\n\tFile format: {0}\n\tDivision: {1}\n\tTrack chunk count: {2}", fileFormat.ToString(), this.division.ToString(), trackChunkCount.ToString()));
                 }
                 else
                 {
@@ -117,16 +129,22 @@ namespace midiLightShow
                             // found meta event
                             midiEvent e = this.getMetaEvent();
                             e.deltaTime = delta;
-                            this.form.rtbStatus.AppendText("Found " + e.name + "\n");
-                            Thread.Sleep(10);
+                            //this.form.rtbStatus.AppendText("Found " + e.name + "\n");
+                            this.form.pbProgress.Value = this.totalLengthRead;
+                            this.form.lbPercent.Text = Convert.ToInt32(this.totalLengthRead / this.data.Count * 100).ToString() + "%";
+                            //Thread.Sleep(10);
                             
                             this.timeLine.Add(e);
+                            if(e.name == "")
+                            {
+
+                            }
                             if(e.name == "End of Track")
                             {
                                 this.trackIndexes.Add(this.timeLine.Count - 1);
                                 endOfTrack = true;
                             }
-                            else
+                            else if(e.name != "Set Tempo")
                             {
                                 this.totalLengthRead++;
                             }
@@ -136,8 +154,9 @@ namespace midiLightShow
                         {
                             midiEvent e = this.getChannelEvent();
                             e.deltaTime = delta;
-                            this.form.rtbStatus.AppendText("Found " + e.name + "\n");
-                            Thread.Sleep(10);
+                            this.form.pbProgress.Value = this.totalLengthRead;
+                            this.form.lbPercent.Text = Convert.ToInt32(this.totalLengthRead / this.data.Count * 100).ToString() + "%";
+                            //Thread.Sleep(10);
                             this.timeLine.Add(e);
                         }
                     }
@@ -451,34 +470,53 @@ namespace midiLightShow
         /// <returns>The found MIDI channel event</returns>
         private midiEvent getChannelEvent()
         {
-            midiEvent e = new midiEvent();
+            midiEvent e = new midiEvent("System Exclusive","1111");
             string binaryByte = this.byteToString(this.data[this.totalLengthRead]);
-            foreach (KeyValuePair<string, midiEvent> kvPair in this.events)
+            if (binaryByte == "11110000")
             {
-                if (binaryByte.StartsWith(kvPair.Key))
+                // system exclusive message
+                bool foundEnd = false;
+                while (foundEnd == false)
                 {
-                    e.name = this.events[kvPair.Key].name;
-                    e.length = this.events[kvPair.Key].length;
-                    e.prefix = this.events[kvPair.Key].prefix;
-                    e.prefixLength = this.events[kvPair.Key].prefixLength;
-                    e.hasLength = this.events[kvPair.Key].hasLength;
-                    break;
+                    if (this.data[this.totalLengthRead] == 247)
+                    {
+                        foundEnd = true;
+                    }
+                    else
+                    {
+                        this.totalLengthRead++;
+                    }
                 }
-            }
-            this.totalLengthRead++;
-            if(e.name == "Note On")
-            {
-                e.note = this.data[this.totalLengthRead];
-                this.totalLengthRead += e.length;
-            }
-            else if(e.name == "Note Off")
-            {
-                e.note = this.data[this.totalLengthRead];
-                this.totalLengthRead += e.length;
             }
             else
             {
-                this.totalLengthRead += e.length;
+                foreach (KeyValuePair<string, midiEvent> kvPair in this.events)
+                {
+                    if (binaryByte.StartsWith(kvPair.Key))
+                    {
+                        e.name = this.events[kvPair.Key].name;
+                        e.length = this.events[kvPair.Key].length;
+                        e.prefix = this.events[kvPair.Key].prefix;
+                        e.prefixLength = this.events[kvPair.Key].prefixLength;
+                        e.hasLength = this.events[kvPair.Key].hasLength;
+                        break;
+                    }
+                }
+                this.totalLengthRead++;
+                if (e.name == "Note On")
+                {
+                    e.note = this.data[this.totalLengthRead];
+                    this.totalLengthRead += e.length;
+                }
+                else if (e.name == "Note Off")
+                {
+                    e.note = this.data[this.totalLengthRead];
+                    this.totalLengthRead += e.length;
+                }
+                else
+                {
+                    this.totalLengthRead += e.length;
+                }
             }
             return e;
         }

@@ -33,6 +33,7 @@ namespace midiLightShow
         /// The path to the MIDI file to parse
         /// </summary>
         private string path;
+        public bool success = false;
         #endregion
         #region Constructors
         /// <summary>
@@ -47,7 +48,7 @@ namespace midiLightShow
             finishTimer.Tick += finishTimer_Tick;
             loadTimer.Tick += loadTimer_Tick;
             this.mr.form = this;
-            this.path = path;           
+            this.path = path;
         }
         #endregion
         #region midiImport methods
@@ -76,19 +77,30 @@ namespace midiLightShow
         /// </summary>
         private void import()
         {
-            this.loadTimer.Stop();
-            rtbStatus.AppendText("Done\n");
-            rtbStatus.AppendText("Loading MIDI file '" + path + "'...");
-            mr.loadFile(path);
-            rtbStatus.AppendText("Done\n");
-            rtbStatus.AppendText("Parsing file...\n");
-            mr.parseFile();
-            rtbStatus.AppendText("Done\n");
-            rtbStatus.AppendText("Calculating timeline...\n");
-            mr.calculateTimeLine();
-            rtbStatus.AppendText("Done\n");
-            rtbStatus.AppendText("MIDI import complete!");
-            this.finishTimer.Start();
+            try
+            {
+                this.loadTimer.Stop();
+                lbStatus.Text = "Done\n";
+                lbStatus.Text = "Loading MIDI file '" + path + "'...";
+                mr.loadFile(path);
+                this.pbProgress.Maximum = mr.data.Count;
+                lbStatus.Text = "Done\n";
+                lbStatus.Text = "Parsing file...\n";
+                mr.parseFile();
+                lbStatus.Text = "Done\n";
+                lbStatus.Text = "Calculating timeline...\n";
+                mr.calculateTimeLine();
+                lbStatus.Text = "Done\n";
+                lbStatus.Text = "MIDI import complete!";
+                this.success = true;
+                this.finishTimer.Start();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("This MIDI file is not supported by DMX studio!");
+                this.DialogResult = System.Windows.Forms.DialogResult.No;
+                this.Close();
+            }
         }
 
         /// <summary>
@@ -98,7 +110,9 @@ namespace midiLightShow
         /// <param name="e">Event arguments</param>
         private void midiImport_Load(object sender, EventArgs e)
         {
-            rtbStatus.AppendText("Initializing MIDI reader...");
+            menuStrip1.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
+            tbTitle.Text = "Importing " + this.path;
+            lbStatus.Text = "Initializing MIDI reader...";
             this.mr.init();
             this.loadTimer.Start();
         }

@@ -1,0 +1,6 @@
+A show event is the main building block in DMX studio. They are used to control the lights and the timing of your lightshow.
+
+In this topic you will find the following:
+* Timing
+* Functions
+* Parameters

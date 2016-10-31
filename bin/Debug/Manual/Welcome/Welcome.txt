@@ -1,1 +1,7 @@
-Welcome!
+#USE_PIC
+Manual images/DMX-studio logo.png
+#END_USE_PIC
+Welcome to the user manual for DMX studio.
+Click on a topic to the left to read more about that subject.
+
+If you're working with DMX studio for the first time, consider doing the tutorial by pressing 'Begin tutorial' in the help menu.

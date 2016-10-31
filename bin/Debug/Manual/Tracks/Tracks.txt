@@ -1,0 +1,8 @@
+Tracks represent the lights for your lightshow.
+You can use multiple tracks to control multiple lights.
+See the 'Supported lights' topic for all lights DMX studio supports.
+
+In this topic you will find the following:
+* Track options
+* Muting/Solo
+* Connecting real lights to a track

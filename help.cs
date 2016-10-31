@@ -14,9 +14,11 @@ namespace midiLightShow
     public partial class help : Form
     {
         private Dictionary<string, string> helpArticles = new Dictionary<string, string>();
+        private Dictionary<string, Image> helpPictures = new Dictionary<string, Image>();
         public help()
         {
             InitializeComponent();
+            this.menuStrip1.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
         }
 
         private void help_Load(object sender, EventArgs e)
@@ -40,7 +42,21 @@ namespace midiLightShow
                     string name = Path.GetFileNameWithoutExtension(file);
                     if(name == t.Text)
                     {
-                        this.helpArticles.Add(t.Text, File.ReadAllText(file));
+                        string[] contents = File.ReadAllLines(file);
+                        if(contents[0].StartsWith("#USE_PIC"))
+                        {
+                            if(File.Exists(contents[1].Trim()))
+                            {
+                                this.helpPictures.Add(t.Text,Image.FromFile(contents[1].Trim(),true));
+                            }
+                            contents = contents.ToList().GetRange(3, contents.Length - 3).ToArray();
+                            this.helpArticles.Add(t.Text, string.Join("\n", contents));
+                        }
+                        else
+                        {
+                            this.helpArticles.Add(t.Text, string.Join("\n",contents));
+                        }
+                        
                     }
                     else
                     {
@@ -60,6 +76,8 @@ namespace midiLightShow
             }
             this.tvIndex.SelectedNode = this.tvIndex.Nodes.Find("Welcome", false)[0];
             rtbHelpContent.Text = this.helpArticles[this.tvIndex.SelectedNode.Text];
+            pbArticle.Image = this.helpPictures[this.tvIndex.SelectedNode.Text];
+            tbTitle.Text = "User manual - " + this.tvIndex.SelectedNode.FullPath;
         }
 
         private void xToolStripMenuItem_Click(object sender, EventArgs e)
@@ -70,6 +88,15 @@ namespace midiLightShow
         private void tvIndex_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             rtbHelpContent.Text = this.helpArticles[e.Node.Text];
+            if(this.helpPictures.ContainsKey(e.Node.Text))
+            {
+                pbArticle.Image = this.helpPictures[e.Node.Text];
+            }
+            else
+            {
+                pbArticle.Image = null;
+            }
+            tbTitle.Text = "User manual - " + e.Node.FullPath;
         }
     }
 }

@@ -47,7 +47,7 @@
             this.startTutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdMidi = new System.Windows.Forms.OpenFileDialog();
             this.pTimeLine = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.tbLightshowName = new System.Windows.Forms.TextBox();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnResetZoom = new System.Windows.Forms.Button();
@@ -168,7 +168,6 @@
             this.exitToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.exitToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.MouseEnter += new System.EventHandler(this.exitToolStripMenuItem_MouseEnter);
@@ -266,7 +265,7 @@
             // pTimeLine
             // 
             this.pTimeLine.BackColor = System.Drawing.Color.White;
-            this.pTimeLine.Controls.Add(this.label3);
+            this.pTimeLine.Controls.Add(this.tbLightshowName);
             this.pTimeLine.Location = new System.Drawing.Point(0, 0);
             this.pTimeLine.Name = "pTimeLine";
             this.pTimeLine.Size = new System.Drawing.Size(1344, 616);
@@ -275,16 +274,16 @@
             this.pTimeLine.Click += new System.EventHandler(this.pTimeLine_Click);
             this.pTimeLine.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // label3
+            // tbLightshowName
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.label3.Location = new System.Drawing.Point(89, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "16th beats";
+            this.tbLightshowName.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.tbLightshowName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbLightshowName.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.tbLightshowName.Location = new System.Drawing.Point(3, 1);
+            this.tbLightshowName.Name = "tbLightshowName";
+            this.tbLightshowName.Size = new System.Drawing.Size(131, 20);
+            this.tbLightshowName.TabIndex = 14;
+            this.tbLightshowName.TextChanged += new System.EventHandler(this.tbLightshowName_TextChanged);
             // 
             // btnPlay
             // 
@@ -363,6 +362,7 @@
             // ofdLoad
             // 
             this.ofdLoad.FileName = "openFileDialog1";
+            this.ofdLoad.Filter = "Lightshow Files|*.lightshow";
             // 
             // nudBeatsPerMinute
             // 
@@ -621,7 +621,6 @@
         private System.Windows.Forms.ToolStripTextBox tbHelp;
         private System.Windows.Forms.Button btnAddTrack;
         private System.Windows.Forms.ToolStripMenuItem newShowToolStripMenuItem;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetZoomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
@@ -632,6 +631,7 @@
         private System.Windows.Forms.MenuStrip msTutorial;
         private System.Windows.Forms.ToolStripTextBox tbTutorial;
         private System.Windows.Forms.Button btnNextTutorial;
+        private System.Windows.Forms.TextBox tbLightshowName;
     }
 }
 

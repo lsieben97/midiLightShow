@@ -1,0 +1,5 @@
+The timeline is your main workspace. Here you create tracks, add show events and play back your lightshow.
+
+In this topic you will find the following:
+* Timing
+* Zooming

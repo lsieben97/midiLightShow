@@ -47,6 +47,7 @@ namespace midiLightShow
         /// Indicates of this show event should be executed
         /// </summary>
         public bool canPlay = true;
+        public byte note;
         #endregion
         #region Constructors
         /// <summary>

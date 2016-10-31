@@ -29,33 +29,45 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.tbTitle = new System.Windows.Forms.ToolStripTextBox();
+            this.xToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tvIndex = new System.Windows.Forms.TreeView();
             this.rtbHelpContent = new System.Windows.Forms.RichTextBox();
-            this.xToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pbArticle = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbArticle)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox1,
+            this.tbTitle,
             this.xToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(543, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(793, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // toolStripTextBox1
+            // tbTitle
             // 
-            this.toolStripTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.toolStripTextBox1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 20);
-            this.toolStripTextBox1.Text = "User manual";
+            this.tbTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tbTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbTitle.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.tbTitle.Name = "tbTitle";
+            this.tbTitle.ReadOnly = true;
+            this.tbTitle.Size = new System.Drawing.Size(500, 20);
+            this.tbTitle.Text = "User manual";
+            // 
+            // xToolStripMenuItem
+            // 
+            this.xToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.xToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.xToolStripMenuItem.Name = "xToolStripMenuItem";
+            this.xToolStripMenuItem.Size = new System.Drawing.Size(26, 20);
+            this.xToolStripMenuItem.Text = "X";
+            this.xToolStripMenuItem.Click += new System.EventHandler(this.xToolStripMenuItem_Click);
             // 
             // tvIndex
             // 
@@ -65,8 +77,10 @@
             this.tvIndex.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             this.tvIndex.Location = new System.Drawing.Point(12, 37);
             this.tvIndex.Name = "tvIndex";
+            this.tvIndex.PathSeparator = " > ";
             this.tvIndex.ShowPlusMinus = false;
-            this.tvIndex.Size = new System.Drawing.Size(227, 368);
+            this.tvIndex.ShowRootLines = false;
+            this.tvIndex.Size = new System.Drawing.Size(227, 296);
             this.tvIndex.TabIndex = 1;
             this.tvIndex.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvIndex_NodeMouseClick);
             // 
@@ -74,37 +88,45 @@
             // 
             this.rtbHelpContent.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.rtbHelpContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbHelpContent.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbHelpContent.ForeColor = System.Drawing.SystemColors.Highlight;
             this.rtbHelpContent.Location = new System.Drawing.Point(245, 37);
             this.rtbHelpContent.Name = "rtbHelpContent";
-            this.rtbHelpContent.Size = new System.Drawing.Size(286, 368);
+            this.rtbHelpContent.ReadOnly = true;
+            this.rtbHelpContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.rtbHelpContent.Size = new System.Drawing.Size(475, 296);
             this.rtbHelpContent.TabIndex = 2;
             this.rtbHelpContent.Text = "";
             // 
-            // xToolStripMenuItem
+            // pbArticle
             // 
-            this.xToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.xToolStripMenuItem.Name = "xToolStripMenuItem";
-            this.xToolStripMenuItem.Size = new System.Drawing.Size(26, 20);
-            this.xToolStripMenuItem.Text = "X";
-            this.xToolStripMenuItem.Click += new System.EventHandler(this.xToolStripMenuItem_Click);
+            this.pbArticle.Location = new System.Drawing.Point(12, 339);
+            this.pbArticle.Name = "pbArticle";
+            this.pbArticle.Size = new System.Drawing.Size(769, 349);
+            this.pbArticle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbArticle.TabIndex = 3;
+            this.pbArticle.TabStop = false;
             // 
             // help
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(543, 417);
-            this.Controls.Add(this.rtbHelpContent);
+            this.ClientSize = new System.Drawing.Size(793, 700);
             this.Controls.Add(this.tvIndex);
+            this.Controls.Add(this.pbArticle);
+            this.Controls.Add(this.rtbHelpContent);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Location = new System.Drawing.Point(300, 0);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "help";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "help";
             this.Load += new System.EventHandler(this.help_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbArticle)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -113,9 +135,10 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripTextBox tbTitle;
         private System.Windows.Forms.TreeView tvIndex;
         private System.Windows.Forms.RichTextBox rtbHelpContent;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pbArticle;
     }
 }
