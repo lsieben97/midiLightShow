@@ -4,8 +4,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FEDDF23D-8A9D-484F-B206-D15FF5AEF60E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{21ACA74F-5300-4B94-8C75-5240EEC5D798}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>midiLightShow</RootNamespace>
     <AssemblyName>midiLightShow</AssemblyName>
@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>midiLightShow.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dmx512UsbRs485, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="midiPlayer.cs" />
     <Compile Include="midiReader.cs" />
+    <Compile Include="mirrorLight.cs" />
     <Compile Include="ParameterDataAtribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -157,6 +158,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="options-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="logoMidiLightshow.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="logoMidiLightshowBlackBg.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

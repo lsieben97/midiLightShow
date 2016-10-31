@@ -33,7 +33,7 @@ namespace midiLightShow
         /// <param name="parameters">Paramaters given with the function</param>
         /// <param name="execute">Indicator variable for executing the function</param>
         /// <returns>Parameter validation</returns>
-        public override bool executeFunction(string function, Dictionary<string, string> parameters, bool execute = false)
+        public override bool executeFunction(string function, List<string> parameters, bool execute = false)
         {
             //execute function switch case
             switch (function)
@@ -45,12 +45,25 @@ namespace midiLightShow
         }
         #endregion
         #region Functions
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="red"></param>
+        /// <param name="green"></param>
+        /// <param name="blue"></param>
+        /// <param name="white"></param>
+        /// 
         public void func_color(bool red, bool green, bool blue, bool white)
         {
+            //
             byte[] mix = { 0, 53, 38, 128, 23, 143, 113, 203, 8, 98, 83, 188, 68, 173, 158, 218 };
+            //
             bool[] colors = { red, green, blue, white };
-
+            //
             string binary = "";
+
+            //
             foreach (bool color in colors)
             {
                 if (color)
@@ -59,27 +72,47 @@ namespace midiLightShow
                     binary += "0";
             }
 
+            //
             this.driver.DmxLoadBuffer(4, mix[Convert.ToInt32(binary, 2)], 512);
             this.driver.DmxSendCommand(1);
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="speed"></param>
         public void func_rainbow(uint speed)
         {
-
+            //
+            
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rotation"></param>
         public void func_rotateX(uint rotation)
         {
+            //
 
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rotation"></param>
         public void func_rotateY(uint rotation)
         {
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="speed"></param>
         public void func_rotateLights(byte speed)
         {
+            //
 
         }
         #endregion
