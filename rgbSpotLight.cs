@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 namespace midiLightShow
 {
     /// <summary>
-    /// <summary>
-    /// thgfhhgfgjhghggrd
-    /// </summary>
-    /// ddadf
+    /// 
     /// </summary>
     public class rgbSpotLight : dmxLight
     {
@@ -69,7 +66,7 @@ namespace midiLightShow
             return false;
         }
         //Functions below for this light
-        [ParameterDataAtribute(parameterDescription = new string[] { "Red", "Green", "Blue" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Red (0 - 255)", "\nGreen (0 - 255)", "\nBlue (0 - 255)" })]
         [MethodDescriptionAtribute(methodDescription = "Set Light color")]
         public void func_rgb(byte r, byte g, byte b)
         {
@@ -79,7 +76,7 @@ namespace midiLightShow
             this.driver.DmxSendCommand(3);
         }
 
-        [ParameterDataAtribute(parameterDescription = new string[] { "Speed" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Speed (0 - 255)" })]
         [MethodDescriptionAtribute(methodDescription = "Fade lights")]
         public void func_fade(byte speed = 0)
         {
@@ -90,7 +87,7 @@ namespace midiLightShow
             this.driver.DmxSendCommand(1);
         }
 
-        [ParameterDataAtribute(parameterDescription = new string[] { "Speed" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Speed (0 - 255)" })]
         [MethodDescriptionAtribute(methodDescription = "Rainbow effect")]
         public void func_rainBow(byte speed = 0)
         {

@@ -45,7 +45,7 @@ namespace midiLightShow
             }
             else
             {
-                Console.WriteLine("Invalid function \"" + function + "\" in control(" + function + ")");
+                Console.WriteLine("Invalid function \"" + function + "\" in control (" + function + ")");
             }
             
         }

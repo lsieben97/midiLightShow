@@ -196,6 +196,8 @@ namespace midiLightShow
         /// <summary>
         /// Makes the lazer run an automated program
         /// </summary>
+        [ParameterDataAtribute(parameterDescription = new string[] { "No parameters needed" })]
+        [MethodDescriptionAtribute(methodDescription = "Look it does stuff!")]
         public void func_autoRun()
         {
             //Loads and sends the value to the lazer
@@ -207,6 +209,8 @@ namespace midiLightShow
         /// Sets a symbol pattern
         /// </summary>
         /// <param name="symbol">Symbol name variable</param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "s" })]
+        [MethodDescriptionAtribute(methodDescription = "Symbol that the lazer will draw")]
         public void func_symbol(string symbol)
         {
             //Set default symbol
@@ -226,6 +230,8 @@ namespace midiLightShow
         /// <summary>
         /// Switches the lamp state
         /// </summary>
+        [ParameterDataAtribute(parameterDescription = new string[] { "No parameters needed" })]
+        [MethodDescriptionAtribute(methodDescription = "Turns the laser on or off depending on it's current state")]
         public void func_toggleLamp()
         {
             //Switch value
@@ -242,6 +248,8 @@ namespace midiLightShow
         /// <summary>
         /// Switches between green or red
         /// </summary>
+        [ParameterDataAtribute(parameterDescription = new string[] { "No parameters needed" })]
+        [MethodDescriptionAtribute(methodDescription = "Switch between green or red depending on it's current color")]
         public void func_color()
         {
             //Switch value
@@ -256,8 +264,10 @@ namespace midiLightShow
         }
 
         /// <summary>
-        /// Sets a rainbow effect
+        /// Sets a color cycle
         /// </summary>
+        [ParameterDataAtribute(parameterDescription = new string[] { "No parameters needed" })]
+        [MethodDescriptionAtribute(methodDescription = "Turns on the color cycle")]
         public void func_colorCycle()
         {
             //Loads and sends the value to the lazer
@@ -269,6 +279,8 @@ namespace midiLightShow
         /// Sets a frequency for either the color change or the stroboscope
         /// </summary>
         /// <param name="speed">Frequency speed</param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "Speed (0 - 255)" })]
+        [MethodDescriptionAtribute(methodDescription = "Sets the speed for either the color change or the stroboscope depending if the color cycle is on or off")]
         public void func_frequency(byte speed)
         {
             //Loads and sends the value to the lazer
@@ -280,6 +292,8 @@ namespace midiLightShow
         /// Makes the pattern symbol smaller
         /// </summary>
         /// <param name="magnify">Magnify scale</param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "Amount (0 - 255)" })]
+        [MethodDescriptionAtribute(methodDescription = "Makes the current symbol smaller")]
         public void func_zoom(byte magnify)
         {
             //Loads and sends the value to the lazer
@@ -291,6 +305,8 @@ namespace midiLightShow
         /// Makes it automatically zoom in and out
         /// </summary>
         /// <param name="speed">Speed of zooming</param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "Speed (0 - 255)" })]
+        [MethodDescriptionAtribute(methodDescription = "Speed of scale changement")]
         public void func_autoZoom(byte speed)
         {
             //Loads and sends the value to the lazer
@@ -303,6 +319,8 @@ namespace midiLightShow
         /// </summary>
         /// <param name="x">Sets the x location</param>
         /// <param name="y">Sets the y location</param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "x position (0 - 255)","\ny position (0 - 255)" })]
+        [MethodDescriptionAtribute(methodDescription = "Change the centerpoint location")]
         public void func_xy(byte x, byte y)
         {
             //Loads and sends the values to the lazer
@@ -316,6 +334,8 @@ namespace midiLightShow
         /// </summary>
         /// <param name="clockWiseX">Sets the x direction</param>
         /// <param name="clockWiseY">Sets the y direction</param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "Switch x movement (true or false)","Switch y movement (true or false)" })]
+        [MethodDescriptionAtribute(methodDescription = "Automatically change the centerpoint")]
         public void func_autoXY(bool clockWiseX, bool clockWiseY)
         {
             //Loads and sends the value to the lazer
@@ -366,6 +386,8 @@ namespace midiLightShow
         /// Sets the surface rotation
         /// </summary>
         /// <param name="rotation">Surface rotation degree</param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "Rotation angle" })]
+        [MethodDescriptionAtribute(methodDescription = "Rotate 2D")]
         public void func_setRotation(uint rotation)
         {
             //Escape too big numbers to readable ones
@@ -384,6 +406,8 @@ namespace midiLightShow
         /// </summary>
         /// <param name="clockWiseX">Sets the x direction</param>
         /// <param name="clockWiseY">Sets the y direction</param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "Switch x movement (true or false)", "Switch y movement (true or false)" })]
+        [MethodDescriptionAtribute(methodDescription = "Automatically rotate")]
         public void func_autoRotate(bool clockWiseX, bool clockWiseY)
         {
             //Loads and sends the values to the lazer

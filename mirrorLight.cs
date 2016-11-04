@@ -9,6 +9,7 @@ namespace midiLightShow
     class mirrorLight : dmxLight
     {
         #region Global variables
+        byte rotateLights;
         #endregion
         #region Constructors
         /// <summary>
@@ -53,7 +54,10 @@ namespace midiLightShow
         /// <param name="green"></param>
         /// <param name="blue"></param>
         /// <param name="white"></param>
-        /// 
+        //
+
+        [ParameterDataAtribute(parameterDescription = new string[] { "Red (true/false)", "\nGreen (true/false)", "\nBlue (true/false)", "\nWhite (true/false)" })]
+        [MethodDescriptionAtribute(methodDescription = "Set Light colors")]
         public void func_color(bool red, bool green, bool blue, bool white)
         {
             //
@@ -81,39 +85,71 @@ namespace midiLightShow
         /// 
         /// </summary>
         /// <param name="speed"></param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "Speed (0 - 23)" })]
+        [MethodDescriptionAtribute(methodDescription = "Turn on a rainbow effect")]
         public void func_rainbow(uint speed)
         {
             //
-            
+            while (speed > 23)
+            {
+                speed = speed - 23;
+            }
+
+            //Load and send the value to the moving head
+            this.driver.DmxLoadBuffer(4, (byte)(speed + 232), 13);
+            this.driver.DmxSendCommand(1);
         }
         
         /// <summary>
         /// 
         /// </summary>
         /// <param name="rotation"></param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "Rotation (0 - 180)" })]
+        [MethodDescriptionAtribute(methodDescription = "Surface rotation")]
         public void func_rotateX(uint rotation)
         {
             //
+            while (rotation > 180)
+            {
+                rotation = rotation - 180;
+            }
 
+            //Load and send the value to the moving head
+            this.driver.DmxLoadBuffer(1, (byte)(rotation / 180 * 255), 13);
+            this.driver.DmxSendCommand(1);
         }
         
         /// <summary>
         /// 
         /// </summary>
         /// <param name="rotation"></param>
+        [ParameterDataAtribute(parameterDescription = new string[] { "Rotation (0 - 90)" })]
+        [MethodDescriptionAtribute(methodDescription = "Head rotation")]
         public void func_rotateY(uint rotation)
         {
+            while (rotation > 90)
+            {
+                rotation = rotation - 90;
+            }
 
+            //Load and send the value to the moving head
+            this.driver.DmxLoadBuffer(3, (byte)(rotation / 90 * 255), 13);
+            this.driver.DmxSendCommand(1);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="speed"></param>
-        public void func_rotateLights(byte speed)
+        [ParameterDataAtribute(parameterDescription = new string[] { "No parameter description needed" })]
+        [MethodDescriptionAtribute(methodDescription = "Automatically rotate lights")]
+        public void func_rotateLights()
         {
+            if(rotateLights == 0)
+                rotateLights = 0;
+            else
+                rotateLights = 255;
             //
-
+            this.driver.DmxLoadBuffer(1,rotateLights,13);
         }
         #endregion
     }
