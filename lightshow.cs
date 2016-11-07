@@ -12,5 +12,7 @@ namespace midiLightShow
         public List<track> tracks = new List<track>();
         public int showTime = 16;
         public int bpm = 120;
+        public bool containsAudio = false;
+        public string audioPath;
     }
 }

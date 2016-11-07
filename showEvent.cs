@@ -48,6 +48,7 @@ namespace midiLightShow
         /// </summary>
         public bool canPlay = true;
         public byte note;
+        public bool selected = false;
         #endregion
         #region Constructors
         /// <summary>

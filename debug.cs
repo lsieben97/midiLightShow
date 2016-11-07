@@ -27,6 +27,7 @@ namespace midiLightShow
             Console.SetOut(new ControlWriter(rtbDebug));
             this.menuStrip1.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(Screen.GetWorkingArea(this).Width - this.Size.Width, 0);
         }
         #endregion
         #region Debug methods
@@ -44,7 +45,7 @@ namespace midiLightShow
 
         private void xToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Visible = false;
         }
     }
     #endregion

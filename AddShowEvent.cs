@@ -136,7 +136,7 @@ namespace midiLightShow
         private string getParameterDescription(MethodInfo m)
         {
             ParameterDataAtribute a = m.GetCustomAttribute(new ParameterDataAtribute().GetType(), false) as ParameterDataAtribute;
-            return string.Join(", ", a.parameterDescription);
+            return string.Join("", a.parameterDescription);
         }
 
         /// <summary>
@@ -171,7 +171,6 @@ namespace midiLightShow
             this.parameterControls.Clear();
             foreach (ParameterInfo p in this.parameterList)
             {
-                Console.WriteLine(p.ParameterType.Name);
                 switch (p.ParameterType.Name)
                 {
                     case "String":

@@ -105,5 +105,11 @@ namespace midiLightShow
                 lbColorPreview.ForeColor = this.cdEventColor.Color;
             }
         }
+
+        private void btnClone_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.Retry;
+            this.Close();
+        }
     }
 }

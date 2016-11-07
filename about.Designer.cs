@@ -1,6 +1,6 @@
 ﻿namespace midiLightShow
 {
-    partial class debug
+    partial class about
     {
         /// <summary>
         /// Required designer variable.
@@ -28,70 +28,76 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rtbDebug = new System.Windows.Forms.RichTextBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(about));
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.rtbCredits = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.xToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // rtbDebug
+            // pictureBox1
             // 
-            this.rtbDebug.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.rtbDebug.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbDebug.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.rtbDebug.Location = new System.Drawing.Point(12, 35);
-            this.rtbDebug.Name = "rtbDebug";
-            this.rtbDebug.ReadOnly = true;
-            this.rtbDebug.Size = new System.Drawing.Size(481, 212);
-            this.rtbDebug.TabIndex = 0;
-            this.rtbDebug.Text = "";
-            this.rtbDebug.TextChanged += new System.EventHandler(this.rtbDebug_TextChanged);
+            this.pictureBox1.Image = global::midiLightShow.Properties.Resources.DMX_studio_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(98, -134);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(500, 400);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // rtbCredits
+            // 
+            this.rtbCredits.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.rtbCredits.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbCredits.Font = new System.Drawing.Font("Corbel", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbCredits.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.rtbCredits.Location = new System.Drawing.Point(98, 420);
+            this.rtbCredits.Name = "rtbCredits";
+            this.rtbCredits.ReadOnly = true;
+            this.rtbCredits.Size = new System.Drawing.Size(500, 700);
+            this.rtbCredits.TabIndex = 2;
+            this.rtbCredits.Text = resources.GetString("rtbCredits.Text");
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox1,
             this.xToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(505, 27);
-            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Size = new System.Drawing.Size(686, 24);
+            this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.toolStripTextBox1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(110, 23);
-            this.toolStripTextBox1.Text = "Debug Information";
             // 
             // xToolStripMenuItem
             // 
             this.xToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.xToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.xToolStripMenuItem.Name = "xToolStripMenuItem";
-            this.xToolStripMenuItem.Size = new System.Drawing.Size(26, 23);
+            this.xToolStripMenuItem.Size = new System.Drawing.Size(26, 20);
             this.xToolStripMenuItem.Text = "X";
             this.xToolStripMenuItem.Click += new System.EventHandler(this.xToolStripMenuItem_Click);
             // 
-            // debug
+            // about
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(505, 269);
-            this.Controls.Add(this.rtbDebug);
+            this.ClientSize = new System.Drawing.Size(686, 423);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.rtbCredits);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Location = new System.Drawing.Point(665, 24);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "debug";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "debug";
-            this.TopMost = true;
+            this.Name = "about";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "about";
+            this.Load += new System.EventHandler(this.about_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -101,9 +107,10 @@
 
         #endregion
 
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.RichTextBox rtbCredits;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenuItem;
-        public System.Windows.Forms.RichTextBox rtbDebug;
+
     }
 }

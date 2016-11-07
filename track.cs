@@ -43,6 +43,7 @@ namespace midiLightShow
         /// Indicates if this track sould be deleted.
         /// </summary>
         public bool delete = false;
+        public bool clone = false;
 
         /// <summary>
         /// The top y-position of this track in the panel.
@@ -137,8 +138,8 @@ namespace midiLightShow
             track.typeMap.Add("RGB Spotlight", "midiLightShow.rgbSpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             track.typeMap.Add("360 Spotlight", "midiLightShow._360SpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             track.typeMap.Add("Lazer", "midiLightShow.lazer, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-            track.typeMap.Add("Disc Light", "midiLightShow.discLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-            Console.WriteLine("Generated TypeMap.");
+            track.typeMap.Add("Mirror light", "midiLightShow.mirrorLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tGenerated TypeMap.");
             
         }
         #endregion
@@ -180,7 +181,7 @@ namespace midiLightShow
         {
             this.lbName.Text = this.name;
             this.lbName.Location = new Point(4, this.yPos + 3);
-            this.lbName.Bounds = new Rectangle(lbName.Location, new Size(this.lbName.Text.Length * 7, 18));
+            this.lbName.Bounds = new Rectangle(lbName.Location, new Size(165, 18));
             this.pTimeLine.Controls.Add(lbName);
 
             this.cbMute.Text = "Mute";
@@ -200,13 +201,13 @@ namespace midiLightShow
             this.pbOptions.Tag = "Track";
             this.pbOptions.SizeMode = PictureBoxSizeMode.StretchImage;
             this.pbOptions.Size = new Size(25, 25);
-            this.pbOptions.Location = new Point(60, this.yPos + 3);
+            this.pbOptions.Location = new Point(120, this.yPos + 30);
             //this.bOptions.Bounds = new Rectangle(bOptions.Location, new Size(20, 50));
             this.pbOptions.Click += bOptions_Click;
             this.pTimeLine.Controls.Add(pbOptions);
 
             this.bAddEvent.Text = "Add event";
-            this.bAddEvent.Location = new Point(110, this.yPos + 3);
+            this.bAddEvent.Location = new Point(170, this.yPos + 3);
             this.bAddEvent.Size = new Size(50, 47);
             this.bAddEvent.BackColor = SystemColors.ControlDarkDark;
             this.bAddEvent.ForeColor = SystemColors.Highlight;
@@ -221,7 +222,7 @@ namespace midiLightShow
             this.bAddEvent.Click += bAddEvent_Click;
             this.pTimeLine.Controls.Add(bAddEvent);
 
-            Console.WriteLine("Generated controls for track '" + this.name + "'.");
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tGenerated controls for track '" + this.name + "'.");
         }
 
         void bAddEvent_MouseLeave(object sender, EventArgs e)
@@ -242,8 +243,8 @@ namespace midiLightShow
             this.lbName.Location = new Point(4, this.yPos + 3);
             this.cbMute.Location = new Point(4, this.yPos + 30);
             this.cbSolo.Location = new Point(60, this.yPos + 30);
-            this.pbOptions.Location = new Point(80, this.yPos + 3);
-            this.bAddEvent.Location = new Point(110, this.yPos + 3);
+            this.pbOptions.Location = new Point(140, this.yPos + 25);
+            this.bAddEvent.Location = new Point(170, this.yPos + 3);
         }
 
         /// <summary>
@@ -276,10 +277,14 @@ namespace midiLightShow
         /// </summary>
         private void checkAndShowEvent()
         {
-            Console.WriteLine("Trying to create new event...");
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tTrying to create new event...");
             int duration = Convert.ToInt32(this.frmAddShowEvent.tbDuration.Text);
             int start = Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text);
             bool valid = true;
+            if (start < 0 || duration < 0)
+            {
+                valid = false;
+            }
             foreach (showEvent ev in this.events)
             {
                 if (start > ev.startTime && start < ev.startTime + ev.duration)
@@ -293,8 +298,8 @@ namespace midiLightShow
             }
             if (!valid)
             {
-                MessageBox.Show("event cannot overlap!");
-                Console.WriteLine("Failed! (Invalid event timing for new event).");
+                DMXStudioMessageBox.Show("show events cannot overlap or have negative values!");
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tFailed! (Invalid event timing for new event).");
                 return;
             }
 
@@ -316,11 +321,11 @@ namespace midiLightShow
         /// <param name="sEvent">The showEvent object to write debug information about</param>
         private void debugNewEvent(showEvent sEvent)
         {
-            Console.WriteLine("Complete, created event with the following data:");
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tComplete, created event with the following data:");
             FieldInfo[] fields = sEvent.GetType().GetFields();
             foreach(FieldInfo field in fields)
             {
-                Console.WriteLine(string.Format("{0}: {1}", field.Name, field.GetValue(sEvent).ToString()));
+                Console.WriteLine(string.Format("\t{0}: {1}", field.Name, field.GetValue(sEvent).ToString()));
             }
         }
 
@@ -344,6 +349,7 @@ namespace midiLightShow
             {
                 this.name = frmOptions.tbName.Text;
                 this.lbName.Text = this.name;
+                this.lbName.Bounds = new Rectangle(lbName.Location, new Size(165, 18));
                 this.LightName = this.frmOptions.cbLights.SelectedItem.ToString();
                 this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
                 this.light.comPort = this.frmOptions.cbComPorts.Text;
@@ -357,6 +363,11 @@ namespace midiLightShow
             else if (dr == DialogResult.Abort)
             {
                 this.delete = true;
+                this.pTimeLine.Invalidate();
+            }
+            else if (dr == DialogResult.Retry)
+            {
+                this.clone = true;
                 this.pTimeLine.Invalidate();
             }
         }
@@ -376,7 +387,8 @@ namespace midiLightShow
            {
                this.mute = true;
            }
-           Console.WriteLine("Toggled mute option for track '" + this.name + "'.");
+           Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tToggled mute option for track '" + this.name + "'.");
+           this.pTimeLine.Invalidate();
         }
 
         /// <summary>
@@ -390,13 +402,12 @@ namespace midiLightShow
             {
                 this.solo = false;
                 this.soloSwitch = true;
-                this.pTimeLine.Invalidate();
             }
             else
             {
                 this.solo = true;
-                this.pTimeLine.Invalidate();
             }
+            this.pTimeLine.Invalidate();
         }
 
         /// <summary>
@@ -419,6 +430,8 @@ namespace midiLightShow
             this.frmOptions.tbName.Text = this.name;
             this.frmOptions.Text = "Options for '" + this.name + "'";
             this.frmOptions.cbLights.Text = this.LightName;
+            this.lbName.Text = this.name;
+            this.lbName.Bounds = new Rectangle(lbName.Location, new Size(165, 18));
         }
         #endregion
     }

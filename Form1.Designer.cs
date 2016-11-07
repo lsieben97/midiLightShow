@@ -29,15 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditor));
             this.msControl = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newShowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadMIDIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importMusicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetZoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,9 +49,15 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startTutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdMidi = new System.Windows.Forms.OpenFileDialog();
             this.pTimeLine = new System.Windows.Forms.Panel();
             this.tbLightshowName = new System.Windows.Forms.TextBox();
+            this.pTutorial = new System.Windows.Forms.Panel();
+            this.rtbTutorialContent = new System.Windows.Forms.RichTextBox();
+            this.msTutorial = new System.Windows.Forms.MenuStrip();
+            this.tbTutorial = new System.Windows.Forms.ToolStripTextBox();
+            this.btnNextTutorial = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnResetZoom = new System.Windows.Forms.Button();
@@ -63,19 +73,16 @@
             this.msBottom = new System.Windows.Forms.MenuStrip();
             this.tbHelp = new System.Windows.Forms.ToolStripTextBox();
             this.btnAddTrack = new System.Windows.Forms.Button();
-            this.pTutorial = new System.Windows.Forms.Panel();
-            this.rtbTutorialContent = new System.Windows.Forms.RichTextBox();
-            this.msTutorial = new System.Windows.Forms.MenuStrip();
-            this.tbTutorial = new System.Windows.Forms.ToolStripTextBox();
-            this.btnNextTutorial = new System.Windows.Forms.Button();
+            this.lbPlayBackTime = new System.Windows.Forms.Label();
+            this.ofdMusic = new System.Windows.Forms.OpenFileDialog();
             this.msControl.SuspendLayout();
             this.pTimeLine.SuspendLayout();
+            this.pTutorial.SuspendLayout();
+            this.msTutorial.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBeatsPerMinute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbZoom)).BeginInit();
             this.msBottom.SuspendLayout();
-            this.pTutorial.SuspendLayout();
-            this.msTutorial.SuspendLayout();
             this.SuspendLayout();
             // 
             // msControl
@@ -105,9 +112,10 @@
             this.importToolStripMenuItem,
             this.exportToolStripMenuItem,
             this.loadMIDIToolStripMenuItem,
+            this.importMusicToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.fileToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.fileToolStripMenuItem.ImageTransparentColor = System.Drawing.SystemColors.ControlDarkDark;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -120,6 +128,7 @@
             // 
             this.newShowToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.newShowToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.newShowToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.newShowToolStripMenuItem.Name = "newShowToolStripMenuItem";
             this.newShowToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newShowToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
@@ -130,6 +139,7 @@
             // 
             this.importToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.importToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.importToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
             this.importToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
@@ -142,6 +152,7 @@
             // 
             this.exportToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.exportToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
@@ -154,6 +165,7 @@
             // 
             this.loadMIDIToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.loadMIDIToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loadMIDIToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.loadMIDIToolStripMenuItem.Name = "loadMIDIToolStripMenuItem";
             this.loadMIDIToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.loadMIDIToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
@@ -163,10 +175,20 @@
             this.loadMIDIToolStripMenuItem.MouseEnter += new System.EventHandler(this.loadMIDIToolStripMenuItem_MouseEnter);
             this.loadMIDIToolStripMenuItem.MouseLeave += new System.EventHandler(this.loadMIDIToolStripMenuItem_MouseLeave);
             // 
+            // importMusicToolStripMenuItem
+            // 
+            this.importMusicToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.importMusicToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.importMusicToolStripMenuItem.Name = "importMusicToolStripMenuItem";
+            this.importMusicToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.importMusicToolStripMenuItem.Text = "Import music";
+            this.importMusicToolStripMenuItem.Click += new System.EventHandler(this.importMusicToolStripMenuItem_Click);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.exitToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exitToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.exitToolStripMenuItem.Text = "Exit";
@@ -176,7 +198,9 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetZoomToolStripMenuItem});
+            this.resetZoomToolStripMenuItem,
+            this.zoomInToolStripMenuItem,
+            this.zoomOutToolStripMenuItem});
             this.viewToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F);
             this.viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
@@ -193,12 +217,32 @@
             this.resetZoomToolStripMenuItem.Text = "Reset zoom";
             this.resetZoomToolStripMenuItem.Click += new System.EventHandler(this.resetZoomToolStripMenuItem_Click);
             // 
+            // zoomInToolStripMenuItem
+            // 
+            this.zoomInToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.zoomInToolStripMenuItem.Name = "zoomInToolStripMenuItem";
+            this.zoomInToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Oemplus)));
+            this.zoomInToolStripMenuItem.ShowShortcutKeys = false;
+            this.zoomInToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.zoomInToolStripMenuItem.Text = "Zoom in";
+            this.zoomInToolStripMenuItem.Click += new System.EventHandler(this.zoomInToolStripMenuItem_Click);
+            // 
+            // zoomOutToolStripMenuItem
+            // 
+            this.zoomOutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.zoomOutToolStripMenuItem.Name = "zoomOutToolStripMenuItem";
+            this.zoomOutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.OemMinus)));
+            this.zoomOutToolStripMenuItem.ShowShortcutKeys = false;
+            this.zoomOutToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.zoomOutToolStripMenuItem.Text = "Zoom out";
+            this.zoomOutToolStripMenuItem.Click += new System.EventHandler(this.zoomOutToolStripMenuItem_Click);
+            // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.debugToolStripMenuItem});
             this.toolsToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F);
-            this.toolsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.toolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -207,10 +251,10 @@
             // 
             this.debugToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.debugToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F);
-            this.debugToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.debugToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.Click += new System.EventHandler(this.debugToolStripMenuItem_Click);
             // 
@@ -235,7 +279,8 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.userManualToolStripMenuItem,
-            this.startTutorialToolStripMenuItem});
+            this.startTutorialToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -245,7 +290,8 @@
             // 
             this.userManualToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
-            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.userManualToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.userManualToolStripMenuItem.Text = "User manual";
             this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
             // 
@@ -253,9 +299,17 @@
             // 
             this.startTutorialToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.startTutorialToolStripMenuItem.Name = "startTutorialToolStripMenuItem";
-            this.startTutorialToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.startTutorialToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.startTutorialToolStripMenuItem.Text = "Start Tutorial";
             this.startTutorialToolStripMenuItem.Click += new System.EventHandler(this.startTutorialToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // ofdMidi
             // 
@@ -273,6 +327,7 @@
             this.pTimeLine.Scroll += new System.Windows.Forms.ScrollEventHandler(this.pTimeLine_Scroll);
             this.pTimeLine.Click += new System.EventHandler(this.pTimeLine_Click);
             this.pTimeLine.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.pTimeLine.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pTimeLine_MouseMove);
             // 
             // tbLightshowName
             // 
@@ -281,9 +336,74 @@
             this.tbLightshowName.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.tbLightshowName.Location = new System.Drawing.Point(3, 1);
             this.tbLightshowName.Name = "tbLightshowName";
-            this.tbLightshowName.Size = new System.Drawing.Size(131, 20);
+            this.tbLightshowName.Size = new System.Drawing.Size(167, 20);
             this.tbLightshowName.TabIndex = 14;
             this.tbLightshowName.TextChanged += new System.EventHandler(this.tbLightshowName_TextChanged);
+            // 
+            // pTutorial
+            // 
+            this.pTutorial.Controls.Add(this.rtbTutorialContent);
+            this.pTutorial.Controls.Add(this.msTutorial);
+            this.pTutorial.Controls.Add(this.btnNextTutorial);
+            this.pTutorial.Location = new System.Drawing.Point(723, 32);
+            this.pTutorial.Name = "pTutorial";
+            this.pTutorial.Size = new System.Drawing.Size(348, 225);
+            this.pTutorial.TabIndex = 14;
+            // 
+            // rtbTutorialContent
+            // 
+            this.rtbTutorialContent.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.rtbTutorialContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbTutorialContent.Font = new System.Drawing.Font("Corbel", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbTutorialContent.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.rtbTutorialContent.Location = new System.Drawing.Point(3, 27);
+            this.rtbTutorialContent.Name = "rtbTutorialContent";
+            this.rtbTutorialContent.Size = new System.Drawing.Size(342, 160);
+            this.rtbTutorialContent.TabIndex = 1;
+            this.rtbTutorialContent.Text = "Welcome to the tutorial for DMX studio!\nThis tutorial will guide you through the " +
+    "application and help you setup your first lightshow";
+            // 
+            // msTutorial
+            // 
+            this.msTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.msTutorial.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbTutorial});
+            this.msTutorial.Location = new System.Drawing.Point(0, 0);
+            this.msTutorial.Name = "msTutorial";
+            this.msTutorial.Size = new System.Drawing.Size(348, 24);
+            this.msTutorial.TabIndex = 0;
+            this.msTutorial.Text = "menuStrip1";
+            // 
+            // tbTutorial
+            // 
+            this.tbTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tbTutorial.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbTutorial.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.tbTutorial.Name = "tbTutorial";
+            this.tbTutorial.ReadOnly = true;
+            this.tbTutorial.Size = new System.Drawing.Size(250, 20);
+            this.tbTutorial.Text = "Tutorial - Welcome!";
+            // 
+            // btnNextTutorial
+            // 
+            this.btnNextTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnNextTutorial.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
+            this.btnNextTutorial.FlatAppearance.BorderSize = 0;
+            this.btnNextTutorial.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnNextTutorial.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnNextTutorial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNextTutorial.Font = new System.Drawing.Font("Corbel", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNextTutorial.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnNextTutorial.Location = new System.Drawing.Point(270, 193);
+            this.btnNextTutorial.Name = "btnNextTutorial";
+            this.btnNextTutorial.Size = new System.Drawing.Size(75, 29);
+            this.btnNextTutorial.TabIndex = 4;
+            this.btnNextTutorial.Tag = "button";
+            this.btnNextTutorial.Text = "Next";
+            this.btnNextTutorial.UseVisualStyleBackColor = false;
+            this.btnNextTutorial.Click += new System.EventHandler(this.btnNextTutorial_Click);
+            this.btnNextTutorial.MouseEnter += new System.EventHandler(this.btnStop_MouseEnter);
+            this.btnNextTutorial.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             // 
             // btnPlay
             // 
@@ -349,7 +469,7 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.pTimeLine);
-            this.panel1.Location = new System.Drawing.Point(12, 66);
+            this.panel1.Location = new System.Drawing.Point(12, 67);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1350, 707);
             this.panel1.TabIndex = 6;
@@ -482,70 +602,20 @@
             this.btnAddTrack.MouseEnter += new System.EventHandler(this.btnStop_MouseEnter);
             this.btnAddTrack.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             // 
-            // pTutorial
+            // lbPlayBackTime
             // 
-            this.pTutorial.Controls.Add(this.rtbTutorialContent);
-            this.pTutorial.Controls.Add(this.msTutorial);
-            this.pTutorial.Controls.Add(this.btnNextTutorial);
-            this.pTutorial.Location = new System.Drawing.Point(365, 32);
-            this.pTutorial.Name = "pTutorial";
-            this.pTutorial.Size = new System.Drawing.Size(348, 225);
-            this.pTutorial.TabIndex = 14;
+            this.lbPlayBackTime.AutoSize = true;
+            this.lbPlayBackTime.Font = new System.Drawing.Font("Corbel", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlayBackTime.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lbPlayBackTime.Location = new System.Drawing.Point(719, 35);
+            this.lbPlayBackTime.Name = "lbPlayBackTime";
+            this.lbPlayBackTime.Size = new System.Drawing.Size(80, 24);
+            this.lbPlayBackTime.TabIndex = 13;
+            this.lbPlayBackTime.Text = "00:00:00";
             // 
-            // rtbTutorialContent
+            // ofdMusic
             // 
-            this.rtbTutorialContent.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.rtbTutorialContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbTutorialContent.Font = new System.Drawing.Font("Corbel", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbTutorialContent.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.rtbTutorialContent.Location = new System.Drawing.Point(3, 27);
-            this.rtbTutorialContent.Name = "rtbTutorialContent";
-            this.rtbTutorialContent.Size = new System.Drawing.Size(342, 160);
-            this.rtbTutorialContent.TabIndex = 1;
-            this.rtbTutorialContent.Text = "Welcome to the tutorial for DMX studio!\nThis tutorial will guide you through the " +
-    "application and help you setup your first lightshow";
-            // 
-            // msTutorial
-            // 
-            this.msTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.msTutorial.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbTutorial});
-            this.msTutorial.Location = new System.Drawing.Point(0, 0);
-            this.msTutorial.Name = "msTutorial";
-            this.msTutorial.Size = new System.Drawing.Size(348, 24);
-            this.msTutorial.TabIndex = 0;
-            this.msTutorial.Text = "menuStrip1";
-            // 
-            // tbTutorial
-            // 
-            this.tbTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tbTutorial.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbTutorial.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.tbTutorial.Name = "tbTutorial";
-            this.tbTutorial.ReadOnly = true;
-            this.tbTutorial.Size = new System.Drawing.Size(250, 20);
-            this.tbTutorial.Text = "Tutorial - Welcome!";
-            // 
-            // btnNextTutorial
-            // 
-            this.btnNextTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnNextTutorial.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
-            this.btnNextTutorial.FlatAppearance.BorderSize = 0;
-            this.btnNextTutorial.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnNextTutorial.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnNextTutorial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNextTutorial.Font = new System.Drawing.Font("Corbel", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNextTutorial.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnNextTutorial.Location = new System.Drawing.Point(270, 193);
-            this.btnNextTutorial.Name = "btnNextTutorial";
-            this.btnNextTutorial.Size = new System.Drawing.Size(75, 29);
-            this.btnNextTutorial.TabIndex = 4;
-            this.btnNextTutorial.Tag = "button";
-            this.btnNextTutorial.Text = "Next";
-            this.btnNextTutorial.UseVisualStyleBackColor = false;
-            this.btnNextTutorial.Click += new System.EventHandler(this.btnNextTutorial_Click);
-            this.btnNextTutorial.MouseEnter += new System.EventHandler(this.btnStop_MouseEnter);
-            this.btnNextTutorial.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
+            this.ofdMusic.FileName = "Select a sound file";
             // 
             // frmEditor
             // 
@@ -555,11 +625,12 @@
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1022, 755);
             this.Controls.Add(this.pTutorial);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.lbPlayBackTime);
             this.Controls.Add(this.msBottom);
             this.Controls.Add(this.lbZoom);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nudBeatsPerMinute);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnResetZoom);
             this.Controls.Add(this.btnAddTrack);
             this.Controls.Add(this.btnStop);
@@ -569,23 +640,24 @@
             this.Controls.Add(this.label1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.msControl;
             this.Name = "frmEditor";
-            this.Text = "Editor";
+            this.Text = "DMX Studio v1.2";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmEditor_KeyDown);
             this.msControl.ResumeLayout(false);
             this.msControl.PerformLayout();
             this.pTimeLine.ResumeLayout(false);
             this.pTimeLine.PerformLayout();
+            this.pTutorial.ResumeLayout(false);
+            this.pTutorial.PerformLayout();
+            this.msTutorial.ResumeLayout(false);
+            this.msTutorial.PerformLayout();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudBeatsPerMinute)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbZoom)).EndInit();
             this.msBottom.ResumeLayout(false);
             this.msBottom.PerformLayout();
-            this.pTutorial.ResumeLayout(false);
-            this.pTutorial.PerformLayout();
-            this.msTutorial.ResumeLayout(false);
-            this.msTutorial.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -632,6 +704,12 @@
         private System.Windows.Forms.ToolStripTextBox tbTutorial;
         private System.Windows.Forms.Button btnNextTutorial;
         private System.Windows.Forms.TextBox tbLightshowName;
+        private System.Windows.Forms.Label lbPlayBackTime;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoomInToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoomOutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importMusicToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog ofdMusic;
     }
 }
 

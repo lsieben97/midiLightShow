@@ -46,6 +46,7 @@
             this.lbColorPreview = new System.Windows.Forms.Label();
             this.btnChangeColor = new System.Windows.Forms.Button();
             this.cdEventColor = new System.Windows.Forms.ColorDialog();
+            this.btnClone = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -234,6 +235,22 @@
             // 
             this.cdEventColor.AllowFullOpen = false;
             // 
+            // btnClone
+            // 
+            this.btnClone.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnClone.FlatAppearance.BorderSize = 0;
+            this.btnClone.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnClone.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnClone.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClone.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnClone.Location = new System.Drawing.Point(128, 164);
+            this.btnClone.Name = "btnClone";
+            this.btnClone.Size = new System.Drawing.Size(75, 23);
+            this.btnClone.TabIndex = 4;
+            this.btnClone.Text = "Clone";
+            this.btnClone.UseVisualStyleBackColor = false;
+            this.btnClone.Click += new System.EventHandler(this.btnClone_Click);
+            // 
             // TrackOptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -247,6 +264,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnChangeColor);
+            this.Controls.Add(this.btnClone);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.tbName);
@@ -286,5 +304,6 @@
         private System.Windows.Forms.Button btnChangeColor;
         public System.Windows.Forms.Label lbColorPreview;
         public System.Windows.Forms.ColorDialog cdEventColor;
+        private System.Windows.Forms.Button btnClone;
     }
 }

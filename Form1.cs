@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows.Forms;
-using Dmx512UsbRs485;
+using System.Windows.Media;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace midiLightShow
 {
@@ -43,17 +39,13 @@ namespace midiLightShow
         /// </summary>
         private int trackCounter = 1;
         /// <summary>
-        /// Indicates the length of the show in 16th beats
-        /// </summary>
-        private int showTime = 16;
-        /// <summary>
         /// Indicates the standard height of each track
         /// </summary>
         private int trackHeight = 50;
         /// <summary>
         /// Indicates the default offset for the timeline
         /// </summary>
-        private int timelineOffsetX = 160;
+        private int timelineOffsetX = 220;
         private int timelineOffsetY = 25;
         /// <summary>
         /// The zoom level for the timeline
@@ -63,7 +55,7 @@ namespace midiLightShow
         private string lastSavedPath = "";
         private bool saved = true;
         private string currentTutorialStep = "Intro";
-
+        private playBackTime pbTime = new playBackTime();
 
         /// <summary>
         /// The default message to show when no help text is shown
@@ -86,12 +78,13 @@ namespace midiLightShow
         /// <summary>
         /// Standard Color object for lines
         /// </summary>
-        private Color lineColor = SystemColors.Highlight;
+        private System.Drawing.Color lineColor = SystemColors.Highlight;
         /// <summary>
         /// AddShowEvent form for editing existing showEvents
         /// </summary>
         public AddShowEvent frmEditShowEvent = new AddShowEvent();
         public lightshow currentLightshow = new lightshow();
+        public MediaPlayer mp = new MediaPlayer();
 
         #endregion
         #region Constructors
@@ -100,7 +93,7 @@ namespace midiLightShow
         /// </summary>
         public frmEditor()
         {
-            Console.WriteLine("Initializing application...");
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tInitializing application...");
             this.InitializeComponent();
             this.calculateTime();
             // timers
@@ -113,7 +106,7 @@ namespace midiLightShow
             this.frmEditShowEvent.isEditForm = true;
             this.frmEditShowEvent.Text = "Edit event";
             // diverse statements
-            this.pTimeLine.BackColor = Color.FromArgb(255, 170, 213, 255);
+            this.pTimeLine.BackColor = System.Drawing.Color.FromArgb(255, 170, 213, 255);
             this.nudBeatsPerMinute.Value = this.currentLightshow.bpm;
             this.pixelsPer16thNote = trbZoom.Value;
             this.lbZoom.Text = (trbZoom.Value / 10 * 100).ToString() + "%";
@@ -122,33 +115,64 @@ namespace midiLightShow
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, this.pTimeLine, new object[] { true });
             this.pTutorial.Visible = false;
             this.tbLightshowName.Text = "New lighshow";
+            this.mp.MediaOpened += mp_MediaOpened;
             track.makeTypeMap();
             // customize menu strip
             msControl.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             msBottom.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             msTutorial.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
-            fileToolStripMenuItem.ForeColor = this.lineColor;
-            toolsToolStripMenuItem.ForeColor = this.lineColor;
-            loadMIDIToolStripMenuItem.ForeColor = this.lineColor;
-            exitToolStripMenuItem.ForeColor = this.lineColor;
-            exportToolStripMenuItem.ForeColor = this.lineColor;
-            debugToolStripMenuItem.ForeColor = this.lineColor;
-            importToolStripMenuItem.ForeColor = this.lineColor;
-            minimizeToolStripMenuItem.ForeColor = this.lineColor;
-            closeToolStripMenuItem.ForeColor = this.lineColor;
-            newShowToolStripMenuItem.ForeColor = this.lineColor;
-            Console.WriteLine("Done!");
+
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tDone!");
+        }
+        #endregion
+        #region Editor form methods
+        /// <summary>
+        /// Media opened event handler for the media player object
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
+        void mp_MediaOpened(object sender, EventArgs e)
+        {
+            this.handleMediaOpened();
         }
 
+        /// <summary>
+        /// Check imported audio length and change lighshow lenght if needed
+        /// </summary>
+        private void handleMediaOpened()
+        {
+            if (this.mp.NaturalDuration.TimeSpan.TotalMilliseconds / this.milisecondsPer16thNote > this.currentLightshow.showTime)
+            {
+                if (DMXStudioMessageBox.Show("The imported audio is longer than the current lightshow.\nDo you want to extend the lightshow to match the length of the audio?", "Match audio length?", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    this.currentLightshow.showTime = Convert.ToInt32(this.mp.NaturalDuration.TimeSpan.Duration().TotalMilliseconds / this.milisecondsPer16thNote);
+                    this.currentLightshow.containsAudio = true;
+                    this.pTimeLine.Invalidate();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tick event handler for the tutorial timer
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arguments</param>
         void tutorialTimer_Tick(object sender, EventArgs e)
         {
+            handleTutorialUpdate();
+        }
+
+        /// <summary>
+        /// Make a control flash as an indicator for the user
+        /// </summary>
+        private void handleTutorialUpdate()
+        {
             string type = this.tutorialTarget.Tag.ToString();
-            Console.WriteLine(type);
             if (type == "Track")
             {
                 if (this.tutorialTarget.BackColor == SystemColors.HotTrack)
                 {
-                    this.tutorialTarget.BackColor = Color.FromArgb(255, 170, 213, 255);
+                    this.tutorialTarget.BackColor = System.Drawing.Color.FromArgb(255, 170, 213, 255);
                 }
                 else
                 {
@@ -167,8 +191,6 @@ namespace midiLightShow
                 }
             }
         }
-        #endregion
-        #region Editor form methods
         /// <summary>
         /// Tick event handler for the showtimer
         /// </summary>
@@ -187,11 +209,15 @@ namespace midiLightShow
             if (this.currentTime == this.currentLightshow.showTime)
             {
                 this.currentTime = 0;
+                this.pbTime.reset();
+                this.lbPlayBackTime.Text = this.pbTime.getTimeString();
             }
+            // check for show events that need to be played
             foreach (track t in this.currentLightshow.tracks)
             {
                 if (t.events.Count(ev => ev.startTime == this.currentTime) == 1)
                 {
+                    // execute the correct function of the light
                     showEvent currentEvent = t.events.Single(ev => ev.startTime == this.currentTime);
                     t.light.executeFunction(currentEvent.function, currentEvent.parameters, true);
                 }
@@ -201,6 +227,8 @@ namespace midiLightShow
                 }
             }
             this.currentTime++;
+            this.pbTime.increment();
+            this.lbPlayBackTime.Text = this.pbTime.getTimeString();
             this.pTimeLine.Invalidate();
         }
 
@@ -218,6 +246,7 @@ namespace midiLightShow
             w.Flush();
             w.Close();
             tbHelp.Text = "Exported to " + path;
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tExported to '" + path + "'");
             this.saved = true;
             return;
         }
@@ -237,53 +266,62 @@ namespace midiLightShow
         /// </summary>
         private void importMIDI()
         {
+            // let the user select a MIDI file to import
             if (this.ofdMidi.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + "Starting MIDI import from MIDI file '" + ofdMidi.FileName + "'.");
                 List<showEvent> events = new List<showEvent>();
+                // Open an MIDI reader instance in the midi import dialog and parse the MIDI file
                 midiImport mi = new midiImport(this.ofdMidi.FileName);
-                mi.ShowDialog();
-                List<List<midiEvent>> tracks = mi.mr.getSeparateTracks();
-                // remove tempomap track and empty tracks
-                if (mi.mr.trackChunkCount > 1)
+                if (mi.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    tracks.RemoveAt(0);
-                }
-                tracks.RemoveAll(mt => mt.Count < 2);
-                this.tbHelp.Text = "Importing MIDI file...";
-                if (this.currentLightshow.tracks.Count < tracks.Count)
-                {
-                    // we need more tracks
-                    int tracksNeeded = tracks.Count - this.currentLightshow.tracks.Count;
-                    for (int i = 0; i < tracksNeeded; i++)
+                    Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tConverting MIDI file into lightshow...");
+                    List<List<midiEvent>> tracks = mi.mr.getSeparateTracks();
+                    // remove tempomap track and empty tracks
+                    if (mi.mr.trackChunkCount > 1)
                     {
-                        this.btnAddTrack_Click(this, EventArgs.Empty);
+                        tracks.RemoveAt(0);
                     }
-                }
-                int currentTrack = 0;
-                foreach (List<midiEvent> track in tracks)
-                {
-                    for (int i = 0; i < track.Count; i++)
+                    tracks.RemoveAll(mt => mt.Count < 2);
+                    this.tbHelp.Text = "Importing MIDI file...";
+                    if (this.currentLightshow.tracks.Count < tracks.Count)
                     {
-                        if (track[i].name == "Note On")
+                        // we need more tracks
+                        int tracksNeeded = tracks.Count - this.currentLightshow.tracks.Count;
+                        for (int i = 0; i < tracksNeeded; i++)
                         {
-                            showEvent ev = new showEvent((int)track[i].timeFrame / this.milisecondsPer16thNote, 0, "Empty", new List<string>(), "", this.currentLightshow.tracks[currentTrack].eventCount);
-                            ev.note = track[i].note;
-                            ev.canPlay = false;
-                            events.Add(ev);
-                        }
-                        else if (track[i].name == "Note Off")
-                        {
-                            showEvent s = events.Single(e => e.note == track[i].note);
-                            s.duration = ((int)track[i].timeFrame / this.milisecondsPer16thNote) - s.startTime;
-                            this.currentLightshow.tracks[currentTrack].events.Add(s);
-                            this.currentLightshow.tracks[currentTrack].maxEventLength += s.duration;
-                            events.Remove(s);
+                            this.btnAddTrack_Click(this, EventArgs.Empty);
                         }
                     }
-                    currentTrack++;
+                    int currentTrack = 0;
+                    foreach (List<midiEvent> track in tracks)
+                    {
+                        for (int i = 0; i < track.Count; i++)
+                        {
+                            if (track[i].name == "Note On")
+                            {
+                                // make the first part of the show event
+                                showEvent ev = new showEvent((int)track[i].timeFrame / this.milisecondsPer16thNote, 0, "Empty", new List<string>(), "", this.currentLightshow.tracks[currentTrack].eventCount);
+                                ev.note = track[i].note;
+                                ev.canPlay = false;
+                                events.Add(ev);
+                            }
+                            else if (track[i].name == "Note Off")
+                            {
+                                // finish the show event and add it to the current track
+                                showEvent s = events.Single(e => e.note == track[i].note);
+                                s.duration = ((int)track[i].timeFrame / this.milisecondsPer16thNote) - s.startTime;
+                                this.currentLightshow.tracks[currentTrack].events.Add(s);
+                                this.currentLightshow.tracks[currentTrack].maxEventLength += s.duration;
+                                events.Remove(s);
+                            }
+                        }
+                        currentTrack++;
+                    }
+                    Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tMIDI conversion complete.");
+                    this.pTimeLine.Invalidate();
+                    this.tbHelp.Text = this.defaultHelpMessage;
                 }
-                this.pTimeLine.Invalidate();
-                this.tbHelp.Text = this.defaultHelpMessage;
             }
         }
 
@@ -294,9 +332,10 @@ namespace midiLightShow
         /// <param name="e">Event arguments</param>
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.Clear(Color.FromArgb(255, 170, 213, 255));
+            e.Graphics.Clear(System.Drawing.Color.FromArgb(255, 170, 213, 255));
             deleteTracks();
             recalculatePanelWidth();
+            cloneTrack();
             drawTracks(e);
             drawBeatLines(e);
             drawShowEvents(e);
@@ -318,7 +357,7 @@ namespace midiLightShow
                     {
                         this.pTimeLine.Height += this.trackHeight;
                     }
-                    e.Graphics.FillRectangle(new Pen(this.lineColor).Brush, 0, t.yEnd, this.pTimeLine.Width, 3);
+                    e.Graphics.FillRectangle(new System.Drawing.Pen(this.lineColor).Brush, 0, t.yEnd, this.pTimeLine.Width, 3);
                     currentHeight += this.trackHeight;
                     t.repositionControls();
                 }
@@ -342,7 +381,7 @@ namespace midiLightShow
                     {
                         t.cbMute.Checked = false;
                         t.soloSwitch = false;
-                        t.lbName.ForeColor = Color.Black;
+                        t.lbName.ForeColor = System.Drawing.Color.Black;
                     }
                 }
                 if (this.currentLightshow.tracks.Count(t => t.solo == true) > 1)
@@ -365,15 +404,17 @@ namespace midiLightShow
         /// <param name="e">PaintEventArgs with graphics object</param>
         private void updatePlayHead(PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(new Pen(this.lineColor).Brush, 0, this.timelineOffsetY, this.pTimeLine.Width, 3);
+            e.Graphics.FillRectangle(new System.Drawing.Pen(this.lineColor).Brush, 0, this.timelineOffsetY, this.pTimeLine.Width, 3);
             if (this.timelineOffsetX + Convert.ToInt32(this.currentTime * (this.pixelsPer16thNote)) > this.pTimeLine.Size.Width)
             {
                 this.currentTime = 0;
+                this.pbTime.reset();
+                this.lbPlayBackTime.Text = this.pbTime.getTimeString();
             }
-            e.Graphics.FillRectangle(new Pen(this.lineColor).Brush, this.timelineOffsetX, this.timelineOffsetY, 3, pTimeLine.Height - this.timelineOffsetY);
+            e.Graphics.FillRectangle(new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX, this.timelineOffsetY, 3, pTimeLine.Height - this.timelineOffsetY);
             int xpos = this.timelineOffsetX + Convert.ToInt32(this.currentTime * (this.pixelsPer16thNote));
-            e.Graphics.FillRectangle(new Pen(SystemColors.HotTrack).Brush, xpos, this.timelineOffsetY, 3, pTimeLine.Height - this.timelineOffsetY);
-            e.Graphics.FillPolygon(new Pen(SystemColors.HotTrack).Brush, new Point[] { new Point(xpos - 9, 10), new Point(xpos + 10, 10), new Point(xpos + 1, this.timelineOffsetY), new Point(xpos - 9, 10) });
+            e.Graphics.FillRectangle(new System.Drawing.Pen(SystemColors.HotTrack).Brush, xpos, this.timelineOffsetY, 3, pTimeLine.Height - this.timelineOffsetY);
+            e.Graphics.FillPolygon(new System.Drawing.Pen(SystemColors.HotTrack).Brush, new Point[] { new Point(xpos - 9, 10), new Point(xpos + 10, 10), new Point(xpos + 1, this.timelineOffsetY), new Point(xpos - 9, 10) });
         }
 
         /// <summary>
@@ -389,54 +430,64 @@ namespace midiLightShow
                     Rectangle r = new Rectangle(this.timelineOffsetX + (int)(se.startTime * this.pixelsPer16thNote), t.yPos + 4, (int)(se.duration * this.pixelsPer16thNote), 44);
                     if (t.mute)
                     {
-                        e.Graphics.FillRectangle(new Pen(SystemColors.ControlDark).Brush, r);
+                        e.Graphics.FillRectangle(new System.Drawing.Pen(SystemColors.ControlDark).Brush, r);
                         se.bounds = r;
-                        e.Graphics.DrawRectangle(new Pen(this.lineColor), r);
-                        e.Graphics.DrawString(se.function + "(" + se.paraString + ")", btnPlay.Font, new Pen(SystemColors.ControlDarkDark).Brush, 164 + (int)(se.startTime * this.pixelsPer16thNote), t.yPos + 4);
-                        e.Graphics.DrawString("S: " + se.startTime.ToString(), btnPlay.Font, new Pen(SystemColors.ControlDarkDark).Brush, 164 + (int)(se.startTime * this.pixelsPer16thNote), t.yPos + 19);
-                        e.Graphics.DrawString("D: " + se.duration.ToString(), btnPlay.Font, new Pen(SystemColors.ControlDarkDark).Brush, 164 + (int)(se.startTime * this.pixelsPer16thNote), t.yPos + 34);
+                        e.Graphics.DrawRectangle(new System.Drawing.Pen(this.lineColor), r);
+                        if (r.Width > 100)
+                        {
+                            e.Graphics.DrawString(se.function + "(" + se.paraString + ")", btnPlay.Font, new System.Drawing.Pen(SystemColors.ControlDarkDark).Brush, this.timelineOffsetX + (int)(se.startTime * this.pixelsPer16thNote) + 2, t.yPos + 4);
+                            e.Graphics.DrawString("S: " + se.startTime.ToString(), btnPlay.Font, new System.Drawing.Pen(SystemColors.ControlDarkDark).Brush, this.timelineOffsetX + (int)(se.startTime * this.pixelsPer16thNote) + 2, t.yPos + 19);
+                            e.Graphics.DrawString("D: " + se.duration.ToString(), btnPlay.Font, new System.Drawing.Pen(SystemColors.ControlDarkDark).Brush, this.timelineOffsetX + (int)(se.startTime * this.pixelsPer16thNote) + 2, t.yPos + 34);
+                        }
                     }
                     else
                     {
-                        e.Graphics.FillRectangle(new Pen(Color.FromName(t.eventColor)).Brush, r);
+                        e.Graphics.FillRectangle(new System.Drawing.Pen(System.Drawing.Color.FromName(t.eventColor)).Brush, r);
                         se.bounds = r;
-                        e.Graphics.DrawRectangle(new Pen(this.lineColor), r);
-                        e.Graphics.DrawString(se.function + "(" + se.paraString + ")", btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.startTime * this.pixelsPer16thNote), t.yPos + 4);
-                        e.Graphics.DrawString("S: " + se.startTime.ToString(), btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.startTime * this.pixelsPer16thNote), t.yPos + 19);
-                        e.Graphics.DrawString("D: " + se.duration.ToString(), btnPlay.Font, new Pen(this.lineColor).Brush, 164 + (int)(se.startTime * this.pixelsPer16thNote), t.yPos + 34);
+                        if (r.Width > 100)
+                        {
+                            e.Graphics.DrawRectangle(new System.Drawing.Pen(this.lineColor), r);
+                            e.Graphics.DrawString(se.function + "(" + se.paraString + ")", btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + (int)(se.startTime * this.pixelsPer16thNote) + 2, t.yPos + 4);
+                            e.Graphics.DrawString("S: " + se.startTime.ToString(), btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + (int)(se.startTime * this.pixelsPer16thNote) + 2, t.yPos + 19);
+                            e.Graphics.DrawString("D: " + se.duration.ToString(), btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + (int)(se.startTime * this.pixelsPer16thNote) + 2, t.yPos + 34);
+                        }
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Draw the beat lines acording to the zoom level
+        /// </summary>
+        /// <param name="e"></param>
         private void drawBeatLines(PaintEventArgs e)
         {
             if (this.zoom >= 200)
             {
                 for (int i = 0; i < ((this.pTimeLine.Width - this.timelineOffsetX) / this.pixelsPer16thNote | 0); i++)
                 {
-                    e.Graphics.DrawLine(new Pen(Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote, this.pTimeLine.Height);
-                    e.Graphics.DrawString(i.ToString(), this.btnPlay.Font, new Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote, 5);
+                    e.Graphics.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote, this.pTimeLine.Height);
+                    e.Graphics.DrawString(i.ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote, 5);
                 }
             }
             else if (this.zoom < 200 && this.zoom > 70)
             {
                 for (int i = 0; i < ((this.pTimeLine.Width - this.timelineOffsetX) / 2 / this.pixelsPer16thNote | 0); i++)
                 {
-                    e.Graphics.DrawLine(new Pen(Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote * 2, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote * 2, this.pTimeLine.Height);
-                    e.Graphics.DrawString((i * 2).ToString(), this.btnPlay.Font, new Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 2, 5);
+                    e.Graphics.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote * 2, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote * 2, this.pTimeLine.Height);
+                    e.Graphics.DrawString((i * 2).ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 2, 5);
                 }
             }
             else if (this.zoom <= 70)
             {
                 for (int i = 0; i < ((this.pTimeLine.Width - this.timelineOffsetX) / 4 / this.pixelsPer16thNote | 0); i++)
                 {
-                    e.Graphics.DrawLine(new Pen(Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote * 4, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote * 4, this.pTimeLine.Height);
-                    e.Graphics.DrawString((i * 4).ToString(), this.btnPlay.Font, new Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 4, 5);
+                    e.Graphics.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote * 4, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote * 4, this.pTimeLine.Height);
+                    e.Graphics.DrawString((i * 4).ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 4, 5);
                 }
             }
             Rectangle rEnd = new Rectangle(this.timelineOffsetX + this.currentLightshow.showTime * this.pixelsPer16thNote, 0, 2, this.timelineOffsetY);
-            e.Graphics.FillRectangle(new Pen(SystemColors.HotTrack).Brush, rEnd);
+            e.Graphics.FillRectangle(new System.Drawing.Pen(SystemColors.HotTrack).Brush, rEnd);
         }
         /// <summary>
         /// Recalculate the panel width based on max event end time
@@ -444,21 +495,28 @@ namespace midiLightShow
         private void recalculatePanelWidth()
         {
             this.panel1.Size = new Size(this.Size.Width - 20, this.pTimeLine.Size.Height + 17);
-            if (this.currentLightshow.tracks.Count > 0)
+            if (this.currentLightshow.containsAudio)
             {
-                this.currentLightshow.showTime = this.currentLightshow.tracks.Max(tr => tr.maxEventLength);
-                if (this.currentLightshow.showTime < 16)
+                this.pTimeLine.Size = new Size(this.timelineOffsetX + this.currentLightshow.showTime * this.pixelsPer16thNote, this.pTimeLine.Size.Height);
+            }
+            else
+            {
+                if (this.currentLightshow.tracks.Count > 0)
                 {
-                    this.currentLightshow.showTime = 16;
-                }
-                int max = this.timelineOffsetX + Convert.ToInt32(this.currentLightshow.tracks.Max(t => t.maxEventLength) * this.pixelsPer16thNote + 5);
-                if (max > this.Size.Width - 3)
-                {
-                    this.pTimeLine.Size = new Size(max + 5, this.pTimeLine.Size.Height);
-                }
-                else
-                {
-                    this.pTimeLine.Size = new Size(this.Size.Width - 20, this.pTimeLine.Size.Height);
+                    this.currentLightshow.showTime = this.currentLightshow.tracks.Max(tr => tr.maxEventLength);
+                    if (this.currentLightshow.showTime < 16)
+                    {
+                        this.currentLightshow.showTime = 16;
+                    }
+                    int max = this.timelineOffsetX + Convert.ToInt32(this.currentLightshow.tracks.Max(t => t.maxEventLength) * this.pixelsPer16thNote + 5);
+                    if (max > this.Size.Width - 3)
+                    {
+                        this.pTimeLine.Size = new Size(max + 5, this.pTimeLine.Size.Height);
+                    }
+                    else
+                    {
+                        this.pTimeLine.Size = new Size(this.Size.Width - 20, this.pTimeLine.Size.Height);
+                    }
                 }
             }
         }
@@ -484,13 +542,51 @@ namespace midiLightShow
                     }
                     t.removeControls();
                     //e.Graphics.Clear(pTimeLine.BackColor);
-                    Console.WriteLine("Deleted track '" + t.name + "'.");
+                    Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tDeleted track '" + t.name + "'.");
                     this.currentLightshow.tracks.Remove(t);
                     this.pTimeLine.Invalidate();
                     break;
                 }
             }
         }
+
+        /// <summary>
+        /// Clone a track if indicated
+        /// </summary>
+        private void cloneTrack()
+        {
+            if (this.currentLightshow.tracks.Count < 10)
+            {
+                foreach (track t in this.currentLightshow.tracks)
+                {
+                    if (t.clone)
+                    {
+                        // add a new track
+                        this.addTrack();
+                        // reference for the new track
+                        track clone = this.currentLightshow.tracks[this.currentLightshow.tracks.Count - 1];
+                        // copy track information
+                        clone.name = t.name + " cloned";
+                        clone.LightName = t.LightName;
+                        clone.maxEventLength = t.maxEventLength;
+                        clone.lastBlockXPos = t.lastBlockXPos;
+                        clone.eventCount = t.eventCount;
+                        clone.eventColor = t.eventColor;
+                        // copy all show events
+                        foreach(showEvent se in t.events)
+                        {
+                            clone.events.Add(se);
+                        }
+                        t.clone = false;
+                        // call the after import method to update track title label, light object etc.
+                        clone.afterImport();
+                        Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tCloned track '" + t.name + "'");
+                        return;
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// Click event handler for the play button
@@ -501,12 +597,22 @@ namespace midiLightShow
         {
             if (this.btnPlay.Text == "Play")
             {
+                if(this.mp.HasAudio)
+                {
+                    TimeSpan targetPosition = new TimeSpan(0,0,0,0,this.currentTime * this.milisecondsPer16thNote);
+                    this.mp.Position = targetPosition;
+                    this.mp.Play();
+                }
                 this.showTimer.Start();
                 this.btnPlay.Text = "Pause";
             }
             else
             {
                 this.showTimer.Stop();
+                if (this.mp.HasAudio)
+                {
+                    this.mp.Pause();
+                }
                 this.btnPlay.Text = "Play";
             }
         }
@@ -519,6 +625,12 @@ namespace midiLightShow
         private void btnStop_Click(object sender, EventArgs e)
         {
             this.currentTime = 0;
+            this.pbTime.reset();
+            if (this.mp.HasAudio)
+            {
+                this.mp.Stop();
+            }
+            this.lbPlayBackTime.Text = this.pbTime.getTimeString();
             this.showTimer.Stop();
             this.pTimeLine.Invalidate();
             this.btnPlay.Text = "Play";
@@ -546,13 +658,14 @@ namespace midiLightShow
         {
             if (this.currentLightshow.tracks.Count == 12)
             {
-                MessageBox.Show("Cannot add more tracks!");
+                DMXStudioMessageBox.Show("Cannot add more tracks!", "Notice");
                 return;
             }
             this.saved = false;
             this.currentLightshow.tracks.Add(new track("Track " + this.trackCounter.ToString(), this.currentLightshow.tracks.Count * this.trackHeight + this.timelineOffsetY, this.timelineOffsetY + ((this.currentLightshow.tracks.Count + 1) * this.trackHeight), this.pTimeLine));
             this.currentLightshow.tracks[this.currentLightshow.tracks.Count - 1].drawControls();
             this.trackCounter++;
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tAdded new track to lightshow.");
             this.pTimeLine.Invalidate();
         }
 
@@ -571,7 +684,9 @@ namespace midiLightShow
         /// </summary>
         private void handleTimelineClick()
         {
+            // reference for the cursor position
             Point cursorPos = this.pTimeLine.PointToClient(Cursor.Position);
+            // check if the cursor is on the timeline header
             if (cursorPos.Y < this.timelineOffsetY && cursorPos.X > this.timelineOffsetX)
             {
                 int targetTime = Convert.ToInt32(Math.Round(((double)(cursorPos.X - this.timelineOffsetX) / (double)this.pixelsPer16thNote)));
@@ -590,6 +705,7 @@ namespace midiLightShow
                     {
                         if (se.bounds.Contains(this.pTimeLine.PointToClient(Cursor.Position)))
                         {
+                            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tediting show event...");
                             // setup edit dialog
                             this.frmEditShowEvent = new AddShowEvent();
                             this.frmEditShowEvent.isEditForm = true;
@@ -607,9 +723,14 @@ namespace midiLightShow
                             // check start and end times
                             if (dr == System.Windows.Forms.DialogResult.OK)
                             {
+                                Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tApplying changes to show event.");
                                 int duration = Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text);
                                 int start = Convert.ToInt32(this.frmEditShowEvent.tbStartTime.Text);
                                 bool valid = true;
+                                if (start < 0 || duration < 0)
+                                {
+                                    valid = false;
+                                }
                                 foreach (showEvent ev in t.events.SkipWhile(sv => sv.index == se.index))
                                 {
                                     if (start > ev.startTime && start < ev.startTime + ev.duration)
@@ -623,7 +744,7 @@ namespace midiLightShow
                                 }
                                 if (!valid)
                                 {
-                                    MessageBox.Show("event cannot overlap!");
+                                    DMXStudioMessageBox.Show("show events cannot overlap or have negative values!");
                                     return;
                                 }
                                 this.saved = false;
@@ -634,17 +755,19 @@ namespace midiLightShow
                                 se.paraString = this.frmEditShowEvent.paraString;
                                 se.parameters = this.frmEditShowEvent.parameters;
                                 t.currentMaxTime = t.events.Max(ev => ev.startTime + ev.duration);
+                                Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tChanges successfully applied.");
                                 // trigger an timeline update
                                 pTimeLine.Invalidate();
 
                             }
                             else if (dr == System.Windows.Forms.DialogResult.Abort)
                             {
+                                Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tRemoving show event.");
                                 remove = t.events.IndexOf(se);
                             }
                         }
                     }
-                    // delete an showEvent if needed
+                    // delete the showEvent if needed
                     if (remove != -1)
                     {
                         t.events.RemoveAt(remove);
@@ -652,6 +775,7 @@ namespace midiLightShow
                     }
                 }
             }
+
         }
 
         /// <summary>
@@ -713,7 +837,7 @@ namespace midiLightShow
             }
             else
             {
-                if (MessageBox.Show("The current lightshow has not been saved, are you sure you want to close this lightshow?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+                if (DMXStudioMessageBox.Show("The current lightshow has not been saved, are you sure you want to close this lightshow?", "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
                     if (this.ofdLoad.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
@@ -729,6 +853,7 @@ namespace midiLightShow
         /// <param name="path">'.lightshow' file to load</param>
         private void import(string path)
         {
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tTrying to load '" + path + "'.");
             XmlSerializer xmlse = new XmlSerializer(this.currentLightshow.GetType());
             XmlReader xmlr = XmlReader.Create(path);
             try
@@ -746,17 +871,22 @@ namespace midiLightShow
                     this.lastSavedPath = path;
                     this.tbLightshowName.Text = this.currentLightshow.name;
                     this.nudBeatsPerMinute.Value = this.currentLightshow.bpm;
+                    if(this.currentLightshow.audioPath.Length > 0)
+                    {
+                        this.mp.Open(new Uri(Path.GetFullPath(this.currentLightshow.audioPath)));
+                    }
                     this.calculateTime();
                 }
                 else
                 {
-                    MessageBox.Show("There was an error while reading the file, it's probably corrupted!");
+                    DMXStudioMessageBox.Show("There was an error while reading the file, it's probably corrupted!");
                     return;
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show("There was an error while reading the file.\nError details: " + e.Message);
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tCould not load '" + path + "' due to an error in the file.");
+                DMXStudioMessageBox.Show("There was an error while reading the file.\nError details: " + e.Message);
             }
             xmlr.Close();
         }
@@ -768,6 +898,7 @@ namespace midiLightShow
         /// <param name="e">Event arguments</param>
         private void nudBeatsPerMinute_ValueChanged(object sender, EventArgs e)
         {
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tChanging BPM to " + nudBeatsPerMinute.Value.ToString() + ".");
             this.currentLightshow.bpm = Convert.ToInt32(nudBeatsPerMinute.Value);
             this.btnStop_Click(this, EventArgs.Empty);
             this.calculateTime();
@@ -791,12 +922,16 @@ namespace midiLightShow
         {
             if (saved)
             {
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tClosing DMX Studio v1.2.");
+                File.WriteAllText("LastLog.txt", this.db.rtbDebug.Text);
                 Application.Exit();
             }
             else
             {
-                if (MessageBox.Show("The current lightshow has not been saved, are you sure you want to close this lightshow?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+                if (DMXStudioMessageBox.Show("The current lightshow has not been saved,\nare you sure you want to close this lightshow?", "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
+                    Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tClosing DMX Studio v1.2.");
+                    File.WriteAllText("LastLog.txt", this.db.rtbDebug.Text);
                     Application.Exit();
                 }
             }
@@ -811,7 +946,11 @@ namespace midiLightShow
         {
             this.WindowState = FormWindowState.Minimized;
         }
-
+        /// <summary>
+        /// Scrol event handler for the zoom trackbar. Recalculates zoom amount.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trbZoom_Scroll(object sender, EventArgs e)
         {
             this.pixelsPer16thNote = trbZoom.Value;
@@ -819,8 +958,12 @@ namespace midiLightShow
             this.lbZoom.Text = ((double)trbZoom.Value / 10 * 100).ToString() + "%";
             this.pTimeLine.Invalidate();
         }
-        #endregion
 
+        /// <summary>
+        /// MoueEnter event handler for various buttons. Displays help text.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStop_MouseEnter(object sender, EventArgs e)
         {
             Button b = sender as Button;
@@ -837,12 +980,16 @@ namespace midiLightShow
                     break;
             }
         }
-
+        /// <summary>
+        /// MouseLeave event handler for various buttons. Changes the help text back to it's original text
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPlay_MouseLeave(object sender, EventArgs e)
         {
             this.tbHelp.Text = this.defaultHelpMessage;
         }
-
+        #region Maybe redundant code?
         private void loadMIDIToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             this.tbHelp.Text = "Import a MIDI file to convert it to a light show.";
@@ -867,7 +1014,7 @@ namespace midiLightShow
         {
             this.tbHelp.Text = this.defaultHelpMessage;
         }
-
+        #endregion
         private void btnResetZoom_Click(object sender, EventArgs e)
         {
             this.trbZoom.Value = 10;
@@ -876,12 +1023,27 @@ namespace midiLightShow
 
         private void newShowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (track t in this.currentLightshow.tracks)
+            if (saved)
             {
-                t.removeControls();
+                foreach (track t in this.currentLightshow.tracks)
+                {
+                    t.removeControls();
+                }
+                this.currentLightshow.tracks.Clear();
+                this.pTimeLine.Invalidate();
             }
-            this.currentLightshow.tracks.Clear();
-            this.pTimeLine.Invalidate();
+            else
+            {
+                if (DMXStudioMessageBox.Show("The current lightshow has not been saved,\nare you sure you want to close this lightshow?", "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    foreach (track t in this.currentLightshow.tracks)
+                    {
+                        t.removeControls();
+                    }
+                    this.currentLightshow.tracks.Clear();
+                    this.pTimeLine.Invalidate();
+                }
+            }
         }
 
         private void frmEditor_KeyDown(object sender, KeyEventArgs e)
@@ -905,13 +1067,14 @@ namespace midiLightShow
 
         private void startTutorialToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tStarting tutorial.");
             pTutorial.Visible = true;
             pTutorial.Location = new Point(500, 150);
         }
         private void btnNextTutorial_Click(object sender, EventArgs e)
         {
             this.tutorialTimer.Stop();
-            this.btnNextTutorial.BackColor = Color.FromArgb(64, 64, 64);
+            this.btnNextTutorial.BackColor = System.Drawing.Color.FromArgb(64, 64, 64);
             switch (this.currentTutorialStep)
             {
                 case "Intro":
@@ -943,7 +1106,7 @@ namespace midiLightShow
                     this.currentTutorialStep = "trackOptions";
                     break;
                 case "trackOptions":
-                    this.currentLightshow.tracks[0].pbOptions.BackColor = Color.FromArgb(255, 170, 213, 255);
+                    this.currentLightshow.tracks[0].pbOptions.BackColor = System.Drawing.Color.FromArgb(255, 170, 213, 255);
                     this.tbTutorial.Text = "Tutorial - About show events";
                     this.rtbTutorialContent.Text = "A show event represents an event in your lightshow this can be anything: a light needs to be turned on, an option of a light needs to be changed etc. show events are a vital part of DMX studio, so understanding how they work is key.\n\nClick 'Next' to continue.";
                     this.currentTutorialStep = "aboutShowevents";
@@ -979,6 +1142,67 @@ namespace midiLightShow
         {
             this.currentLightshow.name = this.tbLightshowName.Text;
         }
+
+        private void pTimeLine_MouseMove(object sender, MouseEventArgs e)
+        {
+            bool showedHelpText = false;
+            foreach (track t in this.currentLightshow.tracks)
+            {
+                foreach (showEvent se in t.events)
+                {
+                    if (se.bounds.Contains(this.pTimeLine.PointToClient(Cursor.Position)))
+                    {
+                        showedHelpText = true;
+                        tbHelp.Text = "Show event with function: " + se.function + "(" + se.paraString + ") Start time: " + se.startTime.ToString() + ", Duration: " + se.duration.ToString();
+                    }
+                }
+            }
+            if (!showedHelpText)
+            {
+                tbHelp.Text = this.defaultHelpMessage;
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            about ab = new about();
+            ab.ShowDialog();
+        }
+
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.zoom < 490)
+            {
+                this.trbZoom.Value++;
+                this.pixelsPer16thNote = trbZoom.Value;
+                this.zoom = Convert.ToInt32(((double)trbZoom.Value / 10 * 100));
+                this.lbZoom.Text = ((double)trbZoom.Value / 10 * 100).ToString() + "%";
+                this.pTimeLine.Invalidate();
+            }
+            
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.zoom > 59)
+            {
+                this.trbZoom.Value--;
+                this.pixelsPer16thNote = trbZoom.Value;
+                this.zoom = Convert.ToInt32(((double)trbZoom.Value / 10 * 100));
+                this.lbZoom.Text = ((double)trbZoom.Value / 10 * 100).ToString() + "%";
+                this.pTimeLine.Invalidate();
+            }
+        }
+
+        private void importMusicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(this.ofdMusic.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.mp.Open(new Uri(Path.GetFullPath(this.ofdMusic.FileName)));
+                this.currentLightshow.audioPath = this.ofdMusic.FileName;
+            }
+        }
+        #endregion
     }
     #endregion
     #region Custom colors
@@ -991,7 +1215,7 @@ namespace midiLightShow
         /// <summary>
         /// The start gradient for the upper menuStripItem
         /// </summary>
-        public override Color MenuItemSelectedGradientBegin
+        public override System.Drawing.Color MenuItemSelectedGradientBegin
         {
             get
             {
@@ -1001,7 +1225,7 @@ namespace midiLightShow
         /// <summary>
         /// The end gradient for the upper menuStripItem
         /// </summary>
-        public override Color MenuItemSelectedGradientEnd
+        public override System.Drawing.Color MenuItemSelectedGradientEnd
         {
             get
             {
@@ -1011,7 +1235,7 @@ namespace midiLightShow
         /// <summary>
         /// The border color of the menuStrip
         /// </summary>
-        public override Color MenuItemBorder
+        public override System.Drawing.Color MenuItemBorder
         {
             get
             {
@@ -1022,18 +1246,18 @@ namespace midiLightShow
         /// <summary>
         /// The color of the sub-menuStripItem
         /// </summary>
-        public override Color MenuItemSelected
+        public override System.Drawing.Color MenuItemSelected
         {
             get
             {
-                return Color.FromArgb(64, 64, 64);
+                return System.Drawing.Color.FromArgb(64, 64, 64);
             }
         }
 
         /// <summary>
         /// The start gradient for the sub menuStripItem when pressed
         /// </summary>
-        public override Color MenuItemPressedGradientBegin
+        public override System.Drawing.Color MenuItemPressedGradientBegin
         {
             get
             {
@@ -1044,7 +1268,7 @@ namespace midiLightShow
         /// <summary>
         /// The middle gradient for the sub menuStripItem when pressed
         /// </summary>
-        public override Color MenuItemPressedGradientMiddle
+        public override System.Drawing.Color MenuItemPressedGradientMiddle
         {
             get
             {
@@ -1055,7 +1279,7 @@ namespace midiLightShow
         /// <summary>
         /// The end gradient for the sub menuStripItem when pressed
         /// </summary>
-        public override Color MenuItemPressedGradientEnd
+        public override System.Drawing.Color MenuItemPressedGradientEnd
         {
             get
             {
@@ -1066,7 +1290,7 @@ namespace midiLightShow
         /// <summary>
         /// The start gradient for the menuStrip
         /// </summary>
-        public override Color MenuStripGradientBegin
+        public override System.Drawing.Color MenuStripGradientBegin
         {
             get
             {
@@ -1077,7 +1301,7 @@ namespace midiLightShow
         /// <summary>
         /// The end gradient for the menuStrip
         /// </summary>
-        public override Color MenuStripGradientEnd
+        public override System.Drawing.Color MenuStripGradientEnd
         {
             get
             {
@@ -1088,7 +1312,7 @@ namespace midiLightShow
         /// <summary>
         /// The border color of the dropdownMenu
         /// </summary>
-        public override Color MenuBorder
+        public override System.Drawing.Color MenuBorder
         {
             get
             {
@@ -1099,7 +1323,7 @@ namespace midiLightShow
         /// <summary>
         /// The background color of the dropdown menu
         /// </summary>
-        public override Color ToolStripDropDownBackground
+        public override System.Drawing.Color ToolStripDropDownBackground
         {
             get
             {
@@ -1109,7 +1333,7 @@ namespace midiLightShow
         /// <summary>
         /// The imageMargin (left side) start gradient
         /// </summary>
-        public override Color ImageMarginGradientBegin
+        public override System.Drawing.Color ImageMarginGradientBegin
         {
             get
             {
@@ -1120,7 +1344,7 @@ namespace midiLightShow
         /// <summary>
         /// The imageMargin (left side) end gradient
         /// </summary>
-        public override Color ImageMarginGradientEnd
+        public override System.Drawing.Color ImageMarginGradientEnd
         {
             get
             {
@@ -1131,7 +1355,7 @@ namespace midiLightShow
         /// <summary>
         /// The imageMargin (left side) middle gradient
         /// </summary>
-        public override Color ImageMarginGradientMiddle
+        public override System.Drawing.Color ImageMarginGradientMiddle
         {
             get
             {

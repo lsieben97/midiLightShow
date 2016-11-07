@@ -60,6 +60,7 @@ namespace midiLightShow
         void finishTimer_Tick(object sender, EventArgs e)
         {
             this.finishTimer.Stop();
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
         }
         /// <summary>
@@ -80,25 +81,20 @@ namespace midiLightShow
             try
             {
                 this.loadTimer.Stop();
-                lbStatus.Text = "Done\n";
-                lbStatus.Text = "Loading MIDI file '" + path + "'...";
-                mr.loadFile(path);
+                this.mr.loadFile(path);
                 this.pbProgress.Maximum = mr.data.Count;
-                lbStatus.Text = "Done\n";
-                lbStatus.Text = "Parsing file...\n";
-                mr.parseFile();
-                lbStatus.Text = "Done\n";
-                lbStatus.Text = "Calculating timeline...\n";
-                mr.calculateTimeLine();
-                lbStatus.Text = "Done\n";
-                lbStatus.Text = "MIDI import complete!";
+                Console.WriteLine("Trying to parse '" + path + "'...");
+                this.mr.parseFile();
+                this.mr.calculateTimeLine();
                 this.success = true;
+                Console.WriteLine("Successfully parsed MIDI file '" + path + "'.");
                 this.finishTimer.Start();
             }
             catch(Exception e)
             {
-                MessageBox.Show("This MIDI file is not supported by DMX studio!");
                 this.DialogResult = System.Windows.Forms.DialogResult.No;
+                Console.WriteLine("Failed to parse '" + path + "',MIDI file is not supported.");
+                DMXStudioMessageBox.Show("This MIDI file is not supported by DMX studio!");
                 this.Close();
             }
         }
@@ -112,7 +108,7 @@ namespace midiLightShow
         {
             menuStrip1.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             tbTitle.Text = "Importing " + this.path;
-            lbStatus.Text = "Initializing MIDI reader...";
+            lbStatus.Text = "Parsing...";
             this.mr.init();
             this.loadTimer.Start();
         }
