@@ -175,7 +175,7 @@ namespace midiLightShow
                 {
                     case "String":
                     case "Byte":
-                    case "Uint32":
+                    case "UInt32":
                         TextBox tbpara = new TextBox();
                         tbpara.Tag = p.Name;
                         tbpara.BackColor = SystemColors.ControlDark;
@@ -190,6 +190,7 @@ namespace midiLightShow
                         cbpara.BackColor = SystemColors.ControlDark;
                         cbpara.ForeColor = SystemColors.HotTrack;
                         cbpara.Visible = false;
+                        this.parameterControls.Add(cbpara);
                         break;
                     default:
                         break;

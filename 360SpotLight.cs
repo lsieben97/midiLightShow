@@ -184,7 +184,7 @@ namespace midiLightShow
             }
 
             //Load and send the value to the moving head
-            this.driver.DmxLoadBuffer(1,(byte)(rotation / 540 * 255),13);
+            this.driver.DmxLoadBuffer(1,(byte)((double)rotation / 540 * 255),512);
             this.driver.DmxSendCommand(1);
         }
 
@@ -203,7 +203,7 @@ namespace midiLightShow
             }
 
             //Load and send the value to the moving head
-            this.driver.DmxLoadBuffer(3, (byte)(rotation / 180 * 255), 13);
+            this.driver.DmxLoadBuffer(3, (byte)((double)rotation / 180 * 255), 13);
             this.driver.DmxSendCommand(1);
         }
 
@@ -244,7 +244,7 @@ namespace midiLightShow
             }
 
             //Loads and sends the value to the moving head
-            this.driver.DmxLoadBuffer(6, (byte)(value / 100 * 127), 13);
+            this.driver.DmxLoadBuffer(6, (byte)((double)value / 100 * 127), 13);
             this.driver.DmxSendCommand(1);
         }
 
@@ -263,7 +263,7 @@ namespace midiLightShow
             }
 
             //Loads and sends the value to the moving head
-            this.driver.DmxLoadBuffer(6, (byte)(value / 100 * 105), 13);
+            this.driver.DmxLoadBuffer(6, (byte)((double)value / 100 * 105), 13);
             this.driver.DmxSendCommand(1);
         }
 
