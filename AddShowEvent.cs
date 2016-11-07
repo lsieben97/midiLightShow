@@ -184,6 +184,13 @@ namespace midiLightShow
                         tbpara.Visible = false;
                         this.parameterControls.Add(tbpara);
                         break;
+                    case "Boolean":
+                        CheckBox cbpara = new CheckBox();
+                        cbpara.Tag = p.Name;
+                        cbpara.BackColor = SystemColors.ControlDark;
+                        cbpara.ForeColor = SystemColors.HotTrack;
+                        cbpara.Visible = false;
+                        break;
                     default:
                         break;
                 }
@@ -308,6 +315,10 @@ namespace midiLightShow
                     case "TextBox":
                     case "ComboBox":
                         this.parameters.Add(this.parameterControls[i].Text);
+                        break;
+                    case "CheckBox":
+                        CheckBox para = this.parameterControls[i] as CheckBox;
+                        this.parameters.Add(para.Checked.ToString());
                         break;
                 }
                 this.paraString = string.Join(",", this.parameters);

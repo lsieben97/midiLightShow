@@ -1,35 +1,5 @@
-10:27:32		Initializing application...
-10:27:32		Changing BPM to 120.
-10:27:32		Generated TypeMap.
-10:27:32		Done!
-10:28:46		Trying to load 'D:\vs\projecten\midiLightShow\midiLightShow\bin\Debug\sotest.lightshow'.
-10:28:47		Could not load 'D:\vs\projecten\midiLightShow\midiLightShow\bin\Debug\sotest.lightshow' due to an error in the file.
-10:29:00		Trying to load 'D:\vs\projecten\midiLightShow\midiLightShow\bin\Debug\musictest.lightshow'.
-10:29:00		Generated controls for track 'Track 1'.
-10:29:37		Generated controls for track 'Track 1'.
-10:29:37		Added new track to lightshow.
-10:29:37		Cloned track 'Track 1'
-10:29:52		Trying to create new event...
-10:29:52		Complete, created event with the following data:
-	startTime: 16
-	duration: 16
-	bounds: {X=0,Y=0,Width=0,Height=0}
-	function: fade
-	paraString: 5
-	parameters: System.Collections.Generic.List`1[System.String]
-	index: 2
-	canPlay: True
-	note: 0
-	selected: False
-10:30:00		editing show event...
-10:30:09		editing show event...
-10:30:23		editing show event...
-10:30:44		Applying changes to show event.
-10:30:44		Changes successfully applied.
-10:30:48		editing show event...
-10:30:59		Removing show event.
-10:31:01		editing show event...
-10:31:04		Removing show event.
-10:31:05		editing show event...
-10:31:07		Removing show event.
-10:31:58		Closing DMX Studio v1.2.
+09:54:39		Initializing application...
+09:54:40		Changing BPM to 120.
+09:54:40		Generated TypeMap.
+09:54:40		Done!
+09:54:41		Closing DMX Studio v1.2.
