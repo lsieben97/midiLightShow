@@ -10,13 +10,14 @@ namespace midiLightShow
     /// Moving head class. Functions for the Moving head DMX light
     /// Inherited from dmxLight
     /// </summary>
-    class _360SpotLight : dmxLight
+    public class _360SpotLight : dmxLight
     {
         #region Global variables
         /// <summary>
         /// A dictionary for all the gobo patterns
         /// </summary>
         private Dictionary<string, byte> goboMap = new Dictionary<string, byte>();
+        int bufferStackSize = 13;
         #endregion
         #region Constructors
         /// <summary>
@@ -203,7 +204,7 @@ namespace midiLightShow
             }
 
             //Load and send the value to the moving head
-            this.driver.DmxLoadBuffer(3, (byte)((double)rotation / 180 * 255), 13);
+            this.driver.DmxLoadBuffer(3, (byte)((double)rotation / 180 * 255), bufferStackSize);
             this.driver.DmxSendCommand(1);
         }
 
@@ -225,7 +226,7 @@ namespace midiLightShow
             }
 
             //Loads and sends the value to the moving head
-            this.driver.DmxLoadBuffer(6, s, 13);
+            this.driver.DmxLoadBuffer(6, s, bufferStackSize);
             this.driver.DmxSendCommand(1);
         }
 
@@ -244,7 +245,7 @@ namespace midiLightShow
             }
 
             //Loads and sends the value to the moving head
-            this.driver.DmxLoadBuffer(6, (byte)((double)value / 100 * 127), 13);
+            this.driver.DmxLoadBuffer(6, (byte)((double)value / 100 * 127), bufferStackSize);
             this.driver.DmxSendCommand(1);
         }
 
@@ -263,7 +264,7 @@ namespace midiLightShow
             }
 
             //Loads and sends the value to the moving head
-            this.driver.DmxLoadBuffer(6, (byte)((double)value / 100 * 105), 13);
+            this.driver.DmxLoadBuffer(6, (byte)((double)value / 100 * 105), bufferStackSize);
             this.driver.DmxSendCommand(1);
         }
 
@@ -278,9 +279,9 @@ namespace midiLightShow
         public void func_rgb(byte r = 0, byte g = 0, byte b = 0)
         {
             //Loads and sends the values to the moving head
-            this.driver.DmxLoadBuffer(7, r, 13);
-            this.driver.DmxLoadBuffer(8, g, 13);
-            this.driver.DmxLoadBuffer(9, b, 13);
+            this.driver.DmxLoadBuffer(7, r, bufferStackSize);
+            this.driver.DmxLoadBuffer(8, g, bufferStackSize);
+            this.driver.DmxLoadBuffer(9, b, bufferStackSize);
             this.driver.DmxSendCommand(3);
         }
 
@@ -293,7 +294,7 @@ namespace midiLightShow
         public void func_setSpeed(byte mSpeed)
         {
             //Loads and sends the value to the moving head
-            this.driver.DmxLoadBuffer(5, mSpeed, 13);
+            this.driver.DmxLoadBuffer(5, mSpeed, bufferStackSize);
             this.driver.DmxSendCommand(1);
         }
 
@@ -316,8 +317,8 @@ namespace midiLightShow
             }
 
             //Loads an sends the values to the moving head
-            this.driver.DmxLoadBuffer(10, d, 13);
-            this.driver.DmxLoadBuffer(11, (byte)(255 / (speed + 1)), 13);
+            this.driver.DmxLoadBuffer(10, d, bufferStackSize);
+            this.driver.DmxLoadBuffer(11, (byte)(255 / (speed + 1)), bufferStackSize);
             this.driver.DmxSendCommand(2);
         }
 
@@ -339,7 +340,7 @@ namespace midiLightShow
             }
 
             //Loads and sends the value to the moving head
-            this.driver.DmxLoadBuffer(13, val, 13);
+            this.driver.DmxLoadBuffer(bufferStackSize, val, bufferStackSize);
             this.driver.DmxSendCommand(1);
         }
 
@@ -362,7 +363,7 @@ namespace midiLightShow
             }
 
             //Loads and sends the value to the moving head
-            this.driver.DmxLoadBuffer(13, val, 13);
+            this.driver.DmxLoadBuffer(bufferStackSize, val, bufferStackSize);
             this.driver.DmxSendCommand(1);
         }
         #endregion
