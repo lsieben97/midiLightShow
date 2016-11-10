@@ -54,6 +54,7 @@
             // 
             this.tbTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.tbTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbTitle.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTitle.ForeColor = System.Drawing.SystemColors.Highlight;
             this.tbTitle.Name = "tbTitle";
             this.tbTitle.ReadOnly = true;
@@ -63,6 +64,7 @@
             // xToolStripMenuItem
             // 
             this.xToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.xToolStripMenuItem.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.xToolStripMenuItem.Name = "xToolStripMenuItem";
             this.xToolStripMenuItem.Size = new System.Drawing.Size(26, 20);
@@ -73,6 +75,7 @@
             // 
             this.tvIndex.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tvIndex.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tvIndex.Font = new System.Drawing.Font("Corbel", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tvIndex.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.tvIndex.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             this.tvIndex.Location = new System.Drawing.Point(12, 37);
@@ -100,7 +103,7 @@
             // 
             // pbArticle
             // 
-            this.pbArticle.Location = new System.Drawing.Point(12, 339);
+            this.pbArticle.Location = new System.Drawing.Point(6, 339);
             this.pbArticle.Name = "pbArticle";
             this.pbArticle.Size = new System.Drawing.Size(769, 349);
             this.pbArticle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

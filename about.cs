@@ -41,7 +41,7 @@ namespace midiLightShow
         {
             if (this.Location.Y < this.targetWindowY)
             {
-                int newY = this.Location.Y + 6;
+                int newY = this.Location.Y + 10;
                 this.Location = new Point(this.Location.X, newY);
             }
             else

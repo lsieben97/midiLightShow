@@ -1,3 +1,8 @@
+#USE_PIC
+Manual images/ShowEvent.png
+192
+65
+#END_USE_PIC
 A show event is the main building block in DMX studio. They are used to control the lights and the timing of your lightshow.
 
 In this topic you will find the following:

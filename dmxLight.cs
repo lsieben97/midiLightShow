@@ -50,7 +50,7 @@ namespace midiLightShow
                 }
                 catch
                 {
-                    MessageBox.Show("An error occured when connecting to this light, when not connected uncheck 'enable'.");
+                    DMXStudioMessageBox.Show("An error occured when connecting to this light, when not connected uncheck 'enable'.");
                 }
             }
         }

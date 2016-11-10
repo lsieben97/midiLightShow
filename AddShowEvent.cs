@@ -106,13 +106,13 @@ namespace midiLightShow
         /// <param name="e">Event arguments</param>
         private void AddShowEvent_Load(object sender, EventArgs e)
         {
-            init();
+            
         }
 
         /// <summary>
         /// Initialize functions and get parameters for the current function
         /// </summary>
-        private void init()
+        public void init()
         {
             Type t = this.light.GetType();
             MethodInfo[] methInfo = t.GetMethods();
@@ -187,7 +187,7 @@ namespace midiLightShow
                     case "Boolean":
                         CheckBox cbpara = new CheckBox();
                         cbpara.Tag = p.Name;
-                        cbpara.BackColor = SystemColors.ControlDark;
+                        cbpara.BackColor = SystemColors.ControlDarkDark;
                         cbpara.ForeColor = SystemColors.HotTrack;
                         cbpara.Visible = false;
                         this.parameterControls.Add(cbpara);
@@ -258,12 +258,12 @@ namespace midiLightShow
                 }
                 else
                 {
-                    MessageBox.Show("Invalid parameters!");
+                   DMXStudioMessageBox.Show("Invalid parameters!");
                 }
             }
             else
             {
-                MessageBox.Show("Invalid duration!");
+                DMXStudioMessageBox.Show("Invalid duration!");
             }
         }
 
@@ -336,7 +336,15 @@ namespace midiLightShow
             {
                 for(int i = 0; i < this.parameterControls.Count; i++)
                 {
-                    this.parameterControls[i].Text = this.parameters[i];
+                    if (this.parameters[i] == "True" || this.parameters[i] == "False")
+                    {
+                        CheckBox para = this.parameterControls[i] as CheckBox;
+                        para.Checked = Boolean.Parse(this.parameters[i]);
+                    }
+                    else
+                    {
+                        this.parameterControls[i].Text = this.parameters[i];
+                    }
                 }
             }
         }

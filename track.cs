@@ -74,6 +74,7 @@ namespace midiLightShow
         /// <summary>
         /// The dmxLight object of this track.
         /// </summary>
+        [XmlIgnore]
         public dmxLight light = new dmxLight();
        
         /// <summary>
@@ -263,8 +264,10 @@ namespace midiLightShow
         private void openAddEventDialog()
         {
             this.frmAddShowEvent.reset();
+            this.frmAddShowEvent.tbStartTime.Text = this.currentMaxTime.ToString();
             this.frmAddShowEvent.light = this.light;
             this.frmAddShowEvent.tbTitle.Text = "Add show event to '" + this.name + "'";
+            this.frmAddShowEvent.init();
             DialogResult dr = this.frmAddShowEvent.ShowDialog();
             if (dr == DialogResult.OK)
             {
@@ -303,8 +306,11 @@ namespace midiLightShow
                 return;
             }
 
-            this.events.Add(new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.parameters, this.frmAddShowEvent.paraString, this.eventCount));
+            this.events.Add(new showEvent(Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text), this.frmAddShowEvent.duration, this.frmAddShowEvent.cbFunctions.Text, this.frmAddShowEvent.paraString, this.eventCount));
             this.currentMaxTime += this.frmAddShowEvent.duration;
+            string[] paras = new string[this.frmAddShowEvent.parameters.Count];
+            this.frmAddShowEvent.parameters.CopyTo(paras);
+            this.events[this.events.Count - 1].parameters = paras.ToList();
             this.debugNewEvent(this.events[this.eventCount - 1]);
             if (this.events[this.eventCount - 1].startTime + this.events[this.eventCount - 1].duration > this.maxEventLength)
             {
@@ -350,13 +356,21 @@ namespace midiLightShow
                 this.name = frmOptions.tbName.Text;
                 this.lbName.Text = this.name;
                 this.lbName.Bounds = new Rectangle(lbName.Location, new Size(165, 18));
-                this.LightName = this.frmOptions.cbLights.SelectedItem.ToString();
-                this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
+                if(this.LightName != this.frmOptions.cbLights.SelectedItem.ToString())
+                {
+                    if (DMXStudioMessageBox.Show("Changing the light type will remove all show events on this track.\nAre you sure you want to change the light type?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        this.LightName = this.frmOptions.cbLights.SelectedItem.ToString();
+                        this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
+                        this.events.Clear();
+                        this.frmAddShowEvent.light = this.light;
+                    }
+                }
+                
                 this.light.comPort = this.frmOptions.cbComPorts.Text;
                 this.light.live = this.frmOptions.cbLive.Checked;
                 this.eventColor = this.frmOptions.cdEventColor.Color.Name;
                 this.light.connectDMX();
-                this.frmAddShowEvent.light = this.light;
                 this.frmOptions.tbTitle.Text = "Options for '" + this.name + "'";
                 this.pTimeLine.Invalidate();
             }
@@ -430,6 +444,10 @@ namespace midiLightShow
             this.frmOptions.tbName.Text = this.name;
             this.frmOptions.Text = "Options for '" + this.name + "'";
             this.frmOptions.cbLights.Text = this.LightName;
+            this.frmOptions.cdEventColor.Color = Color.FromName(this.eventColor);
+            this.frmOptions.lbColorPreview.ForeColor = this.frmOptions.cdEventColor.Color;
+            Type targetType = Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()], true);
+            this.light = Activator.CreateInstance(targetType) as dmxLight;
             this.lbName.Text = this.name;
             this.lbName.Bounds = new Rectangle(lbName.Location, new Size(165, 18));
         }

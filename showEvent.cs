@@ -65,7 +65,7 @@ namespace midiLightShow
         /// <param name="parameters">The parameters to send when executing the show event</param>
         /// <param name="paraString">The parameter string for the show event</param>
         /// <param name="index">The index for the show event</param>
-        public showEvent(int startTime, int duration, string function, List<string> parameters, string paraString, int index)
+        public showEvent(int startTime, int duration, string function, string paraString, int index)
         {
             this.startTime = startTime;
             this.duration = duration;

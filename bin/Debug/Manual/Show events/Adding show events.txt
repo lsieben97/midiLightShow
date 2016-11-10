@@ -1,0 +1,6 @@
+#USE_PIC
+Manual images/AddShowEvent.png
+332
+342
+#END_USE_PIC
+Adding show events.

@@ -1,0 +1,6 @@
+#USE_PIC
+Manual images/MuteSolo.png
+443
+241
+#END_USE_PIC
+Mute and solo

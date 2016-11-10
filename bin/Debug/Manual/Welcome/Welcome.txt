@@ -1,5 +1,7 @@
 #USE_PIC
 Manual images/DMX-studio logo.png
+400
+300
 #END_USE_PIC
 Welcome to the user manual for DMX studio.
 Click on a topic to the left to read more about that subject.

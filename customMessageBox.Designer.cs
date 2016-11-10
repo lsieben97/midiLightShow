@@ -44,7 +44,7 @@
             this.tbTitle});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(380, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(497, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -67,7 +67,7 @@
             this.btnNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNo.Font = new System.Drawing.Font("Corbel", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNo.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnNo.Location = new System.Drawing.Point(293, 77);
+            this.btnNo.Location = new System.Drawing.Point(410, 167);
             this.btnNo.Name = "btnNo";
             this.btnNo.Size = new System.Drawing.Size(75, 29);
             this.btnNo.TabIndex = 5;
@@ -85,7 +85,7 @@
             this.btnYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnYes.Font = new System.Drawing.Font("Corbel", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnYes.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnYes.Location = new System.Drawing.Point(12, 77);
+            this.btnYes.Location = new System.Drawing.Point(12, 167);
             this.btnYes.Name = "btnYes";
             this.btnYes.Size = new System.Drawing.Size(75, 29);
             this.btnYes.TabIndex = 5;
@@ -103,7 +103,7 @@
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOk.Font = new System.Drawing.Font("Corbel", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOk.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnOk.Location = new System.Drawing.Point(152, 77);
+            this.btnOk.Location = new System.Drawing.Point(211, 167);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 29);
             this.btnOk.TabIndex = 5;
@@ -119,7 +119,7 @@
             this.rtbContent.ForeColor = System.Drawing.SystemColors.Highlight;
             this.rtbContent.Location = new System.Drawing.Point(12, 27);
             this.rtbContent.Name = "rtbContent";
-            this.rtbContent.Size = new System.Drawing.Size(356, 44);
+            this.rtbContent.Size = new System.Drawing.Size(473, 134);
             this.rtbContent.TabIndex = 6;
             this.rtbContent.Text = "";
             // 
@@ -128,7 +128,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(380, 118);
+            this.ClientSize = new System.Drawing.Size(497, 208);
             this.Controls.Add(this.rtbContent);
             this.Controls.Add(this.btnYes);
             this.Controls.Add(this.btnOk);

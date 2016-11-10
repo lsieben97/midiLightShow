@@ -1,0 +1,39 @@
+#USE_PIC
+Manual images/TrackOptions.png
+351
+221
+#END_USE_PIC
+The track options dialog is used to set various options for the current track.
+
+You can open the track options dialog by clicking on the gear icon on the track you want to edit.
+
+Name:
+The name of the track that wil be showed in the track header column.
+
+Light type:
+The type of light that this track contains. changing this while adding show events is not recommended as changing the light type will remove all events from the track.
+
+COM Port:
+The COM port to connect to when connecting to a physical light.
+See 'Connecting to a physical light' for more information.
+
+Show event color:
+The color of the show events on this track.
+Click the 'change' button to select a color the preview text will show you how the color looks like.
+
+Delete:
+Removes the current track.
+WARNING: NO UNDO!
+
+Enable:
+Enables the current track to send data to a physical light.
+DMX Studio will try to connect to the physical light when the track options dialog closes and will warn you if the connection failed.
+
+Clone:
+Make an exact copy of the current track with it's show events.
+
+Cancel:
+Delete any changes and close the track options dialog.
+
+Ok:
+Accept all changes and close the track options dialog.

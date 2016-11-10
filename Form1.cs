@@ -116,6 +116,8 @@ namespace midiLightShow
             this.pTutorial.Visible = false;
             this.tbLightshowName.Text = "New lighshow";
             this.mp.MediaOpened += mp_MediaOpened;
+            this.panel1.Size = new System.Drawing.Size(this.panel1.Size.Width, this.Size.Height - 92);
+            this.pTimeLine.Size = new System.Drawing.Size(this.pTimeLine.Size.Width, this.panel1.Size.Height);
             track.makeTypeMap();
             // customize menu strip
             msControl.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
@@ -301,7 +303,7 @@ namespace midiLightShow
                             if (track[i].name == "Note On")
                             {
                                 // make the first part of the show event
-                                showEvent ev = new showEvent((int)track[i].timeFrame / this.milisecondsPer16thNote, 0, "Empty", new List<string>(), "", this.currentLightshow.tracks[currentTrack].eventCount);
+                                showEvent ev = new showEvent((int)track[i].timeFrame / this.milisecondsPer16thNote, 0, "Empty", "", this.currentLightshow.tracks[currentTrack].eventCount);
                                 ev.note = track[i].note;
                                 ev.canPlay = false;
                                 events.Add(ev);
@@ -444,6 +446,7 @@ namespace midiLightShow
                     {
                         e.Graphics.FillRectangle(new System.Drawing.Pen(System.Drawing.Color.FromName(t.eventColor)).Brush, r);
                         se.bounds = r;
+                        e.Graphics.DrawRectangle(new System.Drawing.Pen(this.lineColor), r);
                         if (r.Width > 100)
                         {
                             e.Graphics.DrawRectangle(new System.Drawing.Pen(this.lineColor), r);
@@ -494,10 +497,10 @@ namespace midiLightShow
         /// </summary>
         private void recalculatePanelWidth()
         {
-            this.panel1.Size = new Size(this.Size.Width - 20, this.pTimeLine.Size.Height + 17);
+            this.panel1.Size = new Size(this.Size.Width - 20, this.pTimeLine.Size.Height);
             if (this.currentLightshow.containsAudio)
             {
-                this.pTimeLine.Size = new Size(this.timelineOffsetX + this.currentLightshow.showTime * this.pixelsPer16thNote, this.pTimeLine.Size.Height);
+                this.pTimeLine.Size = new Size(this.timelineOffsetX + this.currentLightshow.showTime * this.pixelsPer16thNote, this.panel1.Size.Height);
             }
             else
             {
@@ -511,11 +514,11 @@ namespace midiLightShow
                     int max = this.timelineOffsetX + Convert.ToInt32(this.currentLightshow.tracks.Max(t => t.maxEventLength) * this.pixelsPer16thNote + 5);
                     if (max > this.Size.Width - 3)
                     {
-                        this.pTimeLine.Size = new Size(max + 5, this.pTimeLine.Size.Height);
+                        this.pTimeLine.Size = new Size(max + 5, this.panel1.Size.Height);
                     }
                     else
                     {
-                        this.pTimeLine.Size = new Size(this.Size.Width - 20, this.pTimeLine.Size.Height);
+                        this.pTimeLine.Size = new Size(this.Size.Width - 20, this.panel1.Size.Height);
                     }
                 }
             }
@@ -714,8 +717,9 @@ namespace midiLightShow
                             this.frmEditShowEvent.tbDuration.Text = se.duration.ToString();
                             this.frmEditShowEvent.tbStartTime.Text = se.startTime.ToString();
                             this.frmEditShowEvent.tbParameters.Text = se.paraString;
-                            this.frmEditShowEvent.cbFunctions.SelectedItem = se.function;
                             this.frmEditShowEvent.parameters = se.parameters;
+                            this.frmEditShowEvent.init();
+                            this.frmEditShowEvent.cbFunctions.SelectedItem = se.function;
                             this.frmEditShowEvent.fillParameters();
                             int oldDuration = se.duration;
                             // show dialog
@@ -731,15 +735,18 @@ namespace midiLightShow
                                 {
                                     valid = false;
                                 }
-                                foreach (showEvent ev in t.events.SkipWhile(sv => sv.index == se.index))
+                                foreach (showEvent ev in t.events)
                                 {
-                                    if (start > ev.startTime && start < ev.startTime + ev.duration)
+                                    if (ev.index != se.index)
                                     {
-                                        valid = false;
-                                    }
-                                    if (start + duration > ev.startTime && start + duration < ev.startTime + ev.duration)
-                                    {
-                                        valid = false;
+                                        if (start > ev.startTime && start < ev.startTime + ev.duration)
+                                        {
+                                            valid = false;
+                                        }
+                                        if (start + duration > ev.startTime && start + duration < ev.startTime + ev.duration)
+                                        {
+                                            valid = false;
+                                        }
                                     }
                                 }
                                 if (!valid)
@@ -753,7 +760,7 @@ namespace midiLightShow
                                 se.startTime = this.frmEditShowEvent.startTime;
                                 se.function = this.frmEditShowEvent.cbFunctions.Text;
                                 se.paraString = this.frmEditShowEvent.paraString;
-                                se.parameters = this.frmEditShowEvent.parameters;
+                                this.frmEditShowEvent.parameters.CopyTo(se.parameters.ToArray());
                                 t.currentMaxTime = t.events.Max(ev => ev.startTime + ev.duration);
                                 Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tChanges successfully applied.");
                                 // trigger an timeline update
@@ -764,6 +771,7 @@ namespace midiLightShow
                             {
                                 Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tRemoving show event.");
                                 remove = t.events.IndexOf(se);
+                                t.eventCount--;
                             }
                         }
                     }
@@ -871,7 +879,7 @@ namespace midiLightShow
                     this.lastSavedPath = path;
                     this.tbLightshowName.Text = this.currentLightshow.name;
                     this.nudBeatsPerMinute.Value = this.currentLightshow.bpm;
-                    if(this.currentLightshow.audioPath.Length > 0)
+                    if(this.currentLightshow.containsAudio)
                     {
                         this.mp.Open(new Uri(Path.GetFullPath(this.currentLightshow.audioPath)));
                     }

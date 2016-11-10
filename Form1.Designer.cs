@@ -254,14 +254,14 @@
             this.debugToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.Click += new System.EventHandler(this.debugToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.closeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.closeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
             this.closeToolStripMenuItem.Size = new System.Drawing.Size(26, 20);
             this.closeToolStripMenuItem.Text = "X";
@@ -270,6 +270,7 @@
             // minimizeToolStripMenuItem
             // 
             this.minimizeToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.minimizeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
             this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(24, 20);
             this.minimizeToolStripMenuItem.Text = "_";
