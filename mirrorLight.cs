@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace midiLightShow
 {
-    class mirrorLight : dmxLight
+    public class mirrorLight : dmxLight
     {
         #region Global variables
         byte rotateLights;

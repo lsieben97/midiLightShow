@@ -10,7 +10,7 @@ namespace midiLightShow
     /// Lazer class. Functions for the Lazer DMX light
     /// Inherited from dmxLight
     /// </summary>
-    class lazer : dmxLight
+    public class lazer : dmxLight
     {
         #region Global variables
         private Dictionary<string, byte> patternMap = new Dictionary<string, byte>();
