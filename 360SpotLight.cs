@@ -174,7 +174,7 @@ namespace midiLightShow
         /// Sets the horizontal rotation of the moving head
         /// </summary>
         /// <param name="rotation">Rotation degree variable</param>
-        [ParameterDataAtribute(parameterDescription = new string[] { "Rotation angle" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Rotation angle ( 0 - 360 )" })]
         [MethodDescriptionAtribute(methodDescription = "Rotate Horizontally")]
         public void func_setPan(uint rotation)
         {
@@ -193,7 +193,7 @@ namespace midiLightShow
         /// Sets the vertical rotation of the moving head
         /// </summary>
         /// <param name="rotation">Rotation degree variable</param>
-        [ParameterDataAtribute(parameterDescription = new string[] { "Rotation angle" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Rotation angle ( 0 - 360 )" })]
         [MethodDescriptionAtribute(methodDescription = "Rotate Vertically")]
         public void func_setTilt(uint rotation)
         {
@@ -234,7 +234,7 @@ namespace midiLightShow
         /// Sets the value of how bright the light should shine in percentage
         /// </summary>
         /// <param name="value">Percentage value to set the dimmer brightness</param>
-        [ParameterDataAtribute(parameterDescription = new string[] { "Dimmer value" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Dimmer value ( 0 - 100 )" })]
         [MethodDescriptionAtribute(methodDescription = "Turn on the dimmer")]
         public void func_dimmer(uint value)
         {
@@ -253,7 +253,7 @@ namespace midiLightShow
         /// Turns on the stroboscope
         /// </summary>
         /// <param name="value">Sets the interval of the stroboscope</param>
-        [ParameterDataAtribute(parameterDescription = new string[] { "Stroboscope value" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Stroboscope value ( 0 - 100 )" })]
         [MethodDescriptionAtribute(methodDescription = "Turn on the stroboscope")]
         public void func_strobo(uint value)
         {
@@ -274,7 +274,7 @@ namespace midiLightShow
         /// <param name="r">The red light value</param>
         /// <param name="g">The green light value</param>
         /// <param name="b">The blue light value</param>
-        [ParameterDataAtribute(parameterDescription = new string[] { "Red", "Green" , "Blue"})]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Red ( 0 - 255 )", "Green ( 0 - 255 )", "Blue ( 0 - 255 )" })]
         [MethodDescriptionAtribute(methodDescription = "Set rgb values")]
         public void func_rgb(byte r = 0, byte g = 0, byte b = 0)
         {
@@ -289,7 +289,7 @@ namespace midiLightShow
         /// Sets the movement speed
         /// </summary>
         /// <param name="mSpeed">Movement speed value</param>
-        [ParameterDataAtribute(parameterDescription = new string[] { "Moving speed" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Moving speed ( 0 - 255 )" })]
         [MethodDescriptionAtribute(methodDescription = "Set movement speed")]
         public void func_setSpeed(byte mSpeed)
         {
@@ -303,7 +303,7 @@ namespace midiLightShow
         /// </summary>
         /// <param name="direction">Direction of color order</param>
         /// <param name="speed">Speed of color change</param>
-        [ParameterDataAtribute(parameterDescription = new string[] { "Direction of color order", "Speed of color change" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Direction of color order ( true or false )", "Speed of color change ( 0 - 255 )" })]
         [MethodDescriptionAtribute(methodDescription = "Turn on a rainbow effect")]
         public void func_rainBow(bool direction,byte speed)
         {
@@ -349,7 +349,7 @@ namespace midiLightShow
         /// </summary>
         /// <param name="clockWise">Sets the direction</param>
         /// <param name="speed"></param>
-        [ParameterDataAtribute(parameterDescription = new string[] { "Direction of gobo order", "Speed of scrolling" })]
+        [ParameterDataAtribute(parameterDescription = new string[] { "Direction of gobo order ( true or false )", "Speed of scrolling ( 0 - 255 )" })]
         [MethodDescriptionAtribute(methodDescription = "Turn on a scrollthrough the gobos")]
         public void func_goboScroll(bool clockWise, byte speed)
         {

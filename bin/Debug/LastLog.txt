@@ -1,7 +1,7 @@
-10:13:23		Initializing application...
-10:13:23		Changing BPM to 120.
-10:13:23		Generated TypeMap.
-10:13:23		Done!
-10:13:27		Generated controls for track 'Track 1'.
-10:13:27		Added new track to lightshow.
-10:13:38		Closing DMX Studio v1.2.
+10:23:48 AM		Initializing application...
+10:23:48 AM		Changing BPM to 120.
+10:23:48 AM		Generated TypeMap.
+10:23:48 AM		Done!
+10:24:20 AM		Generated controls for track 'Track 1'.
+10:24:20 AM		Added new track to lightshow.
+10:25:42 AM		Closing DMX Studio v1.2.
