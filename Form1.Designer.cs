@@ -75,6 +75,7 @@
             this.btnAddTrack = new System.Windows.Forms.Button();
             this.lbPlayBackTime = new System.Windows.Forms.Label();
             this.ofdMusic = new System.Windows.Forms.OpenFileDialog();
+            this.btnCancelTutorial = new System.Windows.Forms.Button();
             this.msControl.SuspendLayout();
             this.pTimeLine.SuspendLayout();
             this.pTutorial.SuspendLayout();
@@ -134,6 +135,8 @@
             this.newShowToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.newShowToolStripMenuItem.Text = "New show";
             this.newShowToolStripMenuItem.Click += new System.EventHandler(this.newShowToolStripMenuItem_Click);
+            this.newShowToolStripMenuItem.MouseEnter += new System.EventHandler(this.newShowToolStripMenuItem_MouseEnter);
+            this.newShowToolStripMenuItem.MouseLeave += new System.EventHandler(this.newShowToolStripMenuItem_MouseLeave);
             // 
             // importToolStripMenuItem
             // 
@@ -183,6 +186,8 @@
             this.importMusicToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.importMusicToolStripMenuItem.Text = "Import music";
             this.importMusicToolStripMenuItem.Click += new System.EventHandler(this.importMusicToolStripMenuItem_Click);
+            this.importMusicToolStripMenuItem.MouseEnter += new System.EventHandler(this.importMusicToolStripMenuItem_MouseEnter);
+            this.importMusicToolStripMenuItem.MouseLeave += new System.EventHandler(this.newShowToolStripMenuItem_MouseLeave);
             // 
             // exitToolStripMenuItem
             // 
@@ -216,6 +221,8 @@
             this.resetZoomToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.resetZoomToolStripMenuItem.Text = "Reset zoom";
             this.resetZoomToolStripMenuItem.Click += new System.EventHandler(this.resetZoomToolStripMenuItem_Click);
+            this.resetZoomToolStripMenuItem.MouseEnter += new System.EventHandler(this.resetZoomToolStripMenuItem_MouseEnter);
+            this.resetZoomToolStripMenuItem.MouseLeave += new System.EventHandler(this.resetZoomToolStripMenuItem_MouseLeave);
             // 
             // zoomInToolStripMenuItem
             // 
@@ -226,6 +233,8 @@
             this.zoomInToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.zoomInToolStripMenuItem.Text = "Zoom in";
             this.zoomInToolStripMenuItem.Click += new System.EventHandler(this.zoomInToolStripMenuItem_Click);
+            this.zoomInToolStripMenuItem.MouseEnter += new System.EventHandler(this.zoomInToolStripMenuItem_MouseEnter);
+            this.zoomInToolStripMenuItem.MouseLeave += new System.EventHandler(this.resetZoomToolStripMenuItem_MouseLeave);
             // 
             // zoomOutToolStripMenuItem
             // 
@@ -236,6 +245,8 @@
             this.zoomOutToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.zoomOutToolStripMenuItem.Text = "Zoom out";
             this.zoomOutToolStripMenuItem.Click += new System.EventHandler(this.zoomOutToolStripMenuItem_Click);
+            this.zoomOutToolStripMenuItem.MouseEnter += new System.EventHandler(this.zoomOutToolStripMenuItem_MouseEnter);
+            this.zoomOutToolStripMenuItem.MouseLeave += new System.EventHandler(this.resetZoomToolStripMenuItem_MouseLeave);
             // 
             // toolsToolStripMenuItem
             // 
@@ -254,9 +265,11 @@
             this.debugToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.Click += new System.EventHandler(this.debugToolStripMenuItem_Click);
+            this.debugToolStripMenuItem.MouseEnter += new System.EventHandler(this.debugToolStripMenuItem_MouseEnter);
+            this.debugToolStripMenuItem.MouseLeave += new System.EventHandler(this.debugToolStripMenuItem_MouseLeave);
             // 
             // closeToolStripMenuItem
             // 
@@ -295,6 +308,8 @@
             this.userManualToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.userManualToolStripMenuItem.Text = "User manual";
             this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
+            this.userManualToolStripMenuItem.MouseEnter += new System.EventHandler(this.userManualToolStripMenuItem_MouseEnter);
+            this.userManualToolStripMenuItem.MouseLeave += new System.EventHandler(this.aboutToolStripMenuItem_MouseLeave);
             // 
             // startTutorialToolStripMenuItem
             // 
@@ -303,6 +318,8 @@
             this.startTutorialToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.startTutorialToolStripMenuItem.Text = "Start Tutorial";
             this.startTutorialToolStripMenuItem.Click += new System.EventHandler(this.startTutorialToolStripMenuItem_Click);
+            this.startTutorialToolStripMenuItem.MouseEnter += new System.EventHandler(this.startTutorialToolStripMenuItem_MouseEnter);
+            this.startTutorialToolStripMenuItem.MouseLeave += new System.EventHandler(this.aboutToolStripMenuItem_MouseLeave);
             // 
             // aboutToolStripMenuItem
             // 
@@ -311,6 +328,8 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.MouseEnter += new System.EventHandler(this.aboutToolStripMenuItem_MouseEnter);
+            this.aboutToolStripMenuItem.MouseLeave += new System.EventHandler(this.aboutToolStripMenuItem_MouseLeave);
             // 
             // ofdMidi
             // 
@@ -345,6 +364,7 @@
             // 
             this.pTutorial.Controls.Add(this.rtbTutorialContent);
             this.pTutorial.Controls.Add(this.msTutorial);
+            this.pTutorial.Controls.Add(this.btnCancelTutorial);
             this.pTutorial.Controls.Add(this.btnNextTutorial);
             this.pTutorial.Location = new System.Drawing.Point(723, 32);
             this.pTutorial.Name = "pTutorial";
@@ -361,8 +381,7 @@
             this.rtbTutorialContent.Name = "rtbTutorialContent";
             this.rtbTutorialContent.Size = new System.Drawing.Size(342, 160);
             this.rtbTutorialContent.TabIndex = 1;
-            this.rtbTutorialContent.Text = "Welcome to the tutorial for DMX studio!\nThis tutorial will guide you through the " +
-    "application and help you setup your first lightshow";
+            this.rtbTutorialContent.Text = "";
             // 
             // msTutorial
             // 
@@ -383,7 +402,6 @@
             this.tbTutorial.Name = "tbTutorial";
             this.tbTutorial.ReadOnly = true;
             this.tbTutorial.Size = new System.Drawing.Size(250, 20);
-            this.tbTutorial.Text = "Tutorial - Welcome!";
             // 
             // btnNextTutorial
             // 
@@ -618,6 +636,25 @@
             // 
             this.ofdMusic.FileName = "Select a sound file";
             // 
+            // btnCancelTutorial
+            // 
+            this.btnCancelTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnCancelTutorial.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
+            this.btnCancelTutorial.FlatAppearance.BorderSize = 0;
+            this.btnCancelTutorial.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnCancelTutorial.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnCancelTutorial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelTutorial.Font = new System.Drawing.Font("Corbel", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelTutorial.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnCancelTutorial.Location = new System.Drawing.Point(3, 193);
+            this.btnCancelTutorial.Name = "btnCancelTutorial";
+            this.btnCancelTutorial.Size = new System.Drawing.Size(75, 29);
+            this.btnCancelTutorial.TabIndex = 4;
+            this.btnCancelTutorial.Tag = "button";
+            this.btnCancelTutorial.Text = "Close";
+            this.btnCancelTutorial.UseVisualStyleBackColor = false;
+            this.btnCancelTutorial.Click += new System.EventHandler(this.btnCancelTutorial_Click);
+            // 
             // frmEditor
             // 
             this.AllowDrop = true;
@@ -711,6 +748,7 @@
         private System.Windows.Forms.ToolStripMenuItem zoomOutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importMusicToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog ofdMusic;
+        private System.Windows.Forms.Button btnCancelTutorial;
     }
 }
 

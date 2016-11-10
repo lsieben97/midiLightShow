@@ -92,6 +92,7 @@
             this.tbName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbName.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.tbName.Location = new System.Drawing.Point(114, 38);
+            this.tbName.MaxLength = 30;
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(121, 20);
             this.tbName.TabIndex = 3;
@@ -193,8 +194,9 @@
             this.tbTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbTitle.ForeColor = System.Drawing.SystemColors.Highlight;
             this.tbTitle.Name = "tbTitle";
+            this.tbTitle.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.tbTitle.ReadOnly = true;
-            this.tbTitle.Size = new System.Drawing.Size(200, 20);
+            this.tbTitle.Size = new System.Drawing.Size(275, 20);
             // 
             // label4
             // 

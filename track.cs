@@ -356,7 +356,7 @@ namespace midiLightShow
                 this.name = frmOptions.tbName.Text;
                 this.lbName.Text = this.name;
                 this.lbName.Bounds = new Rectangle(lbName.Location, new Size(165, 18));
-                if(this.LightName != this.frmOptions.cbLights.SelectedItem.ToString())
+                if(this.LightName != this.frmOptions.cbLights.SelectedItem.ToString() && this.events.Count > 0)
                 {
                     if (DMXStudioMessageBox.Show("Changing the light type will remove all show events on this track.\nAre you sure you want to change the light type?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {

@@ -139,7 +139,7 @@ namespace midiLightShow
         }
 
         /// <summary>
-        /// Check imported audio length and change lighshow lenght if needed
+        /// Check imported audio length and change lighshow length if needed
         /// </summary>
         private void handleMediaOpened()
         {
@@ -467,26 +467,79 @@ namespace midiLightShow
         {
             if (this.zoom >= 200)
             {
+                bool lastString = true;
                 for (int i = 0; i < ((this.pTimeLine.Width - this.timelineOffsetX) / this.pixelsPer16thNote | 0); i++)
                 {
                     e.Graphics.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote, this.pTimeLine.Height);
-                    e.Graphics.DrawString(i.ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote, 5);
+                    if (i > 99)
+                    {
+                        if (lastString)
+                        {
+                            e.Graphics.DrawString(i.ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote, 5);
+                            lastString = false;
+                            continue;
+                        }
+                        if (!lastString)
+                        {
+                            lastString = true;
+                        }
+                    }
+                    else
+                    {
+                        e.Graphics.DrawString(i.ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote, 5);
+                    }
+                    
                 }
             }
             else if (this.zoom < 200 && this.zoom > 70)
             {
+                bool lastString = true;
                 for (int i = 0; i < ((this.pTimeLine.Width - this.timelineOffsetX) / 2 / this.pixelsPer16thNote | 0); i++)
                 {
                     e.Graphics.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote * 2, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote * 2, this.pTimeLine.Height);
-                    e.Graphics.DrawString((i * 2).ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 2, 5);
+                    Console.WriteLine(i.ToString());
+                    if (i * 2 > 99)
+                    {
+                        if (lastString)
+                        {
+                            e.Graphics.DrawString((i * 2).ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 2, 5);
+                            lastString = false;
+                            continue;
+                        }
+                        if(!lastString)
+                        {
+                            lastString = true;
+                        }
+                    }
+                    else
+                    {
+                        e.Graphics.DrawString((i * 2).ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 2, 5);
+                    }
                 }
             }
             else if (this.zoom <= 70)
             {
+                bool lastString = true;
                 for (int i = 0; i < ((this.pTimeLine.Width - this.timelineOffsetX) / 4 / this.pixelsPer16thNote | 0); i++)
                 {
                     e.Graphics.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote * 4, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote * 4, this.pTimeLine.Height);
-                    e.Graphics.DrawString((i * 4).ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 4, 5);
+                    if (i * 4 > 99)
+                    {
+                        if (lastString)
+                        {
+                            e.Graphics.DrawString((i * 4).ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 4, 5);
+                            lastString = false;
+                            continue;
+                        }
+                        if (!lastString)
+                        {
+                            lastString = true;
+                        }
+                    }
+                    else
+                    {
+                        e.Graphics.DrawString((i * 4).ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote * 4, 5);
+                    }
                 }
             }
             Rectangle rEnd = new Rectangle(this.timelineOffsetX + this.currentLightshow.showTime * this.pixelsPer16thNote, 0, 2, this.timelineOffsetY);
@@ -997,7 +1050,8 @@ namespace midiLightShow
         {
             this.tbHelp.Text = this.defaultHelpMessage;
         }
-        #region Maybe redundant code?
+        // The following region contains event handlers for showing and hiding help messages. no need to individualy comment those as they all do the same.
+        #region Help text events
         private void loadMIDIToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             this.tbHelp.Text = "Import a MIDI file to convert it to a light show.";
@@ -1019,6 +1073,70 @@ namespace midiLightShow
         }
 
         private void loadMIDIToolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = this.defaultHelpMessage;
+        }
+        private void newShowToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = "Create a new empty light show.";
+        }
+
+        private void importMusicToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = "Import an audio file (MP3/WAV) to play along your lightshow.";
+        }
+
+        private void resetZoomToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = "Reset the zoom level of the timeline.";
+        }
+
+        private void zoomInToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = "Increment the zoom level of the timeline by 10.";
+        }
+
+        private void zoomOutToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = "Decrement the zoom level of the timeline by 10.";
+        }
+
+        private void debugToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = "Show the debug dialog.";
+        }
+
+        private void userManualToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = "Open the DMX Studio User manual.";
+        }
+
+        private void startTutorialToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = "Start the tutorial.";
+        }
+
+        private void aboutToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = "View information about DMX Studio.";
+        }
+
+        private void aboutToolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = this.defaultHelpMessage;
+        }
+
+        private void debugToolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = this.defaultHelpMessage;
+        }
+
+        private void resetZoomToolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        {
+            this.tbHelp.Text = this.defaultHelpMessage;
+        }
+
+        private void newShowToolStripMenuItem_MouseLeave(object sender, EventArgs e)
         {
             this.tbHelp.Text = this.defaultHelpMessage;
         }
@@ -1076,6 +1194,8 @@ namespace midiLightShow
         private void startTutorialToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tStarting tutorial.");
+            this.currentTutorialStep = "Welcome";
+            btnNextTutorial_Click(this, EventArgs.Empty);
             pTutorial.Visible = true;
             pTutorial.Location = new Point(500, 150);
         }
@@ -1085,6 +1205,11 @@ namespace midiLightShow
             this.btnNextTutorial.BackColor = System.Drawing.Color.FromArgb(64, 64, 64);
             switch (this.currentTutorialStep)
             {
+                case "Welcome":
+                    this.rtbTutorialContent.Text = "Welcome to the tutorial for DMX studio!\nThis tutorial will guide you through the application and help you setup your first lightshow.\n\nClick 'Next' to continue!";
+                    this.tbTutorial.Text = "Tutorial - Welcome!";
+                    this.currentTutorialStep = "Intro";
+                    break;
                 case "Intro":
                     this.tbTutorial.Text = "Tutorial - Getting started";
                     this.rtbTutorialContent.Text = "When DMX studio launches you will start with nothing, so let's change that.\nClick the 'Add track' button to start making your own lightshow!";
@@ -1140,8 +1265,13 @@ namespace midiLightShow
                     this.currentLightshow.tracks[0].bAddEvent.BackColor = SystemColors.ControlDarkDark;
                     this.tbTutorial.Text = "Tutorial - That's it!";
                     this.rtbTutorialContent.Text = "And that's it! You can expand your lightshow by adding more tracks and show events. If you own a light supported by DMX studio you can check the 'live' checkbox in the track options dialog to make DMX studio control the phisical light!\nFor more information view the user manual under Help -> User manual.\n\nClick 'Finish' to close this tutorial.";
-                    this.currentTutorialStep = "Intro";
+                    this.currentTutorialStep = "finish";
                     this.btnNextTutorial.Text = "Finish!";
+                    break;
+                case "finish":
+                    this.btnNextTutorial.Text = "Next";
+                    this.pTutorial.Visible = false;
+                    this.currentTutorialStep = "Welcome";
                     break;
             }
         }
@@ -1211,6 +1341,19 @@ namespace midiLightShow
             }
         }
         #endregion
+
+        private void btnCancelTutorial_Click(object sender, EventArgs e)
+        {
+            this.tutorialTimer.Stop();
+            this.currentTutorialStep = "Welcome";
+            this.pTutorial.Visible = false;
+            if(this.currentLightshow.tracks.Count > 0)
+            {
+                this.currentLightshow.tracks[0].bAddEvent.BackColor = SystemColors.ControlDarkDark;
+                this.currentLightshow.tracks[0].pbOptions.BackColor = System.Drawing.Color.FromArgb(255, 170, 213, 255);
+            }
+            this.btnAddTrack.BackColor = System.Drawing.Color.FromArgb(64, 64, 64);
+        }
     }
     #endregion
     #region Custom colors
