@@ -1,9 +1,10 @@
-11:18:48 AM		Launching DMX Studio v1.2
-11:18:48 AM		Initializing application...
-11:18:48 AM		Changing BPM to 120.
-11:18:48 AM		Generated TypeMap.
-11:18:48 AM		Applying custom colors
-11:18:48 AM		Initializing complete.
-11:18:55 AM		Generated controls for track 'Track 1'.
-11:18:55 AM		Added new track to current lightshow.
-11:19:10 AM		Closing DMX Studio v1.2.
+11:39:14		Launching DMX Studio v1.2
+11:39:14		Initializing application...
+11:39:14		Changing BPM to 120.
+11:39:14		Generated TypeMap.
+11:39:14		Applying custom colors
+11:39:14		Initializing complete.
+11:39:16		Generated controls for track 'Track 1'.
+11:39:16		Added new track to current lightshow.
+11:39:25		Changed light type for track 'Track 1' to 'Mirror light'.
+11:49:48		Closing DMX Studio v1.2.
