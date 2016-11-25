@@ -312,7 +312,7 @@ namespace midiLightShow
         public void func_autoZoom(byte speed)
         {
             //Loads and sends the value to the lazer
-            this.driver.DmxLoadBuffer(5, (byte)(speed / 255 * 45), 10);
+            this.driver.DmxLoadBuffer(5, (byte)(speed / 255 * 45 + 210), 10);
             this.driver.DmxSendCommand(1);
         }
 
