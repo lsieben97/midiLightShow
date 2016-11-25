@@ -23,15 +23,8 @@ namespace midiLightShow
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public _360SpotLight() { }
-        /// <summary>
-        /// Constructor for moving head class
-        /// </summary>
-        /// <param name="comPort">Connection port</param>
-        public _360SpotLight(string comPort)
+        public _360SpotLight()
         {
-            this.comPort = comPort;
-            this.driver.DmxToDefault(this.comPort);
             this.goboMap.Add("bananaSpiral", 13);
             this.goboMap.Add("eclipseSun", 26);
             this.goboMap.Add("flower", 39);
@@ -41,6 +34,15 @@ namespace midiLightShow
             this.goboMap.Add("sun", 91);
             this.goboMap.Add("tangledLines", 104);
             this.goboMap.Add("bubbles", 117);
+        }
+        /// <summary>
+        /// Constructor for moving head class
+        /// </summary>
+        /// <param name="comPort">Connection port</param>
+        public _360SpotLight(string comPort)
+        {
+            this.comPort = comPort;
+            this.driver.DmxToDefault(this.comPort);
         }
         #endregion
         #region Execute method
@@ -151,7 +153,10 @@ namespace midiLightShow
                     } else { return false; }
                     break;
                 case "gobo":
-                    this.func_gobo(parameters[0]);
+                    if (execute)
+                    {
+                        this.func_gobo(parameters[0]);
+                    } else { return true; }
                     break;
                 case "goboScroll":
                     bool clockWise = false;

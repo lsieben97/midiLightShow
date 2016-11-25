@@ -161,7 +161,7 @@ namespace midiLightShow
             msControl.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             msBottom.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             msTutorial.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
-
+            this.pTimeLine.Invalidate();
             Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tInitializing complete.");
         }
         #endregion

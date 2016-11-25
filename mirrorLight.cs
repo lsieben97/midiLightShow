@@ -39,7 +39,54 @@ namespace midiLightShow
             //execute function switch case
             switch (function)
             {
-                case "":
+                case "color":
+                    bool red;
+                    bool green;
+                    bool blue;
+                    bool white;
+                    if(bool.TryParse(parameters[0],out red) && bool.TryParse(parameters[1],out green) && bool.TryParse(parameters[2],out blue) && bool.TryParse(parameters[3],out white))
+                    {
+                        if(execute)
+                        {
+                            this.func_color(red, green, blue, white);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+                case "rainbow":
+                    uint speed;
+                    if(uint.TryParse(parameters[0],out speed))
+                    {
+                        if(execute)
+                        {
+                            this.func_rainbow(speed);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+                case "rotateX":
+                    uint rotationX;
+                    if (uint.TryParse(parameters[0], out rotationX))
+                    {
+                        if (execute)
+                        {
+                            this.func_rotateX(rotationX);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+                case "rotateY":
+                    uint rotationY;
+                    if (uint.TryParse(parameters[0], out rotationY))
+                    {
+                        if (execute)
+                        {
+                            this.func_rotateY(rotationY);
+                        } else { return true; }
+                    } else { return false; }
+                    break;
+                case "rotateLights":
+                    if(execute)
+                    {
+                        this.func_rotateLights();
+                    } else { return true; }
                     break;
             }
             return false;

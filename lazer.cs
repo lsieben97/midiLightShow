@@ -23,7 +23,43 @@ namespace midiLightShow
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public lazer() { }
+        public lazer()
+        {
+            this.driver.DmxLoadBuffer(1, 255, 10);
+            this.driver.DmxSendCommand(1);
+
+            this.patternMap.Add("morse circle", 8);
+            this.patternMap.Add("triangle", 16);
+            this.patternMap.Add("square", 24);
+            this.patternMap.Add("dashed square", 32);
+            this.patternMap.Add("frame", 40);
+            this.patternMap.Add("filled plus", 48);
+            this.patternMap.Add("saw", 56);
+            this.patternMap.Add("corner", 64);
+            this.patternMap.Add("bow tie", 72);
+            this.patternMap.Add("spiral", 80);
+            this.patternMap.Add("mirrored half circle", 88);
+            this.patternMap.Add("snail", 96);
+            this.patternMap.Add("two dashed circle", 104);
+            this.patternMap.Add("rooftops", 112);
+            this.patternMap.Add("zigzag", 120);
+            this.patternMap.Add("v", 128);
+            this.patternMap.Add("w", 136);
+            this.patternMap.Add("snake", 144);
+            this.patternMap.Add("line", 152);
+            this.patternMap.Add("dashed line", 160);
+            this.patternMap.Add("bold dashed line", 168);
+            this.patternMap.Add("two lines", 176);
+            this.patternMap.Add("plus", 184);
+            this.patternMap.Add("two half lines", 192);
+            this.patternMap.Add("unfinished diamond", 200);
+            this.patternMap.Add("two cubes", 208);
+            this.patternMap.Add("four cubes", 216);
+            this.patternMap.Add("small circle", 224);
+            this.patternMap.Add("short dashed line", 232);
+            this.patternMap.Add("dashed arc", 240);
+            this.patternMap.Add("dots", 248);
+        }
         /// <summary>
         /// Constructor for lazer class
         /// </summary>
@@ -32,40 +68,6 @@ namespace midiLightShow
         {
             this.comPort = comPort;
             this.driver.DmxToDefault(this.comPort);
-            this.driver.DmxLoadBuffer(1, 255, 10);
-            this.driver.DmxSendCommand(1);
-
-            this.patternMap.Add("morse circle",8);
-            this.patternMap.Add("triangle",16);
-            this.patternMap.Add("square",24);
-            this.patternMap.Add("dashed square",32);
-            this.patternMap.Add("frame",40);
-            this.patternMap.Add("filled plus",48);
-            this.patternMap.Add("saw",56);
-            this.patternMap.Add("corner",64);
-            this.patternMap.Add("bow tie",72);
-            this.patternMap.Add("spiral",80);
-            this.patternMap.Add("mirrored half circle",88);
-            this.patternMap.Add("snail",96);
-            this.patternMap.Add("two dashed circle",104);
-            this.patternMap.Add("rooftops",112);
-            this.patternMap.Add("zigzag",120);
-            this.patternMap.Add("v",128);
-            this.patternMap.Add("w",136);
-            this.patternMap.Add("snake",144);
-            this.patternMap.Add("line",152);
-            this.patternMap.Add("dashed line",160);
-            this.patternMap.Add("bold dashed line",168);
-            this.patternMap.Add("two lines",176);
-            this.patternMap.Add("plus",184);
-            this.patternMap.Add("two half lines",192);
-            this.patternMap.Add("unfinished diamond",200);
-            this.patternMap.Add("two cubes",208);
-            this.patternMap.Add("four cubes",216);
-            this.patternMap.Add("small circle",224);
-            this.patternMap.Add("short dashed line",232);
-            this.patternMap.Add("dashed arc",240);
-            this.patternMap.Add("dots",248);
         }
         #endregion
         #region Execute method
