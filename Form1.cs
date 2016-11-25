@@ -43,18 +43,36 @@ namespace midiLightShow
         /// </summary>
         private int trackHeight = 50;
         /// <summary>
-        /// Indicates the default offset for the timeline
+        /// Indicates the default x offset for the timeline
         /// </summary>
         private int timelineOffsetX = 220;
+        /// <summary>
+        /// Indicates the default y offset for the timeline
+        /// </summary>
         private int timelineOffsetY = 25;
         /// <summary>
         /// The zoom level for the timeline
         /// </summary>
         private int zoom = 100;
+        /// <summary>
+        /// Indicates the last track set to solo
+        /// </summary>
         private int lastSoloTrack;
+        /// <summary>
+        /// The path to the last saved file
+        /// </summary>
         private string lastSavedPath = "";
+        /// <summary>
+        /// Indicates if the lightshow is saved
+        /// </summary>
         private bool saved = true;
+        /// <summary>
+        /// Indicates the tutorial step to display
+        /// </summary>
         private string currentTutorialStep = "Intro";
+        /// <summary>
+        /// The playBackTime object used to display the current playback time
+        /// </summary>
         private playBackTime pbTime = new playBackTime();
 
         /// <summary>
@@ -69,7 +87,13 @@ namespace midiLightShow
         /// Timer to play the show
         /// </summary>
         private Timer showTimer = new Timer();
+        /// <summary>
+        /// Timer to make controls flash when using the tutorial
+        /// </summary>
         private Timer tutorialTimer = new Timer();
+        /// <summary>
+        /// The control to make flash
+        /// </summary>
         private Control tutorialTarget;
         /// <summary>
         /// Debug dialog for debugging
@@ -83,8 +107,18 @@ namespace midiLightShow
         /// AddShowEvent form for editing existing showEvents
         /// </summary>
         public AddShowEvent frmEditShowEvent = new AddShowEvent();
+        /// <summary>
+        /// The Lightshow object that represents the current lightshow
+        /// </summary>
         public lightshow currentLightshow = new lightshow();
+        /// <summary>
+        /// The MediaPlayer object to play audio files when playing the lightshow
+        /// </summary>
         public MediaPlayer mp = new MediaPlayer();
+        /// <summary>
+        /// The MediaPlayer object used to play the shutdown sample
+        /// </summary>
+        public MediaPlayer closeMp = new MediaPlayer();
 
         #endregion
         #region Constructors
@@ -93,6 +127,7 @@ namespace midiLightShow
         /// </summary>
         public frmEditor()
         {
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tLaunching DMX Studio v1.2");
             Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tInitializing application...");
             this.InitializeComponent();
             this.calculateTime();
@@ -118,13 +153,16 @@ namespace midiLightShow
             this.mp.MediaOpened += mp_MediaOpened;
             this.panel1.Size = new System.Drawing.Size(this.panel1.Size.Width, this.Size.Height - 92);
             this.pTimeLine.Size = new System.Drawing.Size(this.pTimeLine.Size.Width, this.panel1.Size.Height);
+            this.closeMp.Open(new Uri(Path.GetFullPath("shutdown.wav")));
+            this.closeMp.MediaEnded += mp_MediaEnded;
             track.makeTypeMap();
             // customize menu strip
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tApplying custom colors");
             msControl.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             msBottom.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             msTutorial.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
 
-            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tDone!");
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tInitializing complete.");
         }
         #endregion
         #region Editor form methods
@@ -488,7 +526,7 @@ namespace midiLightShow
                     {
                         e.Graphics.DrawString(i.ToString(), this.btnPlay.Font, new System.Drawing.Pen(this.lineColor).Brush, this.timelineOffsetX + i * this.pixelsPer16thNote, 5);
                     }
-                    
+
                 }
             }
             else if (this.zoom < 200 && this.zoom > 70)
@@ -497,7 +535,6 @@ namespace midiLightShow
                 for (int i = 0; i < ((this.pTimeLine.Width - this.timelineOffsetX) / 2 / this.pixelsPer16thNote | 0); i++)
                 {
                     e.Graphics.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Black), this.timelineOffsetX + i * this.pixelsPer16thNote * 2, this.timelineOffsetY, this.timelineOffsetX + i * this.pixelsPer16thNote * 2, this.pTimeLine.Height);
-                    Console.WriteLine(i.ToString());
                     if (i * 2 > 99)
                     {
                         if (lastString)
@@ -506,7 +543,7 @@ namespace midiLightShow
                             lastString = false;
                             continue;
                         }
-                        if(!lastString)
+                        if (!lastString)
                         {
                             lastString = true;
                         }
@@ -611,7 +648,7 @@ namespace midiLightShow
         /// </summary>
         private void cloneTrack()
         {
-            if (this.currentLightshow.tracks.Count < 10)
+            if (this.currentLightshow.tracks.Count < 12)
             {
                 foreach (track t in this.currentLightshow.tracks)
                 {
@@ -622,14 +659,14 @@ namespace midiLightShow
                         // reference for the new track
                         track clone = this.currentLightshow.tracks[this.currentLightshow.tracks.Count - 1];
                         // copy track information
-                        clone.name = t.name + " cloned";
+                        clone.name = "Copy of " + t.name;
                         clone.LightName = t.LightName;
                         clone.maxEventLength = t.maxEventLength;
                         clone.lastBlockXPos = t.lastBlockXPos;
                         clone.eventCount = t.eventCount;
                         clone.eventColor = t.eventColor;
                         // copy all show events
-                        foreach(showEvent se in t.events)
+                        foreach (showEvent se in t.events)
                         {
                             clone.events.Add(se);
                         }
@@ -653,9 +690,9 @@ namespace midiLightShow
         {
             if (this.btnPlay.Text == "Play")
             {
-                if(this.mp.HasAudio)
+                if (this.mp.HasAudio)
                 {
-                    TimeSpan targetPosition = new TimeSpan(0,0,0,0,this.currentTime * this.milisecondsPer16thNote);
+                    TimeSpan targetPosition = new TimeSpan(0, 0, 0, 0, this.currentTime * this.milisecondsPer16thNote);
                     this.mp.Position = targetPosition;
                     this.mp.Play();
                 }
@@ -721,7 +758,7 @@ namespace midiLightShow
             this.currentLightshow.tracks.Add(new track("Track " + this.trackCounter.ToString(), this.currentLightshow.tracks.Count * this.trackHeight + this.timelineOffsetY, this.timelineOffsetY + ((this.currentLightshow.tracks.Count + 1) * this.trackHeight), this.pTimeLine));
             this.currentLightshow.tracks[this.currentLightshow.tracks.Count - 1].drawControls();
             this.trackCounter++;
-            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tAdded new track to lightshow.");
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tAdded new track to current lightshow.");
             this.pTimeLine.Invalidate();
         }
 
@@ -784,7 +821,7 @@ namespace midiLightShow
                                 int duration = Convert.ToInt32(this.frmEditShowEvent.tbDuration.Text);
                                 int start = Convert.ToInt32(this.frmEditShowEvent.tbStartTime.Text);
                                 bool valid = true;
-                                if (start < 0 || duration < 0)
+                                if (start < 1 || duration < 1)
                                 {
                                     valid = false;
                                 }
@@ -909,7 +946,7 @@ namespace midiLightShow
         }
 
         /// <summary>
-        /// loads a show in xml file format using xml serialization
+        /// loads a lightshow in xml file format using xml serialization
         /// </summary>
         /// <param name="path">'.lightshow' file to load</param>
         private void import(string path)
@@ -932,7 +969,7 @@ namespace midiLightShow
                     this.lastSavedPath = path;
                     this.tbLightshowName.Text = this.currentLightshow.name;
                     this.nudBeatsPerMinute.Value = this.currentLightshow.bpm;
-                    if(this.currentLightshow.containsAudio)
+                    if (this.currentLightshow.containsAudio)
                     {
                         this.mp.Open(new Uri(Path.GetFullPath(this.currentLightshow.audioPath)));
                     }
@@ -985,7 +1022,8 @@ namespace midiLightShow
             {
                 Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tClosing DMX Studio v1.2.");
                 File.WriteAllText("LastLog.txt", this.db.rtbDebug.Text);
-                Application.Exit();
+                this.closeMp.Play();
+
             }
             else
             {
@@ -993,9 +1031,14 @@ namespace midiLightShow
                 {
                     Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tClosing DMX Studio v1.2.");
                     File.WriteAllText("LastLog.txt", this.db.rtbDebug.Text);
-                    Application.Exit();
+                    this.closeMp.Play();
                 }
             }
+        }
+
+        void mp_MediaEnded(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         /// <summary>
@@ -1051,7 +1094,7 @@ namespace midiLightShow
             this.tbHelp.Text = this.defaultHelpMessage;
         }
         // The following region contains event handlers for showing and hiding help messages. no need to individualy comment those as they all do the same.
-        #region Help text events
+        #region Help text eventhandlers
         private void loadMIDIToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             this.tbHelp.Text = "Import a MIDI file to convert it to a light show.";
@@ -1151,25 +1194,33 @@ namespace midiLightShow
         {
             if (saved)
             {
-                foreach (track t in this.currentLightshow.tracks)
-                {
-                    t.removeControls();
-                }
-                this.currentLightshow.tracks.Clear();
-                this.pTimeLine.Invalidate();
+                this.prepareNewLightshow();
             }
             else
             {
                 if (DMXStudioMessageBox.Show("The current lightshow has not been saved,\nare you sure you want to close this lightshow?", "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
-                    foreach (track t in this.currentLightshow.tracks)
-                    {
-                        t.removeControls();
-                    }
-                    this.currentLightshow.tracks.Clear();
-                    this.pTimeLine.Invalidate();
+                    this.prepareNewLightshow();
                 }
             }
+        }
+
+        /// <summary>
+        /// Remove all tracks and reset base parameters.
+        /// </summary>
+        private void prepareNewLightshow()
+        {
+            this.btnStop_Click(this, EventArgs.Empty);
+            foreach (track t in this.currentLightshow.tracks)
+            {
+                t.removeControls();
+            }
+            this.currentLightshow.tracks.Clear();
+            this.pTimeLine.Invalidate();
+            this.currentLightshow = new lightshow();
+            this.tbLightshowName.Text = "New lightshow";
+            this.nudBeatsPerMinute.Value = 120;
+
         }
 
         private void frmEditor_KeyDown(object sender, KeyEventArgs e)
@@ -1200,6 +1251,11 @@ namespace midiLightShow
             pTutorial.Location = new Point(500, 150);
         }
         private void btnNextTutorial_Click(object sender, EventArgs e)
+        {
+            updateTutorial();
+        }
+
+        private void updateTutorial()
         {
             this.tutorialTimer.Stop();
             this.btnNextTutorial.BackColor = System.Drawing.Color.FromArgb(64, 64, 64);
@@ -1317,7 +1373,7 @@ namespace midiLightShow
                 this.lbZoom.Text = ((double)trbZoom.Value / 10 * 100).ToString() + "%";
                 this.pTimeLine.Invalidate();
             }
-            
+
         }
 
         private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1334,20 +1390,20 @@ namespace midiLightShow
 
         private void importMusicToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(this.ofdMusic.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (this.ofdMusic.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tImporting '" + this.ofdMusic.FileName + "' into current lightshow.");
                 this.mp.Open(new Uri(Path.GetFullPath(this.ofdMusic.FileName)));
                 this.currentLightshow.audioPath = this.ofdMusic.FileName;
             }
         }
-        #endregion
 
         private void btnCancelTutorial_Click(object sender, EventArgs e)
         {
             this.tutorialTimer.Stop();
             this.currentTutorialStep = "Welcome";
             this.pTutorial.Visible = false;
-            if(this.currentLightshow.tracks.Count > 0)
+            if (this.currentLightshow.tracks.Count > 0)
             {
                 this.currentLightshow.tracks[0].bAddEvent.BackColor = SystemColors.ControlDarkDark;
                 this.currentLightshow.tracks[0].pbOptions.BackColor = System.Drawing.Color.FromArgb(255, 170, 213, 255);
@@ -1355,6 +1411,7 @@ namespace midiLightShow
             this.btnAddTrack.BackColor = System.Drawing.Color.FromArgb(64, 64, 64);
         }
     }
+    #endregion
     #endregion
     #region Custom colors
     /// <summary>

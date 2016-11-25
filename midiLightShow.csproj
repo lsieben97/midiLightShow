@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21ACA74F-5300-4B94-8C75-5240EEC5D798}</ProjectGuid>
+    <ProjectGuid>{FEDDF23D-8A9D-484F-B206-D15FF5AEF60E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>midiLightShow</RootNamespace>
-    <AssemblyName>midiLightShow</AssemblyName>
+    <AssemblyName>DMX Studio</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -49,6 +49,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>midiLightShow.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logoMidiLightshow.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dmx512UsbRs485, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -94,7 +97,6 @@
     <Compile Include="debug.Designer.cs">
       <DependentUpon>debug.cs</DependentUpon>
     </Compile>
-    <Compile Include="discLight.cs" />
     <Compile Include="dmxLight.cs" />
     <Compile Include="DMXStudioMessageBox.cs" />
     <Compile Include="Form1.cs">

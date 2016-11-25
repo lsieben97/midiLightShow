@@ -136,10 +136,10 @@ namespace midiLightShow
         /// </summary>
         public static void makeTypeMap()
         {
-            track.typeMap.Add("RGB Spotlight", "midiLightShow.rgbSpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-            track.typeMap.Add("360 Spotlight", "midiLightShow._360SpotLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-            track.typeMap.Add("Lazer", "midiLightShow.lazer, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-            track.typeMap.Add("Mirror light", "midiLightShow.mirrorLight, midiLightShow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            track.typeMap.Add("RGB Spotlight", typeof(rgbSpotLight).AssemblyQualifiedName);
+            track.typeMap.Add("360 Spotlight", typeof(_360SpotLight).AssemblyQualifiedName);
+            track.typeMap.Add("Lazer", typeof(lazer).AssemblyQualifiedName);
+            track.typeMap.Add("Mirror light", typeof(mirrorLight).AssemblyQualifiedName);
             Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tGenerated TypeMap.");
             
         }
@@ -284,7 +284,7 @@ namespace midiLightShow
             int duration = Convert.ToInt32(this.frmAddShowEvent.tbDuration.Text);
             int start = Convert.ToInt32(this.frmAddShowEvent.tbStartTime.Text);
             bool valid = true;
-            if (start < 0 || duration < 0)
+            if (start < 0 || duration < 1)
             {
                 valid = false;
             }
@@ -356,14 +356,25 @@ namespace midiLightShow
                 this.name = frmOptions.tbName.Text;
                 this.lbName.Text = this.name;
                 this.lbName.Bounds = new Rectangle(lbName.Location, new Size(165, 18));
-                if(this.LightName != this.frmOptions.cbLights.SelectedItem.ToString() && this.events.Count > 0)
+                if(this.LightName != this.frmOptions.cbLights.SelectedItem.ToString())
                 {
-                    if (DMXStudioMessageBox.Show("Changing the light type will remove all show events on this track.\nAre you sure you want to change the light type?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (this.events.Count > 0)
+                    {
+                        if (DMXStudioMessageBox.Show("Changing the light type will remove all show events on this track.\nAre you sure you want to change the light type?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            this.LightName = this.frmOptions.cbLights.SelectedItem.ToString();
+                            this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
+                            this.events.Clear();
+                            this.frmAddShowEvent.light = this.light;
+                            Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tChanged light type for track '" + this.name + "' to '"+ this.LightName+"'.");
+                        }
+                    }
+                    else
                     {
                         this.LightName = this.frmOptions.cbLights.SelectedItem.ToString();
                         this.light = Activator.CreateInstance(Type.GetType(track.typeMap[this.frmOptions.cbLights.SelectedItem.ToString()])) as dmxLight;
-                        this.events.Clear();
                         this.frmAddShowEvent.light = this.light;
+                        Console.WriteLine(DateTime.Now.ToLongTimeString() + "\t\tChanged light type for track '" + this.name + "' to '" + this.LightName + "'.");
                     }
                 }
                 

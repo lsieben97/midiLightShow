@@ -54,6 +54,8 @@ namespace midiLightShow
         private void splash_Load(object sender, EventArgs e)
         {
             this.formTimer.Start();
+            System.Media.SoundPlayer sp = new System.Media.SoundPlayer("startup.wav");
+            sp.Play();
         }
         #endregion
     }

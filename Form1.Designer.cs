@@ -57,6 +57,7 @@
             this.rtbTutorialContent = new System.Windows.Forms.RichTextBox();
             this.msTutorial = new System.Windows.Forms.MenuStrip();
             this.tbTutorial = new System.Windows.Forms.ToolStripTextBox();
+            this.btnCancelTutorial = new System.Windows.Forms.Button();
             this.btnNextTutorial = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -75,7 +76,6 @@
             this.btnAddTrack = new System.Windows.Forms.Button();
             this.lbPlayBackTime = new System.Windows.Forms.Label();
             this.ofdMusic = new System.Windows.Forms.OpenFileDialog();
-            this.btnCancelTutorial = new System.Windows.Forms.Button();
             this.msControl.SuspendLayout();
             this.pTimeLine.SuspendLayout();
             this.pTutorial.SuspendLayout();
@@ -265,7 +265,7 @@
             this.debugToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Highlight;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.Click += new System.EventHandler(this.debugToolStripMenuItem_Click);
             this.debugToolStripMenuItem.MouseEnter += new System.EventHandler(this.debugToolStripMenuItem_MouseEnter);
@@ -402,6 +402,25 @@
             this.tbTutorial.Name = "tbTutorial";
             this.tbTutorial.ReadOnly = true;
             this.tbTutorial.Size = new System.Drawing.Size(250, 20);
+            // 
+            // btnCancelTutorial
+            // 
+            this.btnCancelTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnCancelTutorial.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
+            this.btnCancelTutorial.FlatAppearance.BorderSize = 0;
+            this.btnCancelTutorial.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnCancelTutorial.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnCancelTutorial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelTutorial.Font = new System.Drawing.Font("Corbel", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelTutorial.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnCancelTutorial.Location = new System.Drawing.Point(3, 193);
+            this.btnCancelTutorial.Name = "btnCancelTutorial";
+            this.btnCancelTutorial.Size = new System.Drawing.Size(75, 29);
+            this.btnCancelTutorial.TabIndex = 4;
+            this.btnCancelTutorial.Tag = "button";
+            this.btnCancelTutorial.Text = "Close";
+            this.btnCancelTutorial.UseVisualStyleBackColor = false;
+            this.btnCancelTutorial.Click += new System.EventHandler(this.btnCancelTutorial_Click);
             // 
             // btnNextTutorial
             // 
@@ -635,25 +654,6 @@
             // ofdMusic
             // 
             this.ofdMusic.FileName = "Select a sound file";
-            // 
-            // btnCancelTutorial
-            // 
-            this.btnCancelTutorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnCancelTutorial.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
-            this.btnCancelTutorial.FlatAppearance.BorderSize = 0;
-            this.btnCancelTutorial.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnCancelTutorial.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnCancelTutorial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancelTutorial.Font = new System.Drawing.Font("Corbel", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelTutorial.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnCancelTutorial.Location = new System.Drawing.Point(3, 193);
-            this.btnCancelTutorial.Name = "btnCancelTutorial";
-            this.btnCancelTutorial.Size = new System.Drawing.Size(75, 29);
-            this.btnCancelTutorial.TabIndex = 4;
-            this.btnCancelTutorial.Tag = "button";
-            this.btnCancelTutorial.Text = "Close";
-            this.btnCancelTutorial.UseVisualStyleBackColor = false;
-            this.btnCancelTutorial.Click += new System.EventHandler(this.btnCancelTutorial_Click);
             // 
             // frmEditor
             // 

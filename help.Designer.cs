@@ -75,7 +75,7 @@
             // 
             this.tvIndex.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tvIndex.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tvIndex.Font = new System.Drawing.Font("Corbel", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvIndex.Font = new System.Drawing.Font("Corbel", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tvIndex.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.tvIndex.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             this.tvIndex.Location = new System.Drawing.Point(12, 37);
